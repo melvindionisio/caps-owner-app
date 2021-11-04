@@ -1,12 +1,5 @@
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Container,
-  Box,
-  Slide,
-  Grid,
-  TextField,
-  Button,
-} from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import { Container, Box, Slide, Grid, TextField, Button } from "@mui/material";
 import CustomInputPicture from "../components/CustomInputPicture";
 import Navbar from "../components/Navbar";
 import { useState } from "react";

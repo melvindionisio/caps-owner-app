@@ -5,10 +5,10 @@ import {
   CardHeader,
   CardContent,
   IconButton,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { useState } from "react";
-import AddPhotoAlternateOutlinedIcon from "@material-ui/icons/AddPhotoAlternateOutlined";
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 
 const useStyles = makeStyles({
   previewContainer: {

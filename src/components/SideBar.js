@@ -1,12 +1,12 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import Divider from "@material-ui/core/Divider";
-import Box from "@material-ui/core/Box";
-import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@mui/styles";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Divider from "@mui/material/Divider";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 // import Button from "@material-ui/core/Button";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -55,10 +55,15 @@ const useStyles = makeStyles((theme) => ({
   },
   sidebarlist: {
     width: "85%",
-  }
+  },
 }));
 
-export default function SideBar({children, handleDrawerToggle, sidebarOpen, anchor }) {
+export default function SideBar({
+  children,
+  handleDrawerToggle,
+  sidebarOpen,
+  anchor,
+}) {
   const classes = useStyles();
 
   const SideContent = (anchor) => (
@@ -79,25 +84,23 @@ export default function SideBar({children, handleDrawerToggle, sidebarOpen, anch
         </IconButton>
         <Divider />
       </Box>
-      <Box className={classes.sidebarlist}>
-        {children}
-      </Box>
+      <Box className={classes.sidebarlist}>{children}</Box>
     </Box>
   );
 
   return (
-      <SwipeableDrawer
-        anchor={anchor}
-        open={sidebarOpen}
-        onClose={handleDrawerToggle}
-        onOpen={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
-        hysteresis={0.1}
-      >
-        {SideContent(anchor)}
-        {/*{children}*/}
-      </SwipeableDrawer>
+    <SwipeableDrawer
+      anchor={anchor}
+      open={sidebarOpen}
+      onClose={handleDrawerToggle}
+      onOpen={handleDrawerToggle}
+      ModalProps={{
+        keepMounted: true, // Better open performance on mobile.
+      }}
+      hysteresis={0.1}
+    >
+      {SideContent(anchor)}
+      {/*{children}*/}
+    </SwipeableDrawer>
   );
 }

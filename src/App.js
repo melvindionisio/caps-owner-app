@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
 import { blue, pink, grey } from "@mui/material/colors";
 import Home from "./pages/Home";
 import Login from "./pages/Login";

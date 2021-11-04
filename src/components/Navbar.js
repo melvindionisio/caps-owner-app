@@ -1,13 +1,7 @@
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  AppBar,
-  Toolbar,
-  Box,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
-import { grey } from "@material-ui/core/colors";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { makeStyles } from "@mui/styles";
+import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({

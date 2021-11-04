@@ -12,14 +12,14 @@ import {
   Slide,
   Button,
   Grid,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useState } from "react";
 import SideBar from "../components/SideBar";
-import EditIcon from "@material-ui/icons/Edit";
+import EditIcon from "@mui/icons-material/Edit";
 import { useHistory } from "react-router-dom";
-import { grey } from "@material-ui/core/colors";
+import { grey } from "@mui/material/colors";
 import SubCategory from "../components/SubCategory";
 
 const useStyles = makeStyles({

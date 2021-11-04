@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import {
   Container,
   Box,
@@ -10,10 +10,10 @@ import {
   CardHeader,
   CardContent,
   Zoom,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useHistory } from "react-router-dom";
 import logo from "../sns-logo.png";
-import { pink } from "@material-ui/core/colors";
+import { pink } from "@mui/material/colors";
 
 const useStyles = makeStyles({
   container: {
