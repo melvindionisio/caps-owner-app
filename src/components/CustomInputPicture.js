@@ -11,12 +11,6 @@ import { useState } from "react";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 
 const useStyles = makeStyles({
-  previewContainer: {
-    margin: "0 auto",
-    width: "98%",
-    minHeight: "10rem",
-    marginBottom: "1rem",
-  },
   previewImage: {
     width: "100%",
     borderRadius: ".2rem",
@@ -42,14 +36,6 @@ const useStyles = makeStyles({
   actionButtons: {
     width: "48%",
   },
-  addButton: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    height: "8rem",
-    width: "8rem",
-  },
   addIcon: {
     height: "3rem",
     width: "3rem",
@@ -73,7 +59,15 @@ const CustomInputPicture = ({ setRoomPicture }) => {
   };
   return (
     <form onSubmit={(e) => e.preventDefault()} encType="multipart/form-data">
-      <Card variant="outlined" className={classes.previewContainer}>
+      <Card
+        variant="outlined"
+        sx={{
+          margin: "0 auto",
+          width: "98%",
+          minHeight: "10rem",
+          marginBottom: "1rem",
+        }}
+      >
         <CardHeader
           title={
             imageName ? (
@@ -88,7 +82,10 @@ const CustomInputPicture = ({ setRoomPicture }) => {
           }
           className={classes.cardheader}
         />
-        <CardContent className={classes.cardContent}>
+        <CardContent
+          className={classes.cardContent}
+          sx={{ position: "relative", padding: ".5rem" }}
+        >
           {imagePreview ? (
             <img
               src={imagePreview}
@@ -99,7 +96,14 @@ const CustomInputPicture = ({ setRoomPicture }) => {
             <IconButton
               component="label"
               htmlFor="file-picker"
-              className={classes.addButton}
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -60%)",
+                height: "8rem",
+                width: "8rem",
+              }}
               color="primary"
             >
               <AddPhotoAlternateOutlinedIcon className={classes.addIcon} />

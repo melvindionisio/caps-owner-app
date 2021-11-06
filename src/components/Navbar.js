@@ -7,17 +7,13 @@ import { useHistory } from "react-router-dom";
 const useStyles = makeStyles({
   appbar: {
     background: grey[900],
-    padding: ".5rem 0",
+    padding: ".3rem 0",
   },
   appbarcontent: {
     display: "flex",
     alignItems: "center",
   },
-  toolbar: {
-    display: "flex",
-    justifyContent: "space-between",
-    paddingRight: "1rem",
-  },
+
   icon: {
     color: "white",
   },
@@ -29,10 +25,19 @@ const Navbar = ({ title, children }) => {
     <AppBar
       position="sticky"
       className={classes.appbar}
-      variant="outlined"
-      color="primary"
+      elevation={1}
+      // color="primary"
+      sx={{ background: grey[900] }}
     >
-      <Toolbar disableGutters variant="dense" className={classes.toolbar}>
+      <Toolbar
+        disableGutters
+        variant="dense"
+        sx={{
+          padding: "0 .5rem",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Box className={classes.appbarcontent}>
           <IconButton size="medium" onClick={() => history.goBack()}>
             <ArrowBackIcon className={classes.icon} fontSize="medium" />

@@ -16,20 +16,6 @@ import logo from "../sns-logo.png";
 import { pink } from "@mui/material/colors";
 
 const useStyles = makeStyles({
-  container: {
-    height: "100vh",
-    position: "relative",
-  },
-  formContainer: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "90%",
-  },
-  textFields: {
-    marginBottom: ".7rem",
-  },
   sns_logo: {
     height: "5rem",
     width: "5rem",
@@ -39,9 +25,6 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-  },
-  card: {
-    padding: "1.5rem 0rem",
   },
   appname: {
     position: "relative",
@@ -71,10 +54,23 @@ const Login = () => {
 
   return (
     <Zoom in={true}>
-      <Container maxWidth="sm" disableGutters className={classes.container}>
-        <Box className={classes.formContainer} align="center">
+      <Container
+        maxWidth="sm"
+        disableGutters
+        sx={{ height: "100vh", position: "relative" }}
+      >
+        <Box
+          align="center"
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "90%",
+          }}
+        >
           <form onSubmit={handleSubmit}>
-            <Card variant="outlined" className={classes.card}>
+            <Card variant="outlined" sx={{ padding: "1.5rem 0rem 0rem 0rem" }}>
               <CardHeader
                 title={
                   <Box>
@@ -101,16 +97,16 @@ const Login = () => {
                 <TextField
                   label="Username"
                   fullWidth
-                  variant="outlined"
-                  className={classes.textFields}
+                  variant="filled"
                   color="primary"
                   required
+                  autoFocus
+                  margin="normal"
                 />
                 <TextField
                   label="Password"
                   fullWidth
-                  variant="outlined"
-                  className={classes.textFields}
+                  variant="filled"
                   color="primary"
                   required
                   type="password"

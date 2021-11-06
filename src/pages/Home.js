@@ -4,23 +4,18 @@ import {
   CardHeader,
   CardContent,
   Typography,
-  AppBar,
-  Toolbar,
   IconButton,
-  Avatar,
   Box,
   Slide,
   Button,
   Grid,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import { useState } from "react";
-import SideBar from "../components/SideBar";
 import EditIcon from "@mui/icons-material/Edit";
 import { useHistory } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 import SubCategory from "../components/SubCategory";
+import HomeNavigation from "../components/HomeNavigation";
 
 const useStyles = makeStyles({
   scrollContainer: {
@@ -64,41 +59,13 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const classes = useStyles();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const handleDrawerToggle = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+
   const history = useHistory();
 
   return (
     <Slide in={true} direction="right">
       <Container disableGutters className={classes.container} maxWidth="xl">
-        <SideBar
-          handleDrawerToggle={handleDrawerToggle}
-          sidebarOpen={sidebarOpen}
-          anchor="left"
-        >
-          {/*List of sidebar options*/}
-        </SideBar>
-        <AppBar
-          position="sticky"
-          elevation={0}
-          variant="outlined"
-          className={classes.appbar}
-        >
-          <Toolbar variant="dense" disableGutters className={classes.toolbar}>
-            <IconButton size="medium" onClick={handleDrawerToggle}>
-              <MenuOutlinedIcon fontSize="medium" />
-            </IconButton>
-            <Typography variant="h6" component="h2" className={classes.header}>
-              My Boarding House
-            </Typography>
-
-            <IconButton size="medium">
-              <Avatar className={classes.avatar}>B</Avatar>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
+        <HomeNavigation />
         <Box className={classes.scrollContainer}>
           <Card variant="outlined">
             <CardHeader

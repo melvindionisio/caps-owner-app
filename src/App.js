@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 
 const theme = createTheme({
   palette: {
+    // mode: "dark",
     primary: {
       main: blue[500],
     },

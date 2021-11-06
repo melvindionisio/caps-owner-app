@@ -53,15 +53,15 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "1px solid lightgrey",
     marginBottom: "1rem",
   },
-  sidebarlist: {
+  menulist: {
     width: "85%",
   },
 }));
 
-export default function SideBar({
+export default function Menu({
   children,
   handleDrawerToggle,
-  sidebarOpen,
+  menuOpen,
   anchor,
 }) {
   const classes = useStyles();
@@ -84,14 +84,14 @@ export default function SideBar({
         </IconButton>
         <Divider />
       </Box>
-      <Box className={classes.sidebarlist}>{children}</Box>
+      <Box className={classes.menulist}>{children}</Box>
     </Box>
   );
 
   return (
     <SwipeableDrawer
       anchor={anchor}
-      open={sidebarOpen}
+      open={menuOpen}
       onClose={handleDrawerToggle}
       onOpen={handleDrawerToggle}
       ModalProps={{

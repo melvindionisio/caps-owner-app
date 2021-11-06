@@ -12,11 +12,6 @@ const useStyles = makeStyles({
   scrollContainer: {
     marginBottom: "1rem",
   },
-  textFields: {
-    marginBottom: ".7rem",
-    background: "white",
-    borderRadius: ".4rem",
-  },
 });
 const AddRoom = () => {
   const classes = useStyles();
@@ -57,10 +52,12 @@ const AddRoom = () => {
                 label="Room Name"
                 fullWidth
                 variant="outlined"
-                className={classes.textFields}
                 color="primary"
                 value={roomName}
+                autoFocus
                 required
+                margin="dense"
+                sx={{ background: "#fff" }}
                 onChange={(e) => setRoomName(e.target.value)}
               />
               <TextField
@@ -69,9 +66,10 @@ const AddRoom = () => {
                 rows={5}
                 multiline
                 variant="outlined"
-                className={classes.textFields}
                 color="primary"
                 value={roomDescription}
+                margin="dense"
+                sx={{ background: "#fff" }}
                 onChange={(e) => setRoomDescription(e.target.value)}
               />
             </form>
