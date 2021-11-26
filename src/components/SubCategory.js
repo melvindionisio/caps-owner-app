@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     gridTemplateColumns: "1fr .3fr",
     alignItems: "center",
     padding: "0 1rem",
-    marginTop: ".2rem",
+    marginTop: ".5rem",
     marginBottom: ".3rem",
   },
 });

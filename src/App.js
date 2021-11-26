@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AddRoom from "./pages/AddRoom";
 import Rooms from "./pages/Rooms";
+import Room from "./pages/Room";
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -60,11 +61,15 @@ const App = () => {
             <Route exact path="/my">
               <Home />
             </Route>
+
             <Route path="/my/add-room">
               <AddRoom />
             </Route>
-            <Route path="/my/rooms">
+            <Route exact path="/my/rooms">
               <Rooms />
+            </Route>
+            <Route exact path="/my/rooms/room">
+              <Room />
             </Route>
           </Switch>
         </Router>

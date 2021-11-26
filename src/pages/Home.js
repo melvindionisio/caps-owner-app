@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 import SubCategory from "../components/SubCategory";
 import HomeNavigation from "../components/HomeNavigation";
+import RoomsCarousel from "../components/RoomsCarousel";
 
 const useStyles = makeStyles({
   scrollContainer: {
@@ -115,8 +116,9 @@ const Home = () => {
             </Grid>
           </Grid>
           <SubCategory title="My Rooms" />
-          <Typography variant="body2">Sliding Carousel Here</Typography>
-
+          <Box sx={{ py: 2 }}>
+            <RoomsCarousel />
+          </Box>
           <Box className={classes.roomButtonsContainer}>
             <Button
               onClick={() => history.push("/my/add-room")}
