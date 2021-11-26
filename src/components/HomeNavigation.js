@@ -1,4 +1,10 @@
-import { IconButton, Toolbar, Typography, Avatar } from "@mui/material";
+import {
+  IconButton,
+  Toolbar,
+  Typography,
+  Avatar,
+  ListItem,
+} from "@mui/material";
 import { AppBar } from "@mui/material";
 import React from "react";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -22,6 +28,15 @@ const HomeNavigation = () => {
         anchor="left"
       >
         {/*List of sidebar options*/}
+        {/* <ListItem>Hello</ListItem>
+        <ListItem>Hello</ListItem>
+        <ListItem>Hello</ListItem> */}
+        <ListItem
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        ></ListItem>
       </Menu>
       <AppBar position="sticky" elevation={1} color="primary">
         <Toolbar

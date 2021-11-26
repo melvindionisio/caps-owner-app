@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Container, Hidden } from "@mui/material";
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,12 +7,14 @@ import {
 } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { blue, pink, grey } from "@mui/material/colors";
+import { blue, pink, grey, blueGrey } from "@mui/material/colors";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AddRoom from "./pages/AddRoom";
 import Rooms from "./pages/Rooms";
 import Room from "./pages/Room";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./pages/Dashboard";
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -22,6 +24,21 @@ const useStyles = makeStyles({
     overflowY: "scroll",
     postion: "relative",
     background: grey[100],
+  },
+  page: {
+    background: blueGrey[50],
+    height: "100vh",
+    width: "100vw",
+    overflow: "hidden",
+    position: "relative",
+  },
+  permanentDrawer: {
+    width: 250,
+    flexShrink: 0,
+    boxShadow: "3px 0px 5px rgba(0,0,0,0.2)",
+  },
+  drawerPaper: {
+    width: 250,
   },
 });
 
@@ -49,8 +66,21 @@ const App = () => {
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
-      <Container disableGutters className={classes.mainContainer} maxWidth="xl">
+      <Container
+        disableGutters
+        className={classes.mainContainer}
+        sx={{
+          display: "flex",
+          height: "100vh",
+          width: "100vw",
+          // bgColor: "background.default",
+        }}
+        maxWidth="xl"
+      >
         <Router>
+          <Hidden lgDown>
+            <Sidebar />
+          </Hidden>
           <Switch>
             <Route exact path="/">
               <Redirect to="/login" />
@@ -61,7 +91,6 @@ const App = () => {
             <Route exact path="/my">
               <Home />
             </Route>
-
             <Route path="/my/add-room">
               <AddRoom />
             </Route>
@@ -70,6 +99,12 @@ const App = () => {
             </Route>
             <Route exact path="/my/rooms/room">
               <Room />
+            </Route>
+            <Route path="/my/dashboard">
+              <Dashboard />
+            </Route>
+            <Route path="*">
+              <h2>GG</h2>
             </Route>
           </Switch>
         </Router>

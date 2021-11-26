@@ -1,20 +1,20 @@
 import React from "react";
 import Carousel from "react-material-ui-carousel";
-import { Paper, Button } from "@mui/material";
+import { Button, Card, CardActions, CardHeader } from "@mui/material";
 // import Home from "@mui/icons-material/Home";
 
 export default function RoomsCarousel(props) {
   var items = [
     {
-      name: "Random Name #1",
+      name: "Room Name #1",
       description: "Probably the most random thing you have ever seen!",
     },
     {
-      name: "Random Name #2",
+      name: "Room Name #2",
       description: "Hello World!",
     },
     {
-      name: "Random Name #3",
+      name: "Room Name #3",
       description: "Room pictures",
     },
   ];
@@ -22,8 +22,8 @@ export default function RoomsCarousel(props) {
   return (
     <Carousel
       indicator
-      navButtonsAlwaysVisible
-      cycleNavigation={false}
+      // navButtonsAlwaysVisible
+      cycleNavigation={true}
       autoPlay={false}
       swipe
       animation="slide"
@@ -40,13 +40,11 @@ export default function RoomsCarousel(props) {
           // color: "green", // 3
         },
       }}
-      activeIndicatorIconButtonProps={
-        {
-          // style: {
-          //   backgroundColor: "lightgrey", // 2
-          // },
-        }
-      }
+      activeIndicatorIconButtonProps={{
+        style: {
+          backgroundColor: "lightgrey", // 2
+        },
+      }}
       indicatorContainerProps={{
         style: {
           marginTop: "5px", // 5
@@ -63,11 +61,11 @@ export default function RoomsCarousel(props) {
 
 function Item(props) {
   return (
-    <Paper sx={{ padding: 3 }}>
-      <h2>{props.item.name}</h2>
-      <p>{props.item.description}</p>
-
-      <Button className="CheckButton">Check it out!</Button>
-    </Paper>
+    <Card variant="elevation" elevation={2}>
+      <CardHeader title={props.item.name} subheader={props.item.description} />
+      <CardActions>
+        <Button className="CheckButton">Check it out!</Button>
+      </CardActions>
+    </Card>
   );
 }

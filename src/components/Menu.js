@@ -2,11 +2,13 @@ import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@mui/styles";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Divider from "@mui/material/Divider";
+// import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 // import Button from "@material-ui/core/Button";
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
+import CancelIcon from "@mui/icons-material/Cancel";
+import { List, ListItem, Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -15,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "start",
   },
   list: {
-    width: 250,
+    width: 270,
   },
   fullList: {
     width: "auto",
@@ -46,13 +48,6 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "center",
   },
 
-  closeContainer: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    borderBottom: "1px solid lightgrey",
-    marginBottom: "1rem",
-  },
   menulist: {
     width: "85%",
   },
@@ -74,7 +69,7 @@ export default function Menu({
       })}
       role="presentation"
     >
-      <Box
+      {/* <Box
         className={classes.closeContainer}
         onClick={handleDrawerToggle}
         onKeyDown={handleDrawerToggle}
@@ -84,7 +79,36 @@ export default function Menu({
         </IconButton>
         <Divider />
       </Box>
-      <Box className={classes.menulist}>{children}</Box>
+      <Box className={classes.menulist}>{children}</Box> */}
+      <Box
+        onClick={handleDrawerToggle}
+        onKeyDown={handleDrawerToggle}
+        sx={{ width: "100%" }}
+      >
+        <List sx={{ paddingTop: "0rem" }}>
+          <ListItem
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+            onClick={handleDrawerToggle}
+            onKeyDown={handleDrawerToggle}
+            divider
+          >
+            <Typography variant="body1" style={{ fontFamily: "Quicksand" }}>
+              SEARCH 'N STAY
+            </Typography>
+            <IconButton
+              onClick={handleDrawerToggle}
+              onKeyDown={handleDrawerToggle}
+            >
+              <CancelIcon />
+            </IconButton>
+          </ListItem>
+          {children}
+        </List>
+      </Box>
+      {/* <Box className={classes.menulist}>{children}</Box> */}
     </Box>
   );
 

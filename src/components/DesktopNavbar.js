@@ -1,8 +1,8 @@
 import { makeStyles } from "@mui/styles";
-import { AppBar, Toolbar, Box, IconButton, Typography } from "@mui/material";
+import { AppBar, Toolbar, Box, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useHistory } from "react-router-dom";
+// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   appbar: {
@@ -18,9 +18,9 @@ const useStyles = makeStyles({
     color: "white",
   },
 });
-const Navbar = ({ title, children }) => {
+const DesktopNavbar = ({ title, children }) => {
   const classes = useStyles();
-  const history = useHistory();
+  //   const history = useHistory();
   return (
     <AppBar
       position="sticky"
@@ -39,15 +39,17 @@ const Navbar = ({ title, children }) => {
         }}
       >
         <Box className={classes.appbarcontent}>
-          <IconButton size="medium" onClick={() => history.goBack()}>
+          {/* <IconButton size="medium" onClick={() => history.goBack()}>
             <ArrowBackIcon className={classes.icon} fontSize="medium" />
-          </IconButton>
+          </IconButton> */}
+          <Typography variant="body1" sx={{ ml: 1 }}>
+            {title}
+          </Typography>
         </Box>
-        <Typography variant="body1">{title}</Typography>
         {children}
       </Toolbar>
     </AppBar>
   );
 };
 
-export default Navbar;
+export default DesktopNavbar;

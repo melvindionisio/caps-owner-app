@@ -116,7 +116,7 @@ const Home = () => {
             </Grid>
           </Grid>
           <SubCategory title="My Rooms" />
-          <Box sx={{ py: 2 }}>
+          <Box sx={{ py: 2, px: 1 }}>
             <RoomsCarousel />
           </Box>
           <Box className={classes.roomButtonsContainer}>
