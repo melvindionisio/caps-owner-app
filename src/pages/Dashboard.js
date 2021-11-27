@@ -1,17 +1,19 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import { Slide, Container } from "@mui/material";
+import { Container } from "@mui/material";
+import NavbarDrawer from "../components/NavbarDrawer";
 import { IconButton } from "@material-ui/core";
 const Dashboard = () => {
   return (
-    <Slide in={true} direction="right">
-      <Container disableGutters maxWidth="xl">
-        <Navbar title="Dashboard">
-          <IconButton size="medium"></IconButton>
-        </Navbar>
+    // <Slide in={true} direction="right">
+    <Container disableGutters maxWidth="xl">
+      <NavbarDrawer title="dashboard">
+        <IconButton></IconButton>
+      </NavbarDrawer>
+      <Container maxWidth="xl" sx={{ p: 2 }} disableGutters>
         how many rooms, rooms Available, Rooms not available
       </Container>
-    </Slide>
+    </Container>
+    //</Slide>
   );
 };
 

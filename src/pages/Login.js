@@ -49,7 +49,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    history.push("/my");
+    history.push("/my/boarding-house");
   };
 
   return (

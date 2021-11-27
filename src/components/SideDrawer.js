@@ -1,40 +1,28 @@
+import React from "react";
+import Menu from "./Menu";
 import {
-  AppBar,
-  Drawer,
-  List,
-  Toolbar,
-  Typography,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
-  ListItemButton,
+  Hidden,
+  IconButton,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { grey } from "@mui/material/colors";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import OtherHousesIcon from "@mui/icons-material/OtherHouses";
 import KingBedIcon from "@mui/icons-material/KingBed";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-
-import logo from "../sns-logo.png";
-import { Avatar } from "@material-ui/core";
-import { useLocation, useHistory } from "react-router-dom";
-const drawerWidth = 250;
-
-const useStyles = makeStyles((theme) => ({
-  drawer: {
-    width: drawerWidth,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    background: grey[100],
-  },
-}));
-
-const Sidebar = () => {
-  const classes = useStyles();
-  const location = useLocation();
+import { useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import { grey } from "@material-ui/core/colors";
+const SideDrawer = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const handleDrawerToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
   const history = useHistory();
+  const location = useLocation();
 
   const menuItems = [
     {
@@ -62,35 +50,24 @@ const Sidebar = () => {
       icon: <ManageAccountsIcon />,
     },
   ];
+
   return (
-    <Drawer
-      anchor="left"
-      variant="permanent"
-      className={classes.drawer}
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-      sx={
-        location.pathname === "/login"
-          ? { display: "none" }
-          : { display: "flex" }
-      }
-    >
-      <AppBar position="static" elevation={1} color="default">
-        <Toolbar sx={{ padding: "0 .7rem" }} disableGutters>
-          <Avatar src={logo} style={{ height: "2rem", width: "2rem" }}></Avatar>
-          <Typography
-            variant="body1"
-            component="h1"
-            sx={{
-              fontFamily: "Quicksand",
-            }}
-          >
-            SEARCH 'N STAY
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <List>
+    <>
+      <Hidden mdUp>
+        <IconButton size="medium" onClick={handleDrawerToggle}>
+          <MenuOutlinedIcon
+            fontSize="medium"
+            sx={{ color: grey[300] }}
+            onClick={handleDrawerToggle}
+          />
+        </IconButton>
+      </Hidden>
+
+      <Menu
+        handleDrawerToggle={handleDrawerToggle}
+        menuOpen={menuOpen}
+        anchor="left"
+      >
         {menuItems.map((item) => (
           <ListItem
             key={item.key}
@@ -121,9 +98,9 @@ const Sidebar = () => {
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
-    </Drawer>
+      </Menu>
+    </>
   );
 };
 
-export default Sidebar;
+export default SideDrawer;

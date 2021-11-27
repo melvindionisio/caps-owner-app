@@ -15,13 +15,14 @@ import Rooms from "./pages/Rooms";
 import Room from "./pages/Room";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 
 const useStyles = makeStyles({
   mainContainer: {
     height: "100vh",
     width: "100vw",
     overflow: "hidden",
-    overflowY: "scroll",
+    overflowY: "auto",
     postion: "relative",
     background: grey[100],
   },
@@ -81,6 +82,7 @@ const App = () => {
           <Hidden lgDown>
             <Sidebar />
           </Hidden>
+
           <Switch>
             <Route exact path="/">
               <Redirect to="/login" />
@@ -88,7 +90,7 @@ const App = () => {
             <Route path="/login">
               <Login />
             </Route>
-            <Route exact path="/my">
+            <Route exact path="/my/boarding-house">
               <Home />
             </Route>
             <Route path="/my/add-room">
@@ -102,6 +104,9 @@ const App = () => {
             </Route>
             <Route path="/my/dashboard">
               <Dashboard />
+            </Route>
+            <Route path="/my/profile">
+              <Profile />
             </Route>
             <Route path="*">
               <h2>GG</h2>

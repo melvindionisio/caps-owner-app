@@ -1,4 +1,4 @@
-import { Container, Slide, Button } from "@mui/material";
+import { Container, Button, Slide } from "@mui/material";
 import React from "react";
 import Navbar from "../components/Navbar";
 // import DesktopNavbar from "../components/DesktopNavbar";
