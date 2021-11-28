@@ -10,7 +10,8 @@ const Dashboard = () => {
         <IconButton></IconButton>
       </NavbarDrawer>
       <Container maxWidth="xl" sx={{ p: 2 }} disableGutters>
-        how many rooms, rooms Available, Rooms not available
+        how many rooms, rooms Available, Rooms not available, Boarding house
+        stars and name
       </Container>
     </Container>
     //</Slide>

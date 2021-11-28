@@ -13,9 +13,9 @@ import {
 } from "@mui/material";
 import React from "react";
 import NavbarDrawer from "../components/NavbarDrawer";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { EditOutlined } from "@mui/icons-material";
-import CancelIcon from "@mui/icons-material/Cancel";
+// import CancelIcon from "@mui/icons-material/Cancel";
 
 const Profile = () => {
   const [name, setName] = useState("Melvin Dionisio");
@@ -32,7 +32,15 @@ const Profile = () => {
 
   const profile = useRef(null);
   const pass = useRef(null);
-  const [severity, setSeverity] = useState("error");
+  const [severity, setSeverity] = useState("warning");
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (showAlert) {
+        setShowAlert(false);
+      }
+    }, 5000);
+  }, [showAlert]);
 
   // CHANGE NAME/USERNAME REQUEST
   const changeProfile = () => {
@@ -44,33 +52,54 @@ const Profile = () => {
     console.log(newProfile);
   };
 
+  const passwordNotMatch = () => {
+    setAlertMessage("New Password does not match!");
+    setShowAlert(true);
+    setSeverity("warning");
+  };
+  const blankFields = () => {
+    setAlertMessage("Please fill the field!");
+    setShowAlert(true);
+    setSeverity("warning");
+  };
+  const incorrectCurrentPassword = () => {
+    setAlertMessage("Current Password Incorrect!");
+    setShowAlert(true);
+    setSeverity("warning");
+  };
+  const changePasswordSuccess = () => {
+    let newPasswordRequest = {};
+    newPasswordRequest = {
+      currentPassword: curPassword,
+      newPassword: newPassword,
+      repeatNewPassword: rePassword,
+    };
+
+    console.log(newPasswordRequest);
+    setIsChangePassword(!isChangePassword);
+    setNewPassword("");
+    setCurPassword("");
+    setRePassword("");
+
+    setAlertMessage("Password Changed!");
+    setShowAlert(true);
+    setSeverity("success");
+  };
+
   // CHANGE PASSWORD REQUEST
   const changePassword = () => {
-    let newPasswordRequest = {};
     if (curPassword && newPassword && rePassword !== "") {
       if (password === curPassword) {
-        newPasswordRequest = {
-          currentPassword: curPassword,
-          newPassword: newPassword,
-          repeatNewPassword: rePassword,
-        };
-
-        console.log(newPasswordRequest);
-        setIsChangePassword(!isChangePassword);
-        setNewPassword("");
-        setCurPassword("");
-        setRePassword("");
-
-        setAlertMessage("Password Changed!");
-        setShowAlert(true);
-        setSeverity("success");
+        if (newPassword === rePassword) {
+          changePasswordSuccess();
+        } else {
+          passwordNotMatch();
+        }
       } else {
-        setAlertMessage("Current Password Incorrect!");
-        setShowAlert(true);
+        incorrectCurrentPassword();
       }
     } else {
-      setAlertMessage("Please fill the field!");
-      setShowAlert(true);
+      blankFields();
     }
   };
 
@@ -85,6 +114,10 @@ const Profile = () => {
     //   pass.current.firstElementChild.firstElementChild.focus();
     // }
     setIsChangePassword(!isChangePassword);
+    setNewPassword("");
+    setCurPassword("");
+    setRePassword("");
+    setShowAlert(false);
   };
 
   return (
@@ -188,15 +221,16 @@ const Profile = () => {
                 </IconButton>
               ) : (
                 <Box sx={{ display: "flex" }}>
-                  <IconButton
-                    aria-label="cancel-icon"
-                    color="secondary"
+                  <Button
                     size="small"
-                    sx={{ mr: 1 }}
+                    variant="outlined"
+                    color="secondary"
+                    disableElevation
                     onClick={editPassword}
+                    sx={{ mr: 1 }}
                   >
-                    <CancelIcon />
-                  </IconButton>
+                    Cancel
+                  </Button>
                   <Button
                     size="small"
                     variant="contained"
