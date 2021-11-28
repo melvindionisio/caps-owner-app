@@ -1,3 +1,4 @@
+import React from "react";
 import { Container, Hidden } from "@mui/material";
 import {
   BrowserRouter as Router,
@@ -19,12 +20,11 @@ import Profile from "./pages/Profile";
 
 const useStyles = makeStyles({
   mainContainer: {
-    height: "100vh",
-    width: "100vw",
     overflow: "hidden",
-    overflowY: "auto",
-    postion: "relative",
-    background: grey[100],
+    height: "100vh",
+    display: "flex",
+    background: grey[200],
+    position: "relative",
   },
   page: {
     background: blueGrey[50],
@@ -72,9 +72,6 @@ const App = () => {
         className={classes.mainContainer}
         sx={{
           display: "flex",
-          height: "100vh",
-          width: "100vw",
-          // bgColor: "background.default",
         }}
         maxWidth="xl"
       >
@@ -83,35 +80,37 @@ const App = () => {
             <Sidebar />
           </Hidden>
 
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/login" />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/my/boarding-house">
-              <Home />
-            </Route>
-            <Route path="/my/add-room">
-              <AddRoom />
-            </Route>
-            <Route exact path="/my/rooms">
-              <Rooms />
-            </Route>
-            <Route exact path="/my/rooms/room">
-              <Room />
-            </Route>
-            <Route path="/my/dashboard">
-              <Dashboard />
-            </Route>
-            <Route path="/my/profile">
-              <Profile />
-            </Route>
-            <Route path="*">
-              <h2>GG</h2>
-            </Route>
-          </Switch>
+          <Container disableGutters maxWidth="xl" sx={{ overflowY: "auto" }}>
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/login" />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route exact path="/my/boarding-house">
+                <Home />
+              </Route>
+              <Route path="/my/add-room">
+                <AddRoom />
+              </Route>
+              <Route exact path="/my/rooms">
+                <Rooms />
+              </Route>
+              <Route exact path="/my/rooms/room">
+                <Room />
+              </Route>
+              <Route path="/my/dashboard">
+                <Dashboard />
+              </Route>
+              <Route path="/my/profile">
+                <Profile />
+              </Route>
+              <Route path="*">
+                <h2>GG</h2>
+              </Route>
+            </Switch>
+          </Container>
         </Router>
       </Container>
     </ThemeProvider>

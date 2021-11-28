@@ -14,6 +14,7 @@ import {
 import { useHistory } from "react-router-dom";
 import logo from "../sns-logo.png";
 import { pink } from "@mui/material/colors";
+import React from "react";
 
 const useStyles = makeStyles({
   sns_logo: {

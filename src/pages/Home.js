@@ -18,6 +18,7 @@ import SubCategory from "../components/SubCategory";
 import RoomsCarousel from "../components/RoomsCarousel";
 import NavbarDrawer from "../components/NavbarDrawer";
 import AccountMenu from "../components/AccountMenu";
+import React from "react";
 
 const useStyles = makeStyles({
   scrollContainer: {
@@ -71,7 +72,7 @@ const Home = () => {
       <NavbarDrawer title="My Boarding House">
         <AccountMenu />
       </NavbarDrawer>
-      <Box className={classes.scrollContainer}>
+      <Container maxWidth="lg" className={classes.scrollContainer}>
         <Card variant="outlined">
           <CardHeader
             title={
@@ -143,7 +144,7 @@ const Home = () => {
             View All Rooms
           </Button>
         </Box>
-      </Box>
+      </Container>
     </Container>
     // </Slide>
   );

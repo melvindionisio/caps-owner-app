@@ -9,6 +9,7 @@ import {
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import React from "react";
 
 const useStyles = makeStyles({
   previewImage: {

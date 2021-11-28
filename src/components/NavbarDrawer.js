@@ -2,6 +2,7 @@ import { makeStyles } from "@mui/styles";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import SideDrawer from "./SideDrawer";
+import React from "react";
 
 const useStyles = makeStyles({
   appbar: {
@@ -38,9 +39,7 @@ const NavbarDrawer = ({ title, children }) => {
           height: "3.5rem",
         }}
       >
-        {/* <Box className={classes.appbarcontent}> */}
         <SideDrawer />
-        {/* </Box> */}
         <Typography variant="body1">{title.toUpperCase()}</Typography>
         {children}
       </Toolbar>

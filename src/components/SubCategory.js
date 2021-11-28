@@ -1,6 +1,7 @@
 import { Box, Divider, Typography, Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { makeStyles } from "@mui/styles";
+import React from "react";
 
 const useStyles = makeStyles({
   editIcon: {

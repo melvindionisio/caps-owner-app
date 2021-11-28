@@ -3,6 +3,7 @@ import { Container, Box, Slide, Grid, TextField, Button } from "@mui/material";
 import CustomInputPicture from "../components/CustomInputPicture";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
+import React from "react";
 
 const useStyles = makeStyles({
   gridContainer: {

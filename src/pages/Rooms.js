@@ -11,6 +11,7 @@ const Rooms = () => {
   const location = useLocation();
 
   return (
+    // <Slide in={true} direction="right">
     <Container disableGutters maxWidth="xl">
       <NavbarDrawer title="my rooms">
         <Box>
@@ -37,11 +38,16 @@ const Rooms = () => {
         </Box>
       </NavbarDrawer>
 
-      <Box textAlign="center">
+      <Container
+        disableGutters
+        maxWidth="lg"
+        textAlign="center"
+        sx={{ p: 2, pt: 5 }}
+      >
         <Button onClick={() => history.push(`${location.pathname}/room`)}>
           View a room
         </Button>
-      </Box>
+      </Container>
     </Container>
     // </Slide>
   );
