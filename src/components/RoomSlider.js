@@ -10,7 +10,6 @@ import "swiper/swiper.min.css";
 
 // import Swiper core and required modules
 import SwiperCore, { Navigation } from "swiper";
-import { Box } from "@material-ui/core";
 
 // install Swiper modules
 SwiperCore.use([Navigation]);
@@ -41,23 +40,26 @@ export default function RoomsCarousel(props) {
     >
       {items.map((item) => (
         <SwiperSlide>
-          <Box sx={{ px: 0, width: 320 }}>
-            <Paper
-              variant="outlined"
-              style={{
-                minHeight: 100,
-                width: "100%",
-                padding: 4,
-              }}
-            >
-              <Typography variant="h6" color="initial">
-                {item.name}
-              </Typography>
-              <Typography variant="body1" color="initial">
-                {item.description}
-              </Typography>
-            </Paper>
-          </Box>
+          <Paper
+            variant="outlined"
+            style={{
+              minHeight: 120,
+              padding: ".5rem 1rem",
+              width: 320,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              borderRadius: 10,
+            }}
+          >
+            <Typography variant="h6" color="initial">
+              {item.name}
+            </Typography>
+            <Typography variant="body1" color="initial">
+              {item.description}
+            </Typography>
+          </Paper>
         </SwiperSlide>
       ))}
     </Swiper>
