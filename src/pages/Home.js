@@ -19,6 +19,7 @@ import AccountMenu from "../components/AccountMenu";
 import React from "react";
 
 import RoomSlider from "../components/RoomSlider";
+import { Hidden } from "@material-ui/core";
 
 const useStyles = makeStyles({
   scrollContainer: {
@@ -122,7 +123,18 @@ const Home = () => {
         </Grid>
         <SubCategory title="My Rooms" />
         <Box sx={{ py: 2, px: 1 }}>
-          <RoomSlider />
+          <Hidden smUp>
+            <RoomSlider sliderCount={1} />
+          </Hidden>
+          <Hidden only={["xl", "lg", "md", "xs"]}>
+            <RoomSlider sliderCount={2} />
+          </Hidden>
+          <Hidden only={["xl", "lg", "sm", "xs"]}>
+            <RoomSlider sliderCount={3} />
+          </Hidden>
+          <Hidden mdDown>
+            <RoomSlider sliderCount={4} />
+          </Hidden>
         </Box>
         <Box className={classes.roomButtonsContainer}>
           <Button

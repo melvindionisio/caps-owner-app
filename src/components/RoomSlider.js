@@ -14,7 +14,7 @@ import SwiperCore, { Navigation } from "swiper";
 // install Swiper modules
 SwiperCore.use([Navigation]);
 
-export default function RoomsCarousel(props) {
+export default function RoomSlider({ sliderCount }) {
   var items = [
     {
       name: "Room Name #1",
@@ -28,12 +28,20 @@ export default function RoomsCarousel(props) {
       name: "Room Name #3",
       description: "Room pictures",
     },
+    {
+      name: "Room Name #4",
+      description: "Hello World!",
+    },
+    {
+      name: "Room Name #5",
+      description: "Room pictures",
+    },
   ];
 
   return (
     <Swiper
-      spaceBetween={20}
-      slidesPerView={1}
+      spaceBetween={10}
+      slidesPerView={sliderCount}
       onSlideChange={() => console.log("slide change")}
       onSwiper={(swiper) => console.log(swiper)}
       navigation
@@ -45,7 +53,7 @@ export default function RoomsCarousel(props) {
             style={{
               minHeight: 120,
               padding: ".5rem 1rem",
-              width: 320,
+              width: 250,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",

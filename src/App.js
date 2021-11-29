@@ -67,6 +67,7 @@ const theme = createTheme({
 
 const App = () => {
   const classes = useStyles();
+
   return (
     <ThemeProvider theme={theme}>
       <Container
@@ -112,7 +113,7 @@ const App = () => {
                 <Map />
               </Route>
               <Route path="*">
-                <h2>GG</h2>
+                <h2>not available</h2>
               </Route>
             </Switch>
           </Container>

@@ -137,76 +137,87 @@ const Profile = () => {
                 ></Avatar>
               }
               action={
-                !profileEditable ? (
-                  <IconButton aria-label="edit-icon" onClick={editProfile}>
-                    <EditOutlined />
-                  </IconButton>
-                ) : (
-                  <>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      disableElevation
-                      color="secondary"
-                      sx={{ mr: 1 }}
-                      onClick={editProfile}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      size="small"
-                      variant="contained"
-                      disableElevation
-                      onClick={changeProfile}
-                    >
-                      save
-                    </Button>
-                  </>
-                )
+                <IconButton
+                  aria-label="edit-icon"
+                  onClick={editProfile}
+                  sx={
+                    !profileEditable
+                      ? { display: "block" }
+                      : { display: "none" }
+                  }
+                >
+                  <EditOutlined />
+                </IconButton>
               }
               title="You are Login as: "
               subheader="Owner"
             />
             <CardContent>
               <Chip size="small" label="PROFILE" sx={{ mb: 1 }} />
-
-              <TextField
-                id="name"
-                label="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                fullWidth
-                size="small"
-                variant="outlined"
-                margin="dense"
-                disabled={!profileEditable}
-                ref={profile}
-              />
-              <TextField
-                id="username"
-                label="Username"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                fullWidth
-                size="small"
-                variant="outlined"
-                margin="dense"
-                disabled={!profileEditable}
-              />
-              <TextField
-                id="password"
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                fullWidth
-                size="small"
-                variant="outlined"
-                margin="dense"
-                disabled
-                sx={{ mb: 4 }}
-              />
-
+              <Box sx={{ mb: 4 }}>
+                <TextField
+                  id="name"
+                  label="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  margin="dense"
+                  disabled={!profileEditable}
+                  ref={profile}
+                />
+                <TextField
+                  id="username"
+                  label="Username"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  margin="dense"
+                  disabled={!profileEditable}
+                />
+                <TextField
+                  id="password"
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  margin="dense"
+                  disabled
+                  sx={{ mb: 1 }}
+                />
+                <Box
+                  sx={
+                    profileEditable
+                      ? { display: "flex", justifyContent: "flex-end" }
+                      : { display: "none" }
+                  }
+                >
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    disableElevation
+                    color="secondary"
+                    sx={{ mr: 1 }}
+                    onClick={editProfile}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    disableElevation
+                    onClick={changeProfile}
+                  >
+                    save
+                  </Button>
+                </Box>
+              </Box>
               <Box
                 sx={{
                   display: "flex",
@@ -217,32 +228,18 @@ const Profile = () => {
                 }}
               >
                 <Chip size="small" label="PASSWORD" />
-                {!isChangePassword ? (
-                  <IconButton aria-label="edit-icon" onClick={editPassword}>
-                    <EditOutlined />
-                  </IconButton>
-                ) : (
-                  <Box sx={{ display: "flex" }}>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      color="secondary"
-                      disableElevation
-                      onClick={editPassword}
-                      sx={{ mr: 1 }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      size="small"
-                      variant="contained"
-                      disableElevation
-                      onClick={changePassword}
-                    >
-                      change password
-                    </Button>
-                  </Box>
-                )}
+
+                <IconButton
+                  aria-label="edit-icon"
+                  onClick={editPassword}
+                  sx={
+                    !isChangePassword
+                      ? { display: "block" }
+                      : { display: "none" }
+                  }
+                >
+                  <EditOutlined />
+                </IconButton>
               </Box>
               <Box>
                 <TextField
@@ -281,7 +278,35 @@ const Profile = () => {
                   variant="outlined"
                   margin="dense"
                   disabled={!isChangePassword}
+                  sx={{ mb: 1 }}
                 />
+
+                <Box
+                  sx={
+                    isChangePassword
+                      ? { display: "flex", justifyContent: "flex-end" }
+                      : { display: "none" }
+                  }
+                >
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="secondary"
+                    disableElevation
+                    onClick={editPassword}
+                    sx={{ mr: 1 }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    disableElevation
+                    onClick={changePassword}
+                  >
+                    change password
+                  </Button>
+                </Box>
               </Box>
               <Alert
                 severity={severity}

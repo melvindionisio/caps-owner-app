@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Menu from "./Menu";
 import {
   ListItem,
@@ -14,16 +14,17 @@ import OtherHousesIcon from "@mui/icons-material/OtherHouses";
 import KingBedIcon from "@mui/icons-material/KingBed";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { grey } from "@material-ui/core/colors";
+
 const SideDrawer = () => {
+  const history = useHistory();
+  const location = useLocation();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);
   };
-  const history = useHistory();
-  const location = useLocation();
 
   const menuItems = [
     {

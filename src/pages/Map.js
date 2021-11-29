@@ -194,6 +194,21 @@ const Map = () => {
             display: "flex",
           }}
         >
+          <Box
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <span
+              style={{ width: "3px", height: "3px", background: "red" }}
+            ></span>
+            <span
+              style={{ width: "3px", height: "3px", background: "red" }}
+            ></span>
+          </Box>
           <IconButton
             size="large"
             color="default"
