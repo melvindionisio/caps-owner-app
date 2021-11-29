@@ -14,11 +14,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useHistory } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 import SubCategory from "../components/SubCategory";
-// import HomeNavigation from "../components/HomeNavigation";
-import RoomsCarousel from "../components/RoomsCarousel";
 import NavbarDrawer from "../components/NavbarDrawer";
 import AccountMenu from "../components/AccountMenu";
 import React from "react";
+
+import RoomSlider from "../components/RoomSlider";
 
 const useStyles = makeStyles({
   scrollContainer: {
@@ -122,7 +122,7 @@ const Home = () => {
         </Grid>
         <SubCategory title="My Rooms" />
         <Box sx={{ py: 2, px: 1 }}>
-          <RoomsCarousel />
+          <RoomSlider />
         </Box>
         <Box className={classes.roomButtonsContainer}>
           <Button

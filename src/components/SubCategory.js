@@ -36,7 +36,7 @@ const SubCategory = ({ title }) => {
         </Button>
       </Box>
 
-      <Divider orientation="horizontal" fullWidth />
+      <Divider orientation="horizontal" />
     </>
   );
 };

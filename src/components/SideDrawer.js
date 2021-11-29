@@ -13,6 +13,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import OtherHousesIcon from "@mui/icons-material/OtherHouses";
 import KingBedIcon from "@mui/icons-material/KingBed";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import MyLocationIcon from "@mui/icons-material/MyLocation";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { grey } from "@material-ui/core/colors";
@@ -49,17 +50,19 @@ const SideDrawer = () => {
       path: "/my/profile",
       icon: <ManageAccountsIcon />,
     },
+    {
+      key: 4,
+      text: "Map",
+      path: "/my/map",
+      icon: <MyLocationIcon />,
+    },
   ];
 
   return (
     <>
-      <Hidden mdUp>
+      <Hidden lgUp>
         <IconButton size="medium" onClick={handleDrawerToggle}>
-          <MenuOutlinedIcon
-            fontSize="medium"
-            sx={{ color: grey[300] }}
-            onClick={handleDrawerToggle}
-          />
+          <MenuOutlinedIcon fontSize="medium" sx={{ color: grey[300] }} />
         </IconButton>
       </Hidden>
 

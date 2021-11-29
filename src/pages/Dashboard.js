@@ -1,6 +1,8 @@
 import React from "react";
-import { Container, Box, Typography } from "@mui/material";
+import { Container, Box, Typography, Slide } from "@mui/material";
 import NavbarDrawer from "../components/NavbarDrawer";
+// import Map from "../components/Map";
+
 import {
   CardHeader,
   IconButton,
@@ -53,7 +55,7 @@ const Dashboard = () => {
       <NavbarDrawer title="dashboard">
         <IconButton></IconButton>
       </NavbarDrawer>
-      <Container maxWidth="lg" sx={{ p: 2, pt: 5 }} disableGutters>
+      <Container maxWidth="lg" sx={{ p: 2, pt: 5, pb: 5 }} disableGutters>
         <Grid container spacing={2} style={{ alignItems: "center" }}>
           <Grid item lg={3} md={4} xs={12}>
             <Box
@@ -95,51 +97,56 @@ const Dashboard = () => {
             </Box>
           </Grid>
           <Grid item lg={9} md={8} xs={12}>
-            <Box>
-              <Card sx={{ p: 0, pt: 3 }} style={{}} variant="outlined">
-                <CardHeader
-                  title="Boarding House Name"
-                  subheader="Stars here"
-                />
-                <CardContent>
-                  <Typography>Address</Typography>
-                  <Typography>Contact number</Typography>
-                </CardContent>
-              </Card>
-            </Box>
+            <Slide in={true} direction="left">
+              <Box>
+                <Card sx={{ p: 0, pt: 3 }} style={{}} variant="outlined">
+                  <CardHeader
+                    title="Boarding House Name"
+                    subheader="Stars here"
+                  />
+                  <CardContent>
+                    <Typography>Address</Typography>
+                    <Typography>Contact number</Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Slide>
           </Grid>
         </Grid>
         <Box sx={{ pt: 2 }}>
-          <Grid container spacing={2}>
-            {displayData.map((data) => (
-              <Grid item md={4} xs={12}>
-                <Paper
-                  variant="outlined"
-                  style={{
-                    height: 220,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    style={{ fontSize: "7rem", lineHeight: "8rem" }}
-                    color="text.secondary"
+          <Slide in={true} direction="right">
+            <Grid container spacing={2}>
+              {displayData.map((data) => (
+                <Grid item md={4} xs={12} key={data.label}>
+                  <Paper
+                    variant="outlined"
+                    style={{
+                      height: 220,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    {data.value}
-                  </Typography>
-                  <Typography variant="h6" color="text.secondary">
-                    {data.label}
-                  </Typography>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
+                    <Typography
+                      variant="h6"
+                      style={{ fontSize: "7rem", lineHeight: "8rem" }}
+                      color="text.secondary"
+                    >
+                      {data.value}
+                    </Typography>
+                    <Typography variant="h6" color="text.secondary">
+                      {data.label}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          </Slide>
         </Box>
         how many rooms, rooms Available, Rooms not available, Boarding house
         stars and name
+        {/* <Map /> */}
       </Container>
     </Container>
     //</Slide>

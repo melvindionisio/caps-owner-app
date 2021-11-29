@@ -10,6 +10,7 @@ import {
   Avatar,
   Chip,
   Box,
+  Zoom,
 } from "@mui/material";
 import React from "react";
 import NavbarDrawer from "../components/NavbarDrawer";
@@ -125,175 +126,177 @@ const Profile = () => {
       <NavbarDrawer title="profile">
         <IconButton></IconButton>
       </NavbarDrawer>
-      <Container disableGutters maxWidth="sm" sx={{ p: 2, display: "flex" }}>
-        <Card sx={{ width: "90%", p: 2, margin: "0 auto" }}>
-          <CardHeader
-            avatar={
-              <Avatar
-                sx={{ height: "4rem", width: "4rem" }}
-                aria-label="profile-pic"
-              ></Avatar>
-            }
-            action={
-              !profileEditable ? (
-                <IconButton aria-label="edit-icon" onClick={editProfile}>
-                  <EditOutlined />
-                </IconButton>
-              ) : (
-                <>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    disableElevation
-                    color="secondary"
-                    sx={{ mr: 1 }}
-                    onClick={editProfile}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    disableElevation
-                    onClick={changeProfile}
-                  >
-                    save
-                  </Button>
-                </>
-              )
-            }
-            title="You are Login as: "
-            subheader="Owner"
-          />
-          <CardContent>
-            <Chip size="small" label="PROFILE" sx={{ mb: 1 }} />
-
-            <TextField
-              id="name"
-              label="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              fullWidth
-              size="small"
-              variant="outlined"
-              margin="dense"
-              disabled={!profileEditable}
-              ref={profile}
-            />
-            <TextField
-              id="username"
-              label="Username"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              fullWidth
-              size="small"
-              variant="outlined"
-              margin="dense"
-              disabled={!profileEditable}
-            />
-            <TextField
-              id="password"
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              fullWidth
-              size="small"
-              variant="outlined"
-              margin="dense"
-              disabled
-              sx={{ mb: 4 }}
-            />
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                height: 13,
-                mb: 1,
-              }}
-            >
-              <Chip size="small" label="PASSWORD" />
-              {!isChangePassword ? (
-                <IconButton aria-label="edit-icon" onClick={editPassword}>
-                  <EditOutlined />
-                </IconButton>
-              ) : (
-                <Box sx={{ display: "flex" }}>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    color="secondary"
-                    disableElevation
-                    onClick={editPassword}
-                    sx={{ mr: 1 }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    disableElevation
-                    onClick={changePassword}
-                  >
-                    change password
-                  </Button>
-                </Box>
-              )}
-            </Box>
-            <Box>
-              <TextField
-                ref={pass}
-                id="cur-password"
-                label="Current Password"
-                type="password"
-                value={curPassword}
-                onChange={(e) => setCurPassword(e.target.value)}
-                fullWidth
-                size="small"
-                variant="outlined"
-                margin="dense"
-                disabled={!isChangePassword}
-              />
-              <TextField
-                id="new-password"
-                label="New Password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                fullWidth
-                size="small"
-                variant="outlined"
-                margin="dense"
-                disabled={!isChangePassword}
-              />
-              <TextField
-                id="re-password"
-                label="Repeat Password"
-                type="password"
-                value={rePassword}
-                onChange={(e) => setRePassword(e.target.value)}
-                fullWidth
-                size="small"
-                variant="outlined"
-                margin="dense"
-                disabled={!isChangePassword}
-              />
-            </Box>
-            <Alert
-              severity={severity}
-              sx={
-                showAlert
-                  ? { display: "flex", mt: 2 }
-                  : { display: "none", mt: 2 }
+      <Zoom in={true}>
+        <Container disableGutters maxWidth="sm" sx={{ p: 2, display: "flex" }}>
+          <Card sx={{ width: "90%", p: 2, margin: "0 auto" }}>
+            <CardHeader
+              avatar={
+                <Avatar
+                  sx={{ height: "4rem", width: "4rem" }}
+                  aria-label="profile-pic"
+                ></Avatar>
               }
-            >
-              {alertMessage}
-            </Alert>
-          </CardContent>
-        </Card>
-      </Container>
+              action={
+                !profileEditable ? (
+                  <IconButton aria-label="edit-icon" onClick={editProfile}>
+                    <EditOutlined />
+                  </IconButton>
+                ) : (
+                  <>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      disableElevation
+                      color="secondary"
+                      sx={{ mr: 1 }}
+                      onClick={editProfile}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      disableElevation
+                      onClick={changeProfile}
+                    >
+                      save
+                    </Button>
+                  </>
+                )
+              }
+              title="You are Login as: "
+              subheader="Owner"
+            />
+            <CardContent>
+              <Chip size="small" label="PROFILE" sx={{ mb: 1 }} />
+
+              <TextField
+                id="name"
+                label="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                fullWidth
+                size="small"
+                variant="outlined"
+                margin="dense"
+                disabled={!profileEditable}
+                ref={profile}
+              />
+              <TextField
+                id="username"
+                label="Username"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                fullWidth
+                size="small"
+                variant="outlined"
+                margin="dense"
+                disabled={!profileEditable}
+              />
+              <TextField
+                id="password"
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                size="small"
+                variant="outlined"
+                margin="dense"
+                disabled
+                sx={{ mb: 4 }}
+              />
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  height: 13,
+                  mb: 1,
+                }}
+              >
+                <Chip size="small" label="PASSWORD" />
+                {!isChangePassword ? (
+                  <IconButton aria-label="edit-icon" onClick={editPassword}>
+                    <EditOutlined />
+                  </IconButton>
+                ) : (
+                  <Box sx={{ display: "flex" }}>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="secondary"
+                      disableElevation
+                      onClick={editPassword}
+                      sx={{ mr: 1 }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      disableElevation
+                      onClick={changePassword}
+                    >
+                      change password
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+              <Box>
+                <TextField
+                  ref={pass}
+                  id="cur-password"
+                  label="Current Password"
+                  type="password"
+                  value={curPassword}
+                  onChange={(e) => setCurPassword(e.target.value)}
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  margin="dense"
+                  disabled={!isChangePassword}
+                />
+                <TextField
+                  id="new-password"
+                  label="New Password"
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  margin="dense"
+                  disabled={!isChangePassword}
+                />
+                <TextField
+                  id="re-password"
+                  label="Repeat Password"
+                  type="password"
+                  value={rePassword}
+                  onChange={(e) => setRePassword(e.target.value)}
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  margin="dense"
+                  disabled={!isChangePassword}
+                />
+              </Box>
+              <Alert
+                severity={severity}
+                sx={
+                  showAlert
+                    ? { display: "flex", mt: 2 }
+                    : { display: "none", mt: 2 }
+                }
+              >
+                {alertMessage}
+              </Alert>
+            </CardContent>
+          </Card>
+        </Container>
+      </Zoom>
     </Container>
   );
 };

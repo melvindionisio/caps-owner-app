@@ -38,12 +38,7 @@ const Rooms = () => {
         </Box>
       </NavbarDrawer>
 
-      <Container
-        disableGutters
-        maxWidth="lg"
-        textAlign="center"
-        sx={{ p: 2, pt: 5 }}
-      >
+      <Container disableGutters maxWidth="lg" sx={{ p: 2, pt: 5 }}>
         <Button onClick={() => history.push(`${location.pathname}/room`)}>
           View a room
         </Button>

@@ -17,6 +17,7 @@ import Room from "./pages/Room";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import Map from "./pages/Map";
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -25,6 +26,7 @@ const useStyles = makeStyles({
     display: "flex",
     background: grey[200],
     position: "relative",
+    width: "100vw",
   },
   page: {
     background: blueGrey[50],
@@ -105,6 +107,9 @@ const App = () => {
               </Route>
               <Route path="/my/profile">
                 <Profile />
+              </Route>
+              <Route path="/my/Map">
+                <Map />
               </Route>
               <Route path="*">
                 <h2>GG</h2>

@@ -15,6 +15,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import OtherHousesIcon from "@mui/icons-material/OtherHouses";
 import KingBedIcon from "@mui/icons-material/KingBed";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import MyLocationIcon from "@mui/icons-material/MyLocation";
 import React from "react";
 
 import logo from "../sns-logo.png";
@@ -61,6 +62,12 @@ const Sidebar = () => {
       text: "Profile",
       path: "/my/profile",
       icon: <ManageAccountsIcon />,
+    },
+    {
+      key: 4,
+      text: "Map",
+      path: "/my/map",
+      icon: <MyLocationIcon />,
     },
   ];
   return (
