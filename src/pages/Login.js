@@ -14,7 +14,7 @@ import {
 import { useHistory } from "react-router-dom";
 import logo from "../sns-logo.png";
 import { pink } from "@mui/material/colors";
-import React from "react";
+import React, { useState } from "react";
 
 const useStyles = makeStyles({
   sns_logo: {
@@ -47,10 +47,46 @@ const useStyles = makeStyles({
 const Login = () => {
   const classes = useStyles();
   const history = useHistory();
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    history.push("/my/boarding-house");
+
+    fetch("http://localhost:3500/api/owners/auth", {
+      method: "POST",
+      body: JSON.stringify({
+        owner_username: userName,
+        owner_password: password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        // setCurrentUser(data);
+        if (data.error === "success") {
+          history.push("/my/boarding-house");
+
+          // setIsLogin(true);
+          // setUser({
+          //   id: data.user_id,
+          //   name: data.name,
+          //   username: data.username,
+          // });
+
+          console.log(data.message);
+          console.log(data);
+        } else if (data.error === "incorrect") {
+          setMessage(data.message);
+        } else {
+          setMessage(data.message);
+        }
+      });
   };
 
   return (
@@ -103,6 +139,8 @@ const Login = () => {
                   required
                   autoFocus
                   margin="normal"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
                 />
                 <TextField
                   label="Password"
@@ -111,7 +149,10 @@ const Login = () => {
                   color="primary"
                   required
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
+                <Box>{message}</Box>
               </CardContent>
               <CardActions className={classes.cardActions}>
                 <Button

@@ -1,14 +1,15 @@
-import { Container, Button, Hidden } from "@mui/material";
+import { Container, Button, Hidden, Grid } from "@mui/material";
 import React from "react";
 import { Box } from "@mui/system";
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 // import { Hidden } from "@material-ui/core";
 import { green } from "@mui/material/colors";
 import NavbarDrawer from "../components/NavbarDrawer";
+import RoomCard from "../components/RoomCard";
 
 const Rooms = () => {
   const history = useHistory();
-  const location = useLocation();
+  // const location = useLocation();
 
   return (
     // <Slide in={true} direction="right">
@@ -38,10 +39,24 @@ const Rooms = () => {
         </Box>
       </NavbarDrawer>
 
-      <Container disableGutters maxWidth="lg" sx={{ p: 2, pt: 5 }}>
-        <Button onClick={() => history.push(`${location.pathname}/room`)}>
+      <Container disableGutters maxWidth="lg" sx={{ p: 2, pt: 3 }}>
+        {/* <Button onClick={() => history.push(`${location.pathname}/room`)}>
           View a room
-        </Button>
+        </Button> */}
+        <Grid container spacing={2}>
+          <Grid item lg={3} xs={12} md={4} sm={6}>
+            <RoomCard />
+          </Grid>
+          <Grid item lg={3} xs={12} md={4} sm={6}>
+            <RoomCard />
+          </Grid>
+          <Grid item lg={3} xs={12} md={4} sm={6}>
+            <RoomCard />
+          </Grid>
+          <Grid item lg={3} xs={12} md={4} sm={6}>
+            <RoomCard />
+          </Grid>
+        </Grid>
       </Container>
     </Container>
     // </Slide>

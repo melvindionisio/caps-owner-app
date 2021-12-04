@@ -19,12 +19,14 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Map from "./pages/Map";
 
+import LoginContextProvider from "./contexts/LoginContext";
+
 const useStyles = makeStyles({
   mainContainer: {
     overflow: "hidden",
     height: "100vh",
     display: "flex",
-    background: grey[200],
+    background: grey[100],
     position: "relative",
     width: "100vw",
   },
@@ -70,55 +72,57 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container
-        disableGutters
-        className={classes.mainContainer}
-        sx={{
-          display: "flex",
-        }}
-        maxWidth="xl"
-      >
-        <Router>
-          <Hidden lgDown>
-            <Sidebar />
-          </Hidden>
+      <LoginContextProvider>
+        <Container
+          disableGutters
+          className={classes.mainContainer}
+          sx={{
+            display: "flex",
+          }}
+          maxWidth="xl"
+        >
+          <Router>
+            <Hidden lgDown>
+              <Sidebar />
+            </Hidden>
 
-          <Container disableGutters maxWidth="xl" sx={{ overflowY: "auto" }}>
-            <Switch>
-              <Route exact path="/">
-                <Redirect to="/login" />
-              </Route>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route exact path="/my/boarding-house">
-                <Home />
-              </Route>
-              <Route path="/my/add-room">
-                <AddRoom />
-              </Route>
-              <Route exact path="/my/rooms">
-                <Rooms />
-              </Route>
-              <Route exact path="/my/rooms/room">
-                <Room />
-              </Route>
-              <Route path="/my/dashboard">
-                <Dashboard />
-              </Route>
-              <Route path="/my/profile">
-                <Profile />
-              </Route>
-              <Route path="/my/Map">
-                <Map />
-              </Route>
-              <Route path="*">
-                <h2>not available</h2>
-              </Route>
-            </Switch>
-          </Container>
-        </Router>
-      </Container>
+            <Container disableGutters maxWidth="xl" sx={{ overflowY: "auto" }}>
+              <Switch>
+                <Route exact path="/">
+                  <Redirect to="/login" />
+                </Route>
+                <Route path="/login">
+                  <Login />
+                </Route>
+                <Route exact path="/my/boarding-house">
+                  <Home />
+                </Route>
+                <Route path="/my/add-room">
+                  <AddRoom />
+                </Route>
+                <Route exact path="/my/rooms">
+                  <Rooms />
+                </Route>
+                <Route exact path="/my/rooms/room">
+                  <Room />
+                </Route>
+                <Route path="/my/dashboard">
+                  <Dashboard />
+                </Route>
+                <Route path="/my/profile">
+                  <Profile />
+                </Route>
+                <Route path="/my/Map">
+                  <Map />
+                </Route>
+                <Route path="*">
+                  <h2>not available</h2>
+                </Route>
+              </Switch>
+            </Container>
+          </Router>
+        </Container>
+      </LoginContextProvider>
     </ThemeProvider>
   );
 };

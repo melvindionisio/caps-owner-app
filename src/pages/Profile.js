@@ -137,15 +137,7 @@ const Profile = () => {
                 ></Avatar>
               }
               action={
-                <IconButton
-                  aria-label="edit-icon"
-                  onClick={editProfile}
-                  sx={
-                    !profileEditable
-                      ? { display: "block" }
-                      : { display: "none" }
-                  }
-                >
+                <IconButton aria-label="edit-icon" onClick={editProfile}>
                   <EditOutlined />
                 </IconButton>
               }
@@ -229,15 +221,7 @@ const Profile = () => {
               >
                 <Chip size="small" label="PASSWORD" />
 
-                <IconButton
-                  aria-label="edit-icon"
-                  onClick={editPassword}
-                  sx={
-                    !isChangePassword
-                      ? { display: "block" }
-                      : { display: "none" }
-                  }
-                >
+                <IconButton aria-label="edit-icon" onClick={editPassword}>
                   <EditOutlined />
                 </IconButton>
               </Box>

@@ -42,12 +42,12 @@ export default function RoomSlider({ sliderCount }) {
     <Swiper
       spaceBetween={10}
       slidesPerView={sliderCount}
-      onSlideChange={() => console.log("slide change")}
-      onSwiper={(swiper) => console.log(swiper)}
+      // onSlideChange={() => console.log("slide change")}
+      // onSwiper={(swiper) => console.log(swiper)}
       navigation
     >
       {items.map((item) => (
-        <SwiperSlide>
+        <SwiperSlide key={item.name}>
           <Paper
             variant="outlined"
             style={{

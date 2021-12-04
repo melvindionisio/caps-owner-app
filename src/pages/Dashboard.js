@@ -99,7 +99,11 @@ const Dashboard = () => {
           <Grid item lg={9} md={8} xs={12}>
             <Slide in={true} direction="left">
               <Box>
-                <Card sx={{ p: 0, pt: 3 }} style={{}} variant="outlined">
+                <Card
+                  sx={{ p: 0, pt: 0 }}
+                  style={{ borderRadius: 10 }}
+                  variant="outlined"
+                >
                   <CardHeader
                     title="Boarding House Name"
                     subheader="Stars here"
@@ -126,6 +130,7 @@ const Dashboard = () => {
                       flexDirection: "column",
                       justifyContent: "center",
                       alignItems: "center",
+                      borderRadius: 10,
                     }}
                   >
                     <Typography
