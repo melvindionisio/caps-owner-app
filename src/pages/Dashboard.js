@@ -1,16 +1,9 @@
 import React from "react";
 import { Container, Box, Typography, Slide } from "@mui/material";
 import NavbarDrawer from "../components/NavbarDrawer";
-// import Map from "../components/Map";
+import AccountMenu from "../components/AccountMenu";
 
-import {
-  CardHeader,
-  IconButton,
-  Card,
-  Grid,
-  Paper,
-  CardContent,
-} from "@material-ui/core";
+import { CardHeader, Card, Grid, Paper, CardContent } from "@material-ui/core";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
 Chart.register(ArcElement);
@@ -53,7 +46,7 @@ const Dashboard = () => {
     // <Slide in={true} direction="right">
     <Container disableGutters maxWidth="xl">
       <NavbarDrawer title="dashboard">
-        <IconButton></IconButton>
+        <AccountMenu />
       </NavbarDrawer>
       <Container maxWidth="lg" sx={{ p: 2, pt: 5, pb: 5 }} disableGutters>
         <Grid container spacing={2} style={{ alignItems: "center" }}>

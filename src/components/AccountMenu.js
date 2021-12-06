@@ -11,7 +11,15 @@ import Logout from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 // import { useHistory } from "react-router-dom";
 
+import { useContext } from "react";
+import { LoginContext } from "../contexts/LoginContext";
+
+import { useHistory } from "react-router-dom";
+
 export default function AccountMenu({ currentUser }) {
+  const { currentOwner, handleOwnerLogout } = useContext(LoginContext);
+  const history = useHistory();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   // const history = useHistory();
@@ -73,9 +81,14 @@ export default function AccountMenu({ currentUser }) {
           <ListItemIcon>
             <PersonIcon />
           </ListItemIcon>
-          Profile
+          {currentOwner.name}
         </MenuItem>
-        <MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleOwnerLogout();
+            history.push("/");
+          }}
+        >
           <ListItemIcon>
             <Logout />
           </ListItemIcon>

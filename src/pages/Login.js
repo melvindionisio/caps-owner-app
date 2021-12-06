@@ -10,11 +10,13 @@ import {
   CardHeader,
   CardContent,
   Zoom,
+  Alert,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import logo from "../sns-logo.png";
 import { pink } from "@mui/material/colors";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { LoginContext } from "../contexts/LoginContext";
 
 const useStyles = makeStyles({
   sns_logo: {
@@ -50,6 +52,17 @@ const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+
+  const { setIsOwnerLoggedIn, setCurrentOwner } = useContext(LoginContext);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (showAlert) {
+        setShowAlert(false);
+      }
+    }, 3000);
+  }, [showAlert]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,22 +81,23 @@ const Login = () => {
         return res.json();
       })
       .then((data) => {
-        // setCurrentUser(data);
         if (data.error === "success") {
-          history.push("/my/boarding-house");
-
-          // setIsLogin(true);
-          // setUser({
-          //   id: data.user_id,
-          //   name: data.name,
-          //   username: data.username,
-          // });
+          setIsOwnerLoggedIn(true);
+          setCurrentOwner({
+            id: data.bho_id,
+            name: data.bho_name,
+            username: data.bho_username,
+            hash: data.bho_password,
+            token: password,
+          });
 
           console.log(data.message);
-          console.log(data);
+          history.push("/my/boarding-house");
         } else if (data.error === "incorrect") {
           setMessage(data.message);
+          setShowAlert(true);
         } else {
+          setShowAlert(true);
           setMessage(data.message);
         }
       });
@@ -152,7 +166,17 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <Box>{message}</Box>
+
+                <Alert
+                  severity="warning"
+                  sx={
+                    showAlert
+                      ? { display: "flex", mt: 2 }
+                      : { display: "none", mt: 2 }
+                  }
+                >
+                  {message}
+                </Alert>
               </CardContent>
               <CardActions className={classes.cardActions}>
                 <Button

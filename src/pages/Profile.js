@@ -14,14 +14,18 @@ import {
 } from "@mui/material";
 import React from "react";
 import NavbarDrawer from "../components/NavbarDrawer";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { EditOutlined } from "@mui/icons-material";
 // import CancelIcon from "@mui/icons-material/Cancel";
 
+import { LoginContext } from "../contexts/LoginContext";
+
 const Profile = () => {
-  const [name, setName] = useState("Melvin Dionisio");
-  const [userName, setUserName] = useState("melsio021");
-  const [password, setPassword] = useState("password");
+  const { currentOwner } = useContext(LoginContext);
+
+  const [name, setName] = useState(currentOwner.name);
+  const [userName, setUserName] = useState(currentOwner.username);
+  const [password, setPassword] = useState(currentOwner.token);
   const [newPassword, setNewPassword] = useState("");
   const [curPassword, setCurPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
@@ -31,8 +35,6 @@ const Profile = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  const profile = useRef(null);
-  const pass = useRef(null);
   const [severity, setSeverity] = useState("warning");
 
   useEffect(() => {
@@ -111,9 +113,6 @@ const Profile = () => {
     setProfileEditable(!profileEditable);
   };
   const editPassword = () => {
-    // if (isChangePassword) {
-    //   pass.current.firstElementChild.firstElementChild.focus();
-    // }
     setIsChangePassword(!isChangePassword);
     setNewPassword("");
     setCurPassword("");
@@ -157,7 +156,6 @@ const Profile = () => {
                   variant="outlined"
                   margin="dense"
                   disabled={!profileEditable}
-                  ref={profile}
                 />
                 <TextField
                   id="username"
@@ -227,7 +225,6 @@ const Profile = () => {
               </Box>
               <Box>
                 <TextField
-                  ref={pass}
                   id="cur-password"
                   label="Current Password"
                   type="password"
