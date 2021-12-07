@@ -61,7 +61,7 @@ const Login = () => {
       if (showAlert) {
         setShowAlert(false);
       }
-    }, 3000);
+    }, 5000);
   }, [showAlert]);
 
   const handleSubmit = async (e) => {
@@ -92,7 +92,7 @@ const Login = () => {
           });
 
           console.log(data.message);
-          history.push("/my/boarding-house");
+          history.push("/my/dashboard");
         } else if (data.error === "incorrect") {
           setMessage(data.message);
           setShowAlert(true);

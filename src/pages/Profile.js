@@ -217,7 +217,7 @@ const Profile = () => {
                   mb: 1,
                 }}
               >
-                <Chip size="small" label="PASSWORD" />
+                <Chip size="small" label="CHANGE PASSWORD" />
 
                 <IconButton aria-label="edit-icon" onClick={editPassword}>
                   <EditOutlined />

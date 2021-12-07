@@ -103,7 +103,7 @@ const App = () => {
                 <Route exact path="/my/rooms">
                   <Rooms />
                 </Route>
-                <Route exact path="/my/rooms/room">
+                <Route exact path="/my/rooms/:roomId">
                   <Room />
                 </Route>
                 <Route path="/my/dashboard">

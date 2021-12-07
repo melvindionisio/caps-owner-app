@@ -19,6 +19,7 @@ const AddRoom = () => {
   const [roomPicture, setRoomPicture] = useState(null);
   const [roomName, setRoomName] = useState("");
   const [roomDescription, setRoomDescription] = useState("");
+
   const handleRoomSave = () => {
     if (!roomPicture) {
       console.log("No picture");
@@ -39,6 +40,7 @@ const AddRoom = () => {
             color="primary"
             onClick={handleRoomSave}
             disabled={roomName ? false : true}
+            size="small"
           >
             Save
           </Button>

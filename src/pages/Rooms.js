@@ -1,4 +1,4 @@
-import { Container, Button, Hidden, Grid } from "@mui/material";
+import { Container, Grid, Button } from "@mui/material";
 import React from "react";
 import { Box } from "@mui/system";
 import { useHistory } from "react-router";
@@ -6,6 +6,7 @@ import { useHistory } from "react-router";
 import { green } from "@mui/material/colors";
 import NavbarDrawer from "../components/NavbarDrawer";
 import RoomCard from "../components/RoomCard";
+import { AddCircle } from "@mui/icons-material";
 
 const Rooms = () => {
   const history = useHistory();
@@ -16,25 +17,21 @@ const Rooms = () => {
     <Container disableGutters maxWidth="xl">
       <NavbarDrawer title="my rooms">
         <Box>
-          <Hidden mdDown>
-            <Button
-              variant="contained"
-              disableElevation
-              // color="primary"
-              sx={{
-                mr: 1,
-                background: green[600],
-                "&:hover": {
-                  background: green[700],
-                },
-              }}
-              onClick={() => history.push("/my/add-room")}
-            >
-              Add
-            </Button>
-          </Hidden>
-          <Button variant="contained" disableElevation color="primary">
-            Edit
+          <Button
+            variant="contained"
+            disableElevation
+            size="small"
+            sx={{
+              mr: 1,
+              background: green[600],
+              "&:hover": {
+                background: green[700],
+              },
+            }}
+            onClick={() => history.push("/my/add-room")}
+            startIcon={<AddCircle />}
+          >
+            Add
           </Button>
         </Box>
       </NavbarDrawer>

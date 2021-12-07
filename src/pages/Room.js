@@ -1,26 +1,30 @@
 import { Container, Button, Slide } from "@mui/material";
 import React from "react";
 import Navbar from "../components/Navbar";
-// import DesktopNavbar from "../components/DesktopNavbar";
+// import { useParams } from "react-router-dom";
+// import useFetch from "../hooks/useFetch";
 
 const Room = () => {
+  // const roomId = useParams();
+  // const { data, isPending, error} = useFetch(`http://locahost:3500/api/rooms/${roomId}`);
+
   return (
     <Slide in={true} direction="left">
       <Container disableGutters maxWidth="xl">
-        {/* <Hidden lgUp> */}
         <Navbar title="Room Name">
-          <Button variant="contained" disableElevation color="primary">
+          <Button
+            variant="contained"
+            disableElevation
+            size="small"
+            color="primary"
+          >
             Edit
           </Button>
+          <Button variant="contained" disableElevation size="small">
+            Delete
+          </Button>
         </Navbar>
-        {/* </Hidden> */}
-        {/* <Hidden mdDown>
-          <DesktopNavbar title="Room Name">
-            <Button variant="contained" disableElevation color="primary">
-              Edit
-            </Button>
-          </DesktopNavbar>
-        </Hidden> */}
+        {/* Room Information here */}
       </Container>
     </Slide>
   );
