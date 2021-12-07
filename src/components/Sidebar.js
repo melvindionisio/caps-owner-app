@@ -85,13 +85,17 @@ const Sidebar = () => {
       }
     >
       <AppBar position="static" elevation={1} color="default">
-        <Toolbar sx={{ padding: "0 .7rem" }} disableGutters>
+        <Toolbar
+          sx={{ padding: "0 .7rem", display: "flex", gap: 1 }}
+          disableGutters
+        >
           <Avatar src={logo} style={{ height: "2rem", width: "2rem" }}></Avatar>
           <Typography
             variant="body1"
             component="h1"
             sx={{
               fontFamily: "Quicksand",
+              fontWeight: "bold",
             }}
           >
             SEARCH 'N STAY

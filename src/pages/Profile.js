@@ -26,6 +26,7 @@ const Profile = () => {
   const [name, setName] = useState(currentOwner.name);
   const [userName, setUserName] = useState(currentOwner.username);
   const [password, setPassword] = useState(currentOwner.token);
+
   const [newPassword, setNewPassword] = useState("");
   const [curPassword, setCurPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
@@ -48,8 +49,8 @@ const Profile = () => {
   // CHANGE NAME/USERNAME REQUEST
   const changeProfile = () => {
     let newProfile = {
-      name: name,
-      username: userName,
+      newName: name,
+      newUsername: userName,
     };
     setProfileEditable(!profileEditable);
     console.log(newProfile);

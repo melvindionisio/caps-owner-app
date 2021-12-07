@@ -8,7 +8,8 @@ import IconButton from "@mui/material/IconButton";
 // import Button from "@material-ui/core/Button";
 // import CloseIcon from "@mui/icons-material/Close";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { List, ListItem, Typography } from "@mui/material";
+import logo from "../sns-logo.png";
+import { List, ListItem, Typography, Avatar } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -96,9 +97,19 @@ export default function Menu({
             onKeyDown={handleDrawerToggle}
             divider
           >
-            <Typography variant="body1" style={{ fontFamily: "Quicksand" }}>
-              SEARCH 'N STAY
-            </Typography>
+            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+              <Avatar
+                src={logo}
+                style={{ height: "1.6rem", width: "1.6rem" }}
+              ></Avatar>
+
+              <Typography
+                variant="body1"
+                style={{ fontFamily: "Quicksand", fontWeight: "bold" }}
+              >
+                SEARCH 'N STAY
+              </Typography>
+            </Box>
             <IconButton
               onClick={handleDrawerToggle}
               onKeyDown={handleDrawerToggle}

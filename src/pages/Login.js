@@ -124,7 +124,7 @@ const Login = () => {
             <Card variant="outlined" sx={{ padding: "1.5rem 0rem 0rem 0rem" }}>
               <CardHeader
                 title={
-                  <Box>
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <img
                       src={logo}
                       id="logo"
@@ -139,6 +139,7 @@ const Login = () => {
                     color="textSecondary"
                     component="h2"
                     className={classes.appname}
+                    textAlign="center"
                   >
                     SEARCH 'N STAY
                   </Typography>
