@@ -46,7 +46,7 @@ const Profile = () => {
     }, 5000);
   }, [showAlert]);
 
-  // CHANGE NAME/USERNAME REQUEST - DONE!
+  // UPDATE PROFILE REQUEST - ✅ DONE!
   const updateProfile = () => {
     const ownerId = currentOwner.id;
     fetch(`http://localhost:3500/api/owners/${ownerId}`, {
@@ -93,23 +93,38 @@ const Profile = () => {
     setShowAlert(true);
     setSeverity("warning");
   };
-  const changePasswordSuccess = () => {
-    let newPasswordRequest = {};
-    newPasswordRequest = {
-      currentPassword: curPassword,
-      newPassword: newPassword,
-      repeatNewPassword: rePassword,
-    };
-
-    console.log(newPasswordRequest);
-    setIsChangePassword(!isChangePassword);
-    setNewPassword("");
-    setCurPassword("");
-    setRePassword("");
-
-    setAlertMessage("Password Changed!");
-    setShowAlert(true);
-    setSeverity("success");
+  const changePasswordPassed = () => {
+    const ownerId = currentOwner.id;
+    fetch(`http://localhost:3500/api/owners/${ownerId}`, {
+      method: "POST",
+      body: JSON.stringify({
+        newPassword: newPassword,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setCurrentOwner({
+          id: currentOwner.id,
+          name: currentOwner.name,
+          username: currentOwner.username,
+          hash: currentOwner.hash,
+          token: newPassword,
+        });
+        setIsChangePassword(!isChangePassword);
+        setNewPassword("");
+        setCurPassword("");
+        setRePassword("");
+        setPassword(newPassword);
+        setAlertMessage(data.message);
+        setShowAlert(true);
+        setSeverity("success");
+      });
   };
 
   // CHANGE PASSWORD REQUEST
@@ -117,7 +132,12 @@ const Profile = () => {
     if (curPassword && newPassword && rePassword !== "") {
       if (password === curPassword) {
         if (newPassword === rePassword) {
-          changePasswordSuccess();
+          if (newPassword.length >= 6 && rePassword.length >= 6) {
+            changePasswordPassed();
+          } else {
+            setAlertMessage("Password should be at least 6 characters.");
+            setShowAlert(true);
+          }
         } else {
           passwordNotMatch();
         }
@@ -270,6 +290,8 @@ const Profile = () => {
                   variant="outlined"
                   margin="dense"
                   disabled={!isChangePassword}
+                  minlenght="6"
+                  helperText="Password should be atleast 6 characters."
                 />
                 <TextField
                   id="re-password"
@@ -283,6 +305,7 @@ const Profile = () => {
                   margin="dense"
                   disabled={!isChangePassword}
                   sx={{ mb: 1 }}
+                  minlenght="6"
                 />
 
                 <Box
