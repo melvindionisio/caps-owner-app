@@ -33,23 +33,28 @@ const Profile = () => {
 
   const [profileEditable, setProfileEditable] = useState(false);
   const [isChangePassword, setIsChangePassword] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  const [passwordAlertMessage, setPasswordAlerMessage] = useState("");
+  const [showPasswordAlert, setShowPasswordAlert] = useState(false);
+  const [profileAlertMessage, setProfileAlertMessage] = useState("");
+  const [showProfileAlert, setShowProfileAlert] = useState(false);
 
   const [severity, setSeverity] = useState("warning");
 
   useEffect(() => {
     setTimeout(() => {
-      if (showAlert) {
-        setShowAlert(false);
+      if (showPasswordAlert) {
+        setShowPasswordAlert(false);
+      }
+      if (showProfileAlert) {
+        setShowProfileAlert(false);
       }
     }, 5000);
-  }, [showAlert]);
+  }, [showPasswordAlert, showProfileAlert]);
 
   // UPDATE PROFILE REQUEST - ✅ DONE!
   const updateProfile = () => {
     const ownerId = currentOwner.id;
-    fetch(`http://localhost:3500/api/owners/${ownerId}`, {
+    fetch(`http://localhost:3500/api/owners/update-profile/${ownerId}`, {
       method: "PUT",
       body: JSON.stringify({
         newName: name,
@@ -71,72 +76,72 @@ const Profile = () => {
           hash: currentOwner.hash,
           token: currentOwner.token,
         });
-        setShowAlert(true);
-        setAlertMessage(data.message);
+        setShowProfileAlert(true);
+        setProfileAlertMessage(data.message);
         setProfileEditable(!profileEditable);
         setSeverity("success");
       });
   };
 
-  const passwordNotMatch = () => {
-    setAlertMessage("New Password does not match!");
-    setShowAlert(true);
-    setSeverity("warning");
-  };
-  const blankFields = () => {
-    setAlertMessage("Please fill the field!");
-    setShowAlert(true);
-    setSeverity("warning");
-  };
-  const incorrectCurrentPassword = () => {
-    setAlertMessage("Current Password Incorrect!");
-    setShowAlert(true);
-    setSeverity("warning");
-  };
-  const changePasswordPassed = () => {
-    const ownerId = currentOwner.id;
-    fetch(`http://localhost:3500/api/owners/${ownerId}`, {
-      method: "POST",
-      body: JSON.stringify({
-        newPassword: newPassword,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setCurrentOwner({
-          id: currentOwner.id,
-          name: currentOwner.name,
-          username: currentOwner.username,
-          hash: currentOwner.hash,
-          token: newPassword,
-        });
-        setIsChangePassword(!isChangePassword);
-        setNewPassword("");
-        setCurPassword("");
-        setRePassword("");
-        setPassword(newPassword);
-        setAlertMessage(data.message);
-        setShowAlert(true);
-        setSeverity("success");
-      });
-  };
-
-  // CHANGE PASSWORD REQUEST
+  // CHANGE PASSWORD REQUEST - ✅ DONE!
   const changePassword = () => {
+    const passwordNotMatch = () => {
+      setPasswordAlerMessage("New Password does not match!");
+      setShowPasswordAlert(true);
+      setSeverity("warning");
+    };
+    const blankFields = () => {
+      setPasswordAlerMessage("Please fill all the fields!");
+      setShowPasswordAlert(true);
+      setSeverity("warning");
+    };
+    const incorrectCurrentPassword = () => {
+      setPasswordAlerMessage("Current Password Incorrect!");
+      setShowPasswordAlert(true);
+      setSeverity("warning");
+    };
+    const changePasswordPassed = () => {
+      const ownerId = currentOwner.id;
+      fetch(`http://localhost:3500/api/owners/update-password/${ownerId}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          newPassword: newPassword,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setCurrentOwner({
+            id: currentOwner.id,
+            name: currentOwner.name,
+            username: currentOwner.username,
+            hash: currentOwner.hash,
+            token: newPassword,
+          });
+          setIsChangePassword(!isChangePassword);
+          setNewPassword("");
+          setCurPassword("");
+          setRePassword("");
+          setPassword(newPassword);
+          setPasswordAlerMessage(data.message);
+          setShowPasswordAlert(true);
+          setSeverity("success");
+        });
+    };
+
     if (curPassword && newPassword && rePassword !== "") {
       if (password === curPassword) {
         if (newPassword === rePassword) {
           if (newPassword.length >= 6 && rePassword.length >= 6) {
             changePasswordPassed();
           } else {
-            setAlertMessage("Password should be at least 6 characters.");
-            setShowAlert(true);
+            setPasswordAlerMessage("Password should be at least 6 characters.");
+            setShowPasswordAlert(true);
           }
         } else {
           passwordNotMatch();
@@ -160,7 +165,7 @@ const Profile = () => {
     setNewPassword("");
     setCurPassword("");
     setRePassword("");
-    setShowAlert(false);
+    setShowPasswordAlert(false);
   };
 
   return (
@@ -183,7 +188,7 @@ const Profile = () => {
                   <EditOutlined />
                 </IconButton>
               }
-              title="You are Login as: "
+              title={name}
               subheader="Owner"
             />
             <CardContent>
@@ -224,6 +229,14 @@ const Profile = () => {
                   disabled
                   sx={{ mb: 1 }}
                 />
+                <Alert
+                  severity={severity}
+                  sx={
+                    showProfileAlert ? { display: "flex" } : { display: "none" }
+                  }
+                >
+                  {profileAlertMessage}
+                </Alert>
                 <Box
                   sx={
                     profileEditable
@@ -251,6 +264,7 @@ const Profile = () => {
                   </Button>
                 </Box>
               </Box>
+
               <Box
                 sx={{
                   display: "flex",
@@ -338,12 +352,12 @@ const Profile = () => {
               <Alert
                 severity={severity}
                 sx={
-                  showAlert
+                  showPasswordAlert
                     ? { display: "flex", mt: 2 }
                     : { display: "none", mt: 2 }
                 }
               >
-                {alertMessage}
+                {passwordAlertMessage}
               </Alert>
             </CardContent>
           </Card>
