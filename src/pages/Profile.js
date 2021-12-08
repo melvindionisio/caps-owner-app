@@ -21,14 +21,14 @@ import { EditOutlined } from "@mui/icons-material";
 import { LoginContext } from "../contexts/LoginContext";
 
 const Profile = () => {
-  const { currentOwner } = useContext(LoginContext);
+  const { currentOwner, setCurrentOwner } = useContext(LoginContext);
 
   const [name, setName] = useState(currentOwner.name);
   const [userName, setUserName] = useState(currentOwner.username);
   const [password, setPassword] = useState(currentOwner.token);
 
-  const [newPassword, setNewPassword] = useState("");
   const [curPassword, setCurPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
 
   const [profileEditable, setProfileEditable] = useState(false);
@@ -46,14 +46,36 @@ const Profile = () => {
     }, 5000);
   }, [showAlert]);
 
-  // CHANGE NAME/USERNAME REQUEST
-  const changeProfile = () => {
-    let newProfile = {
-      newName: name,
-      newUsername: userName,
-    };
-    setProfileEditable(!profileEditable);
-    console.log(newProfile);
+  // CHANGE NAME/USERNAME REQUEST - DONE!
+  const updateProfile = () => {
+    const ownerId = currentOwner.id;
+    fetch(`http://localhost:3500/api/owners/${ownerId}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        newName: name,
+        newUsername: userName,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setCurrentOwner({
+          id: currentOwner.id,
+          name: name,
+          username: userName,
+          hash: currentOwner.hash,
+          token: currentOwner.token,
+        });
+        setShowAlert(true);
+        setAlertMessage(data.message);
+        setProfileEditable(!profileEditable);
+        setSeverity("success");
+      });
   };
 
   const passwordNotMatch = () => {
@@ -203,7 +225,7 @@ const Profile = () => {
                     size="small"
                     variant="contained"
                     disableElevation
-                    onClick={changeProfile}
+                    onClick={updateProfile}
                   >
                     save
                   </Button>

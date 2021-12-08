@@ -9,11 +9,17 @@ function LoginContextProvider(props) {
     "isOwnerLoggedIn",
     false
   );
+
   const [currentOwner, setCurrentOwner] = useLocalStorage(
     "currentLoggedInOwner",
-    "no-owner-logged-in"
+    {
+      id: null,
+      name: null,
+      username: null,
+      hash: null,
+      token: null,
+    }
   );
-
   const handleOwnerLogout = () => {
     setIsOwnerLoggedIn(false);
     setCurrentOwner({
