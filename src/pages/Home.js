@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Container,
   Card,
@@ -8,18 +9,22 @@ import {
   Box,
   Button,
   Grid,
+  Hidden,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import EditIcon from "@mui/icons-material/Edit";
 import { useHistory } from "react-router-dom";
 import { grey } from "@mui/material/colors";
+
 import SubCategory from "../components/SubCategory";
 import NavbarDrawer from "../components/NavbarDrawer";
 import AccountMenu from "../components/AccountMenu";
-import React from "react";
-
 import RoomSlider from "../components/RoomSlider";
-import { Hidden } from "@material-ui/core";
+import LoadingState from "../components/LoadingState";
+
+import useFetch from "../hooks/useFetch";
+import { useContext } from "react";
+import { LoginContext } from "../contexts/LoginContext";
 
 const useStyles = makeStyles({
   scrollContainer: {
@@ -63,8 +68,15 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const classes = useStyles();
-
   const history = useHistory();
+  const { currentOwner } = useContext(LoginContext);
+  const {
+    data: myBoardinghouse,
+    isPending,
+    error,
+  } = useFetch(
+    `http://localhost:3500/api/boarding-houses/owner/${currentOwner.id}`
+  );
 
   return (
     // <Slide in={true} direction="right">
@@ -73,90 +85,98 @@ const Home = () => {
       <NavbarDrawer title="My Boarding House">
         <AccountMenu />
       </NavbarDrawer>
-      <Container maxWidth="lg" className={classes.scrollContainer}>
-        <Card variant="outlined">
-          <CardHeader
-            title={
-              <Typography variant="h6" component="span">
-                Boarding house Name
-              </Typography>
-            }
-            action={
-              <IconButton>
-                <EditIcon fontSize="small" />
-              </IconButton>
-            }
-            subheader={
-              <Typography variant="body2" component="p">
-                Boarding house desciption.
-              </Typography>
-            }
-          />
-        </Card>
+      {error && (
+        <Typography variant="body1" textAlign="center" color="initial">
+          {error}
+        </Typography>
+      )}
+      {isPending && <LoadingState />}
+      {myBoardinghouse && (
+        <Container maxWidth="lg" className={classes.scrollContainer}>
+          <Card variant="outlined">
+            <CardHeader
+              title={
+                <Typography variant="h6" component="span">
+                  {myBoardinghouse[0].bh_name}
+                </Typography>
+              }
+              action={
+                <IconButton>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+              }
+              subheader={
+                <Typography variant="body2" component="p">
+                  Boarding house desciption.
+                </Typography>
+              }
+            />
+          </Card>
 
-        <Grid container spacing={1} className={classes.informationContainer}>
-          <Grid item xs={12}>
-            <SubCategory title="Boarding House Information" />
-          </Grid>
+          <Grid container spacing={1} className={classes.informationContainer}>
+            <Grid item xs={12}>
+              <SubCategory title="Boarding House Information" />
+            </Grid>
 
-          <Grid item xs={6}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="subtitle1">Details</Typography>
-              </CardContent>
-            </Card>
+            <Grid item xs={6}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="subtitle1">Details</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={6}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="body1">Details</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={6}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="body1">Details</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="body1">Details</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={6}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="body1">Details</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-        <SubCategory title="My Rooms" />
-        <Box sx={{ py: 2, px: 1 }}>
-          <Hidden smUp>
-            <RoomSlider sliderCount={1} />
-          </Hidden>
-          <Hidden only={["xl", "lg", "md", "xs"]}>
-            <RoomSlider sliderCount={2} />
-          </Hidden>
-          <Hidden only={["xl", "lg", "sm", "xs"]}>
-            <RoomSlider sliderCount={3} />
-          </Hidden>
-          <Hidden mdDown>
-            <RoomSlider sliderCount={4} />
-          </Hidden>
-        </Box>
-        <Box className={classes.roomButtonsContainer}>
-          <Button
-            onClick={() => history.push("/my/add-room")}
-            variant="outlined"
-            color="primary"
-            className={classes.roomButtons}
-            size="small"
-          >
-            Add Room
-          </Button>
-          <Button
-            onClick={() => history.push("/my/rooms")}
-            variant="outlined"
-            color="primary"
-            className={classes.roomButtons}
-            size="small"
-          >
-            View All Rooms
-          </Button>
-        </Box>
-      </Container>
+          <SubCategory title="My Rooms" />
+          <Box sx={{ py: 2, px: 1 }}>
+            <Hidden smUp>
+              <RoomSlider sliderCount={1} />
+            </Hidden>
+            <Hidden only={["xl", "lg", "md", "xs"]}>
+              <RoomSlider sliderCount={2} />
+            </Hidden>
+            <Hidden only={["xl", "lg", "sm", "xs"]}>
+              <RoomSlider sliderCount={3} />
+            </Hidden>
+            <Hidden lgDown>
+              <RoomSlider sliderCount={4} />
+            </Hidden>
+          </Box>
+          <Box className={classes.roomButtonsContainer}>
+            <Button
+              onClick={() => history.push("/my/add-room")}
+              variant="outlined"
+              color="primary"
+              className={classes.roomButtons}
+              size="small"
+            >
+              Add Room
+            </Button>
+            <Button
+              onClick={() => history.push("/my/rooms")}
+              variant="outlined"
+              color="primary"
+              className={classes.roomButtons}
+              size="small"
+            >
+              View All Rooms
+            </Button>
+          </Box>
+        </Container>
+      )}
     </Container>
     // </Slide>
   );
