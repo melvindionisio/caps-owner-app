@@ -97,7 +97,7 @@ const Home = () => {
             <CardHeader
               title={
                 <Typography variant="h6" component="span">
-                  {myBoardinghouse[0].bh_name}
+                  {myBoardinghouse.bh_name}
                 </Typography>
               }
               action={
