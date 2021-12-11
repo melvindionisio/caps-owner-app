@@ -61,7 +61,7 @@ const SideDrawer = () => {
 
   return (
     <>
-      <Hidden lgUp>
+      <Hidden mdUp>
         <IconButton size="medium" onClick={handleDrawerToggle}>
           <MenuOutlinedIcon fontSize="medium" sx={{ color: grey[300] }} />
         </IconButton>

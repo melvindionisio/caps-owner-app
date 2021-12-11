@@ -82,7 +82,7 @@ const App = () => {
           maxWidth="xl"
         >
           <Router>
-            <Hidden lgDown>
+            <Hidden mdDown>
               <Sidebar />
             </Hidden>
 

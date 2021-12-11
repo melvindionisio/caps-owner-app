@@ -2,6 +2,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import { Typography, IconButton, Slide } from "@mui/material";
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AddIcon from "@mui/icons-material/Add";
 import { blue } from "@mui/material/colors";
 import React, { useRef, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -177,6 +178,17 @@ const Map = () => {
       maxWidth="xl"
       ref={mapContainer}
     >
+      <AddIcon
+        sx={{
+          color: "#111",
+          zIndex: "1",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+        fontSize="large"
+      />
       <Slide in={true} direction="down">
         <Box
           sx={{

@@ -75,7 +75,7 @@ const Home = () => {
     isPending,
     error,
   } = useFetch(
-    `http://localhost:3500/api/boarding-houses/owner/${currentOwner.id}`
+    `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`
   );
 
   return (

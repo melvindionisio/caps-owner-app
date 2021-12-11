@@ -6,9 +6,25 @@ import AccountMenu from "../components/AccountMenu";
 import { CardHeader, Card, Grid, Paper, CardContent } from "@material-ui/core";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
+
+import { useContext } from "react";
+import { LoginContext } from "../contexts/LoginContext";
+import useFetch from "../hooks/useFetch";
+import LoadingState from "../components/LoadingState";
+
 Chart.register(ArcElement);
 
 const Dashboard = () => {
+  const { currentOwner } = useContext(LoginContext);
+  const {
+    data: boardinghouse,
+    isPending: isBoardinghousePending,
+    error: boardinghouseError,
+  } = useFetch(
+    `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`
+  );
+  const notAvailable = "Not Available.";
+
   const data = {
     labels: ["Red", "Blue", "Yellow"],
     datasets: [
@@ -89,23 +105,64 @@ const Dashboard = () => {
               </Typography> */}
             </Box>
           </Grid>
+
           <Grid item lg={9} md={8} xs={12}>
             <Slide in={true} direction="left">
               <Box>
-                <Card
-                  sx={{ p: 0, pt: 0 }}
-                  style={{ borderRadius: 10 }}
-                  variant="outlined"
-                >
-                  <CardHeader
-                    title="Boarding House Name"
-                    subheader="Stars here"
-                  />
-                  <CardContent>
-                    <Typography>Address</Typography>
-                    <Typography>Contact number</Typography>
-                  </CardContent>
-                </Card>
+                {boardinghouseError && (
+                  <Typography variant="overline" color="initial">
+                    {boardinghouseError}
+                  </Typography>
+                )}
+                {isBoardinghousePending && <LoadingState />}
+                {boardinghouse && (
+                  <Card
+                    sx={{ p: 0, pt: 0 }}
+                    style={{ borderRadius: 10 }}
+                    variant="outlined"
+                  >
+                    <CardHeader
+                      style={{ paddingBottom: 0 }}
+                      title={
+                        <Typography variant="h5" color="initial">
+                          {boardinghouse.bh_name ?? notAvailable}
+                        </Typography>
+                      }
+                      subheader={
+                        <Typography
+                          variant="body1"
+                          color="text.secondary"
+                          sx={{ fontSize: 13 }}
+                        >
+                          POPULARITY:{" "}
+                          {boardinghouse.bh_popularity ?? notAvailable}
+                        </Typography>
+                      }
+                    />
+                    <CardContent>
+                      <Typography variant="body1" color="text.secondary">
+                        ADDRESS:{" "}
+                        <Typography
+                          variant="body1"
+                          component="span"
+                          color="initial"
+                        >
+                          {boardinghouse.bh_complete_address ?? notAvailable}
+                        </Typography>
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        CONTACT NUMBER:{" "}
+                        <Typography
+                          variant="body1"
+                          component="span"
+                          color="initial"
+                        >
+                          {boardinghouse.bh_contacts}
+                        </Typography>
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                )}
               </Box>
             </Slide>
           </Grid>

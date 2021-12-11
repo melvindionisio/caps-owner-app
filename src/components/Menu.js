@@ -70,17 +70,6 @@ export default function Menu({
       })}
       role="presentation"
     >
-      {/* <Box
-        className={classes.closeContainer}
-        onClick={handleDrawerToggle}
-        onKeyDown={handleDrawerToggle}
-      >
-        <IconButton size="medium" className={classes.closeButton}>
-          <CloseIcon />
-        </IconButton>
-        <Divider />
-      </Box>
-      <Box className={classes.menulist}>{children}</Box> */}
       <Box
         onClick={handleDrawerToggle}
         onKeyDown={handleDrawerToggle}

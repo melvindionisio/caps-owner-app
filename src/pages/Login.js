@@ -147,6 +147,7 @@ const Login = () => {
               />
               <CardContent>
                 <TextField
+                  name="username"
                   label="Username"
                   fullWidth
                   variant="filled"
@@ -158,6 +159,7 @@ const Login = () => {
                   onChange={(e) => setUserName(e.target.value)}
                 />
                 <TextField
+                  name="password "
                   label="Password"
                   fullWidth
                   variant="filled"
