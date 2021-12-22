@@ -4,8 +4,11 @@ import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import { blue } from "@mui/material/colors";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+
+import { LoginContext } from "../contexts/LoginContext";
+import mapmarker from "../map-marker.png";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibWVsc2lvIiwiYSI6ImNrdXF1ZnE3ZTFscTIzMXAxMXNrczJrdjAifQ.9nE1j10j1hd4EWXc6kGlRQ";
@@ -19,38 +22,12 @@ const Map = () => {
   const [zoom, setZoom] = useState(16.1);
   const history = useHistory();
 
+  const { currentOwner } = useContext(LoginContext);
+
   const BOUNDS = [
     [124.2389, 11.8762], // southwest coordinates
     [125.368, 12.9979], //northeast coordinates
   ];
-
-  const geojson = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [124.6652, 12.5111],
-        },
-        properties: {
-          title: "Boarding House",
-          description: "UEP Men's Dorm",
-        },
-      },
-      {
-        type: "Feature",
-        geometry: {
-          type: "Point",
-          coordinates: [124.665, 12.5109],
-        },
-        properties: {
-          title: "Boarding House",
-          description: "UEP Women's Dorm",
-        },
-      },
-    ],
-  };
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -69,24 +46,47 @@ const Map = () => {
       maxBounds: BOUNDS,
     });
 
-    geojson.features.forEach(function (marker) {
-      const el = document.createElement("div");
-      el.innerHTML = `<img src="https://img.icons8.com/color-glass/48/000000/apartment.png"/>`;
-      el.className = "marker";
+    const abortCont = new AbortController();
+    fetch(
+      `http://localhost:3500/api/boarding-houses/owner-map/map-marks/${currentOwner.id}`,
+      {
+        signal: abortCont.signal,
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Something went wrong!");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        data.features.forEach(function (marker) {
+          const el = document.createElement("div");
+          el.innerHTML = `<img src="${mapmarker}"/>`;
+          el.className = "marker";
 
-      new mapboxgl.Marker(el)
-        .setLngLat(marker.geometry.coordinates)
-        .setPopup(
-          new mapboxgl.Popup({
-            offset: 20,
-            closeButton: false,
-          })
-            .setHTML(`<h6>&#160; &#160;${marker.properties.title}&#160; &#160;</h6>
+          new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(
+              new mapboxgl.Popup({
+                offset: 20,
+                closeButton: false,
+              })
+                .setHTML(`<h6>&#160; &#160;${marker.properties.title}&#160; &#160;</h6>
             <h5>${marker.properties.description}</h5>
            `)
-        )
-        .addTo(map.current);
-    });
+            )
+            .addTo(map.current);
+        });
+      })
+      .catch((err) => {
+        if (err.name === "AbortError") {
+          console.log("fetch aborted");
+        } else {
+          console.log("ready");
+        }
+      });
 
     map.current.on("load", () => {
       // Insert the layer beneath any symbol layer.
@@ -108,7 +108,8 @@ const Map = () => {
           minzoom: 15,
           paint: {
             // 'fill-extrusion-color': '#aaa',
-            "fill-extrusion-color": "#ffd400",
+            // "fill-extrusion-color": "#ffd400",
+            "fill-extrusion-color": "#ffa726",
 
             // Use an 'interpolate' expression to
             // add a smooth transition effect to

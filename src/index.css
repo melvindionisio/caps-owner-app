@@ -9,45 +9,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  user-select: none;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-.swiper {
-  width: 100%;
-  height: 100%;
-}
-
-.swiper-slide {
-  /* text-align: center; */
-  font-size: 18px;
-  /* background: #fff; */
-
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* map */
 
 .marker {
   padding: 0.1rem;
@@ -70,7 +38,7 @@ code {
   border-radius: 50%;
   bottom: -10px;
   left: 1px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.4);
   filter: blur(5px);
   height: 0.8rem;
   width: 1.7rem;
@@ -80,12 +48,14 @@ code {
 .marker > * {
   height: 2rem;
   width: 2rem;
+  filter: brightness(1.2);
   pointer-events: none;
 }
 
 .mapboxgl-popup {
   max-width: 20rem;
   min-height: max-content;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.4));
 }
 
 .mapboxgl-popup > * {
@@ -105,14 +75,14 @@ code {
 }*/
 
 .mapboxgl-popup-content h6 {
-  background: #91c949;
+  background: rgb(17, 149, 201);
   color: #fff;
   margin: 0;
   display: block;
   padding: 3px 5px;
   border-radius: 4px;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 1rem;
   width: max-content;
   margin: 0 auto;
   margin-top: -10px;
@@ -123,11 +93,27 @@ code {
   display: block;
   padding: 10px;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
 }
 
 .mapboxgl-popup-content div {
   padding: 10px;
+}
+
+#visit-btn {
+  padding: 0.4rem 2rem;
+  margin-bottom: 0.5rem;
+  background-color: rgba(146, 201, 74, 1);
+  border: none;
+  outline: none;
+  border-radius: 0.2rem;
+  transition: 250ms ease;
+}
+#visit-btn:hover {
+  background-color: rgba(146, 201, 74, 0.75);
+}
+#visit-btn:active {
+  transform: scale(1.05);
 }
 
 .mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
