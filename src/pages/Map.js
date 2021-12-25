@@ -10,6 +10,8 @@ import {
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 import { blue } from "@mui/material/colors";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
@@ -63,7 +65,7 @@ const Map = () => {
       // style: "mapbox://styles/mapbox/light-v10?optimize=true",
       center: [lng, lat],
       zoom: zoom,
-      pitch: 30,
+      // pitch: 30,
       // bearing: -17.6,
       antialias: true,
       maxBounds: BOUNDS,
@@ -180,6 +182,7 @@ const Map = () => {
             closeButton: false,
           })
             .setHTML(`<h6>&#160; &#160;${marker.properties.title}&#160; &#160;</h6>
+            <p>My Boarding House</p>
         <h5>${marker.properties.description}</h5>
        `)
         )
@@ -198,7 +201,7 @@ const Map = () => {
 
   const setNewCoordinates = () => {
     setIsEditCoordinates(!isEditCoordinates);
-    // window.location.reload(false);
+    document.getElementsByClassName("marker")[0].remove();
 
     fetch(
       `http://localhost:3500/api/boarding-houses/owner-map/update-coordinates/${currentOwner.id}`,
@@ -244,6 +247,9 @@ const Map = () => {
               console.log("ready");
             }
           });
+        // setTimeout(() => {
+        //   window.location.reload(false);
+        // }, 350);
       });
   };
 
@@ -252,7 +258,7 @@ const Map = () => {
       if (showMessageAlert) {
         setShowMessageAlert(false);
       }
-    }, 5000);
+    }, 1000);
   }, [showMessageAlert]);
 
   return (
@@ -325,7 +331,7 @@ const Map = () => {
           >
             <ArrowBackIcon sx={{ color: blue[50] }} />
           </IconButton>
-          <Typography variant="caption">
+          <Typography variant="caption" sx={{ userSelect: "text" }}>
             Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
           </Typography>
         </Box>
@@ -339,7 +345,7 @@ const Map = () => {
             padding: ".6rem",
             zIndex: "100",
             position: "absolute",
-            bottom: ".5rem",
+            bottom: ".9rem",
             left: ".5rem",
             borderRadius: ".5rem",
             width: 280,
@@ -373,46 +379,74 @@ const Map = () => {
             />
           </Box>
           {isEditCoordinates ? (
-            <Button
-              variant="contained"
-              size="small"
-              fullWidth
-              color="secondary"
-              sx={{ mt: 1 }}
-              onClick={setNewCoordinates}
-            >
-              Save coordinates
-            </Button>
-          ) : (
-            <>
+            <Box sx={{ display: "flex", gap: 1 }}>
               <Button
-                variant="contained"
+                variant="text"
                 size="small"
                 fullWidth
-                color="secondary"
+                color="primary"
+                disabled
+                startIcon={<EditIcon />}
                 sx={{ mt: 1 }}
                 onClick={() => setIsEditCoordinates(!isEditCoordinates)}
               >
-                Edit Coordinates
+                edit
               </Button>
-              <Alert
-                severity={severity}
-                sx={
-                  showMessageAlert
-                    ? {
-                        display: "flex",
-                        mt: 2,
-                      }
-                    : {
-                        display: "none",
-                        mt: 2,
-                      }
-                }
+              <Button
+                variant="text"
+                size="small"
+                fullWidth
+                color="primary"
+                startIcon={<SaveIcon />}
+                sx={{ mt: 1 }}
+                onClick={setNewCoordinates}
               >
-                {alertMessage}
-              </Alert>
-            </>
+                Save
+              </Button>
+            </Box>
+          ) : (
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <Button
+                variant="text"
+                size="small"
+                fullWidth
+                color="secondary"
+                startIcon={<EditIcon />}
+                sx={{ mt: 1 }}
+                onClick={() => setIsEditCoordinates(!isEditCoordinates)}
+              >
+                edit
+              </Button>
+              <Button
+                variant="text"
+                size="small"
+                fullWidth
+                color="primary"
+                disabled
+                startIcon={<SaveIcon />}
+                sx={{ mt: 1 }}
+                onClick={setNewCoordinates}
+              >
+                Save
+              </Button>
+            </Box>
           )}
+          <Alert
+            severity={severity}
+            sx={
+              showMessageAlert
+                ? {
+                    display: "flex",
+                    mt: 2,
+                  }
+                : {
+                    display: "none",
+                    mt: 2,
+                  }
+            }
+          >
+            {alertMessage}
+          </Alert>
         </Box>
       </Slide>
     </Box>
