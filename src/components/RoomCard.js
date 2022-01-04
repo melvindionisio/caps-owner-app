@@ -13,12 +13,10 @@ import {
   Divider,
 } from "@mui/material";
 import { useState } from "react";
-import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
 
 const RoomCard = () => {
   const [isAvailable, setIsAvailable] = useState(true);
-  const [numBeds, setNumBeds] = useState(0);
   const handleAvailabilityChange = () => {
     setIsAvailable(!isAvailable);
     // This is where every change sends change to the database.
@@ -28,7 +26,6 @@ const RoomCard = () => {
       <CardHeader
         action={<IconButton aria-label=""></IconButton>}
         title="Room Name"
-        // subheader="Total: 6 Bed | Available: 6 Bed"
         sx={{ marginBottom: 0, paddingBottom: 1 }}
       />
       <Box sx={{ p: 1 }}>
@@ -51,54 +48,7 @@ const RoomCard = () => {
               <Divider />
             </Box>
           </Grid>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 1,
-                background: grey[100],
-                height: "100%",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-around",
-                }}
-              >
-                <IconButton
-                  aria-label=""
-                  onClick={() => setNumBeds(numBeds - 1)}
-                >
-                  <RemoveCircle />
-                </IconButton>
-                <Typography
-                  variant="body2"
-                  textAlign="center"
-                  color="text.secondary"
-                  sx={{ fontSize: 20 }}
-                >
-                  {numBeds}
-                </Typography>
-                <IconButton
-                  aria-label=""
-                  onClick={() => setNumBeds(numBeds + 1)}
-                >
-                  <AddCircle />
-                </IconButton>
-              </Box>
-
-              <Typography variant="body1" color="text.secondary">
-                Occupied Beds
-              </Typography>
-            </Box>
-          </Grid>
-
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Box
               sx={{
                 display: "flex",
@@ -113,8 +63,8 @@ const RoomCard = () => {
               <FormGroup>
                 <FormControlLabel
                   sx={{ color: "text.secondary" }}
-                  label={isAvailable ? "ON" : "OFF"}
-                  labelPlacement="bottom"
+                  label={isAvailable ? "ENABLED" : "DISABLED"}
+                  labelPlacement="left"
                   value="bottom"
                   control={
                     <Switch

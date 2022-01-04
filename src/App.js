@@ -13,7 +13,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AddRoom from "./pages/AddRoom";
 import Rooms from "./pages/Rooms";
-import Room from "./pages/Room";
+import RoomProfile from "./pages/RoomProfile";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
@@ -104,7 +104,7 @@ const App = () => {
                   <Rooms />
                 </Route>
                 <Route exact path="/my/rooms/:roomId">
-                  <Room />
+                  <RoomProfile />
                 </Route>
                 <Route path="/my/dashboard">
                   <Dashboard />
