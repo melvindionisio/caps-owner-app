@@ -364,16 +364,18 @@ const Map = () => {
             <TextField
               id="longitude"
               label="Longitude"
+              type="number"
               value={longitude}
-              onChangeCapture={(e) => setLongitude(parseFloat(e.target.value))}
+              onChange={(e) => setLongitude(e.target.value)}
               size="small"
               disabled={!isEditCoordinates}
             />
             <TextField
               id="latitude"
               label="Latitude"
+              type="number"
               value={latitude}
-              onChangeCapture={(e) => setLatitude(parseFloat(e.target.value))}
+              onChange={(e) => setLatitude(e.target.value)}
               size="small"
               disabled={!isEditCoordinates}
             />
