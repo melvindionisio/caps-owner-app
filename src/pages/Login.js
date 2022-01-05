@@ -67,7 +67,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        fetch("http://192.168.254.179:3500/api/owners/auth", {
+        fetch("http://localhost:3500/api/owners/auth", {
             method: "POST",
             body: JSON.stringify({
                 owner_username: userName,
