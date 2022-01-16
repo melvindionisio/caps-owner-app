@@ -17,6 +17,7 @@ import logo from "../sns-logo.png";
 import { pink } from "@mui/material/colors";
 import React, { useState, useEffect, useContext } from "react";
 import { LoginContext } from "../contexts/LoginContext";
+import { domain } from "../fetch-links/fetchlinks";
 
 const useStyles = makeStyles({
     sns_logo: {
@@ -67,7 +68,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        fetch("http://localhost:3500/api/owners/auth", {
+        fetch(`${domain}/api/owners/auth`, {
             method: "POST",
             body: JSON.stringify({
                 owner_username: userName,
