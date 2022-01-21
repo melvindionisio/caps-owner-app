@@ -14,9 +14,12 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { grey, blue } from "@mui/material/colors";
+import { useLocation, Link } from "react-router-dom";
 
 const RoomCard = ({ room }) => {
    const [isAvailable, setIsAvailable] = useState(true);
+   const currentLocation = useLocation();
+
    const handleAvailabilityChange = () => {
       setIsAvailable(!isAvailable);
       // This is where every change sends change to the database.
@@ -117,16 +120,21 @@ const RoomCard = ({ room }) => {
                   </Grid>
                </Grid>
             </Box>
-            <Button
-               disableElevation
-               fullWidth
-               variant="contained"
-               size="medium"
-               color="secondary"
-               sx={{ mt: 1, borderRadius: 0 }}
+            <Link
+               to={`${currentLocation.pathname}/${room.id}`}
+               style={{ textDecoration: "none" }}
             >
-               View Room
-            </Button>
+               <Button
+                  disableElevation
+                  fullWidth
+                  variant="contained"
+                  size="medium"
+                  color="secondary"
+                  sx={{ mt: 1, borderRadius: 0 }}
+               >
+                  View Room
+               </Button>
+            </Link>
          </Card>
       </Grid>
    );
