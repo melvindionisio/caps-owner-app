@@ -5,19 +5,21 @@ import {
    Slide,
    Grid,
    TextField,
-   Button,
    Card,
    CardContent,
 } from "@mui/material";
 import CustomInputPicture from "../components/CustomInputPicture";
 import Navbar from "../components/Navbar";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import React from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { LoginContext } from "../contexts/LoginContext";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const useStyles = makeStyles({
    gridContainer: {
@@ -28,10 +30,17 @@ const useStyles = makeStyles({
       marginBottom: "1rem",
    },
 });
+const Alert = React.forwardRef(function Alert(props, ref) {
+   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const AddRoom = () => {
    const classes = useStyles();
    const { currentOwner } = useContext(LoginContext);
    const [roomPicture, setRoomPicture] = useState(null);
+   const [imagePreview, setImagePreview] = useState(null);
+   const [imageName, setImageName] = useState();
+
    const [roomName, setRoomName] = useState("");
    const [roomDescription, setRoomDescription] = useState("");
    const [roomType, setRoomType] = useState("");
@@ -42,88 +51,120 @@ const AddRoom = () => {
    const [message, setMessage] = useState("");
    const [showMessage, setShowMessage] = useState(false);
    const [messageSeverity, setMessageSeverity] = useState("warning");
-   const formData = new FormData();
-
-   useEffect(() => {
-      formData.append("file", roomPicture);
-      console.log(formData, roomPicture);
-   }, [roomPicture, formData]);
+   const [isSavePending, setSaveIsPending] = useState(false);
 
    const handleRoomSave = async (e) => {
-      fetch(
-         `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`
-      )
-         .then((res) => res.json())
-         .then((data) => {
-            fetch(`http://localhost:3500/api/rooms/add/${data.id}`, {
-               method: "POST",
-               body: JSON.stringify({
-                  roomName: roomName,
-                  roomDescription: roomDescription,
-                  roomType: roomType,
-                  genderAllowed: genderCategory,
-                  totalSlots: totalSlots,
-                  occupiedSlots: occupiedSlots,
-               }),
-               headers: {
-                  "Content-Type": "application/json",
-               },
-            })
-               .then((res) => {
-                  return res.json();
-               })
-               .then((data) => {
-                  console.log(data.message, message, messageSeverity);
-                  setMessage(data.message);
-                  setShowMessage(true);
-                  setMessageSeverity("info");
+      e.preventDefault();
+      setSaveIsPending(true);
 
-                  setRoomName("");
-                  setRoomDescription("");
-                  setRoomPicture(null);
-                  setRoomType("");
-                  setGenderCategory("");
-                  setTotalSlots(0);
-                  setOccupiedSlots(0);
-               })
-               .catch((err) => {
-                  console.log(err);
-                  setMessage(err);
-                  setShowMessage(true);
-                  setMessageSeverity("error");
+      const formData = new FormData();
+      formData.append("room-image", roomPicture);
+
+      fetch(`http://localhost:3500/api/rooms/upload`, {
+         method: "POST",
+         body: formData,
+      })
+         .then((res) => {
+            return res.json();
+         })
+         .then((image) => {
+            console.log(image);
+            setImageName("Select Image");
+            fetch(
+               `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`
+            )
+               .then((res) => res.json())
+               .then((data) => {
+                  fetch(`http://localhost:3500/api/rooms/add/${data.id}`, {
+                     method: "POST",
+                     body: JSON.stringify({
+                        roomName: roomName,
+                        roomDescription: roomDescription,
+                        roomType: roomType,
+                        roomPicture: image.imagepath,
+                        genderAllowed: genderCategory,
+                        totalSlots: totalSlots,
+                        occupiedSlots: occupiedSlots,
+                     }),
+                     headers: {
+                        "Content-Type": "application/json",
+                     },
+                  })
+                     .then((res) => {
+                        return res.json();
+                     })
+                     .then((data) => {
+                        setMessage(data.message);
+                        setShowMessage(true);
+                        setMessageSeverity("success");
+
+                        setRoomName("");
+                        setRoomDescription("");
+                        setRoomPicture(null);
+                        setRoomType("");
+                        setGenderCategory("");
+                        setTotalSlots(0);
+                        setOccupiedSlots(0);
+                        setRoomPicture(null);
+
+                        setImageName("");
+                        setImagePreview(null);
+                        setSaveIsPending(false);
+                     })
+                     .catch((err) => {
+                        console.log(err);
+                        setMessage(err);
+                        setShowMessage(true);
+                        setMessageSeverity("error");
+                     });
                });
+         })
+         .catch((err) => {
+            console.log(err);
+            setMessage(err);
+            setShowMessage(true);
+            setMessageSeverity("error");
          });
    };
 
-   useEffect(() => {
-      if (showMessage) {
-         setTimeout(() => {
-            setShowMessage(false);
-         }, 350);
+   const handleClose = (event, reason) => {
+      if (reason === "clickaway") {
+         return;
       }
-   }, [showMessage]);
+
+      setShowMessage(false);
+   };
 
    return (
       <Slide in={true} direction="left">
          <Container disableGutters maxWidth="xl" sx={{ paddingBottom: 5 }}>
-            <form
-               action="http://localhost:3500/api/rooms/upload"
-               method="POST"
-               encType="multipart/form-data"
-               onSubmit={handleRoomSave}
+            <Snackbar
+               open={showMessage}
+               autoHideDuration={1500}
+               onClose={handleClose}
+               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             >
+               <Alert
+                  onClose={handleClose}
+                  severity={messageSeverity}
+                  sx={{ width: "100%" }}
+               >
+                  {message}
+               </Alert>
+            </Snackbar>
+            <form onSubmit={handleRoomSave}>
                <Navbar title="ADD ROOM">
-                  <Button
+                  <LoadingButton
                      variant="contained"
                      disableElevation
                      color="primary"
                      type="submit"
-                     //onClick={handleRoomSave}
+                     loading={isSavePending}
                      disabled={roomName ? false : true}
                      size="small"
                   >
                      Save
-                  </Button>
+                  </LoadingButton>
                </Navbar>
 
                <Container
@@ -133,7 +174,13 @@ const AddRoom = () => {
                >
                   <Grid container spacing={2} className={classes.gridContainer}>
                      <Grid item lg={5} sm={6} xs={12}>
-                        <CustomInputPicture setRoomPicture={setRoomPicture} />
+                        <CustomInputPicture
+                           imagePreview={imagePreview}
+                           setImagePreview={setImagePreview}
+                           imageName={imageName}
+                           setImageName={setImageName}
+                           setRoomPicture={setRoomPicture}
+                        />
                      </Grid>
 
                      <Grid item lg={7} sm={6} xs={12}>

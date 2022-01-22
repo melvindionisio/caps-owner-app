@@ -7,7 +7,6 @@ import {
    IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useState } from "react";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import React from "react";
 
@@ -43,9 +42,13 @@ const useStyles = makeStyles({
    },
 });
 
-const CustomInputPicture = ({ setRoomPicture }) => {
-   const [imagePreview, setImagePreview] = useState(null);
-   const [imageName, setImageName] = useState();
+const CustomInputPicture = ({
+   imagePreview,
+   setImagePreview,
+   imageName,
+   setImageName,
+   setRoomPicture,
+}) => {
    const classes = useStyles();
 
    const handleFilePick = (e) => {
@@ -140,7 +143,6 @@ const CustomInputPicture = ({ setRoomPicture }) => {
                id="file-picker"
                onChange={handleFilePick}
                hidden="hidden"
-               name="room-image"
                type="file"
                accept="image/*"
             />
