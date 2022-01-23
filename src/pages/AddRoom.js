@@ -20,6 +20,7 @@ import { LoginContext } from "../contexts/LoginContext";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { domain } from "../fetch-url/fetchUrl";
 
 const useStyles = makeStyles({
    gridContainer: {
@@ -60,7 +61,7 @@ const AddRoom = () => {
       const formData = new FormData();
       formData.append("room-image", roomPicture);
 
-      fetch(`http://localhost:3500/api/rooms/upload`, {
+      fetch(`${domain}/api/rooms/upload`, {
          method: "POST",
          body: formData,
       })
@@ -70,12 +71,10 @@ const AddRoom = () => {
          .then((image) => {
             console.log(image);
             setImageName("Select Image");
-            fetch(
-               `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`
-            )
+            fetch(`${domain}/api/boarding-houses/by-owner/${currentOwner.id}`)
                .then((res) => res.json())
                .then((data) => {
-                  fetch(`http://localhost:3500/api/rooms/add/${data.id}`, {
+                  fetch(`${domain}/api/rooms/add/${data.id}`, {
                      method: "POST",
                      body: JSON.stringify({
                         roomName: roomName,

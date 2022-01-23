@@ -13,6 +13,7 @@ import Modal from "@mui/material/Modal";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { domain } from "../fetch-url/fetchUrl";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -34,12 +35,12 @@ const Room = () => {
       data: room,
       isPending,
       error,
-   } = useFetch(`http://localhost:3500/api/rooms/${roomId}`);
+   } = useFetch(`${domain}/api/rooms/${roomId}`);
 
    const handleRoomDelete = (roomId, roomName) => {
       if (roomDeleteConfirm === roomName) {
          setDeleteIsPending(true);
-         fetch(`http://localhost:3500/api/rooms/delete/${roomId}`, {
+         fetch(`${domain}/api/rooms/delete/${roomId}`, {
             method: "DELETE",
          })
             .then((res) => res.json())

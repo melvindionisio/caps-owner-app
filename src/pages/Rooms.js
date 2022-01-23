@@ -8,6 +8,7 @@ import RoomCard from "../components/RoomCard";
 import { AddCircle } from "@mui/icons-material";
 import { LoginContext } from "../contexts/LoginContext";
 import LoadingState from "../components/LoadingState";
+import { domain } from "../fetch-url/fetchUrl";
 
 const Rooms = () => {
    const history = useHistory();
@@ -18,15 +19,14 @@ const Rooms = () => {
 
    useEffect(() => {
       const abortCont = new AbortController();
-      fetch(
-         `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`,
-         { signal: abortCont.signal }
-      )
+      fetch(`${domain}/api/boarding-houses/by-owner/${currentOwner.id}`, {
+         signal: abortCont.signal,
+      })
          .then((res) => {
             return res.json();
          })
          .then((boardinghouse) => {
-            fetch(`http://localhost:3500/api/rooms/all/${boardinghouse.id}`)
+            fetch(`${domain}/api/rooms/all/${boardinghouse.id}`)
                .then((res) => {
                   return res.json();
                })
