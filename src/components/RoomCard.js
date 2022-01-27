@@ -12,18 +12,61 @@ import {
    Button,
    Divider,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { grey, blue } from "@mui/material/colors";
 import { useLocation, Link } from "react-router-dom";
+import { domain } from "../fetch-url/fetchUrl";
 
 const RoomCard = ({ room }) => {
-   const [isAvailable, setIsAvailable] = useState(true);
    const currentLocation = useLocation();
+   const [isAvailable, setIsAvailable] = useState(false);
+   const [roomStatus, setRoomStatus] = useState("Available");
+   const [isSwitchPending, setIsSwitchPending] = useState(false);
 
    const handleAvailabilityChange = () => {
       setIsAvailable(!isAvailable);
-      // This is where every change sends change to the database.
+      if (roomStatus === "Available") {
+         setRoomStatus("Unavailable");
+      } else {
+         setRoomStatus("Available");
+      }
    };
+
+   useEffect(() => {
+      setIsSwitchPending(true);
+      if (roomStatus === "Available") {
+         fetch(`${domain}/api/rooms/enable/${room.id}`, {
+            method: "PUT",
+         })
+            .then((res) => res.json())
+            .then((data) => {
+               console.log(data.message);
+               setIsSwitchPending(false);
+            })
+            .catch((err) => console.log(err));
+      } else {
+         fetch(`${domain}/api/rooms/disable/${room.id}`, {
+            method: "PUT",
+         })
+            .then((res) => res.json())
+            .then((data) => {
+               console.log(data.message);
+               setIsSwitchPending(false);
+            })
+            .catch((err) => console.log(err));
+      }
+   }, [roomStatus, room]);
+
+   useEffect(() => {
+      if (room.status === "Available") {
+         setIsAvailable(true);
+         setRoomStatus("Available");
+      } else {
+         setIsAvailable(false);
+         setRoomStatus("Unavailable");
+      }
+   }, [room]);
+
    return (
       <Grid item lg={3} xs={12} md={4} sm={6}>
          <Card sx={{ borderRadius: 2 }}>
@@ -112,6 +155,7 @@ const RoomCard = ({ room }) => {
                                     color="secondary"
                                     checked={isAvailable}
                                     onChange={handleAvailabilityChange}
+                                    disabled={isSwitchPending}
                                  />
                               }
                            />
