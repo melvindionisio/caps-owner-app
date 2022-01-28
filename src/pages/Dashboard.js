@@ -18,6 +18,8 @@ Chart.register(ArcElement);
 const Dashboard = () => {
    const { currentOwner } = useContext(LoginContext);
    const [totalRooms, setTotalRooms] = useState(0);
+   const [totalAvailableRooms, setTotalAvailableRooms] = useState(0);
+
    const {
       data: boardinghouse,
       isPending: isBoardinghousePending,
@@ -52,17 +54,29 @@ const Dashboard = () => {
                setTotalRooms(data.total);
             })
             .catch((err) => console.log(err));
+
+         fetch(`${domain}/api/rooms/total-available/${boardinghouse.id}`)
+            .then((res) => res.json())
+            .then((data) => {
+               setTotalAvailableRooms(data.total);
+            });
       }
    }, [boardinghouse]);
 
+   //BUG HERE
+   //! the falsy value of available rooms e.g. 0 ruin the whole result
    useEffect(() => {
-      if (totalRooms) {
+      if (totalRooms && totalAvailableRooms) {
          setData({
             labels: ["Total Rooms", "Available Rooms", "Occupied Rooms"],
             datasets: [
                {
                   label: "My First Dataset",
-                  data: [totalRooms, 3, 2],
+                  data: [
+                     totalRooms,
+                     totalAvailableRooms,
+                     totalRooms - totalAvailableRooms,
+                  ],
                   backgroundColor: [
                      "rgb(255, 99, 132)",
                      "rgb(54, 162, 235)",
@@ -76,7 +90,7 @@ const Dashboard = () => {
             ],
          });
       }
-   }, [totalRooms]);
+   }, [totalRooms, totalAvailableRooms]);
 
    return (
       // <Slide in={true} direction="right">
@@ -156,7 +170,8 @@ const Dashboard = () => {
                                     >
                                        POPULARITY:{" "}
                                        {boardinghouse.popularity ??
-                                          notAvailable}
+                                          notAvailable}{" "}
+                                       stars
                                     </Typography>
                                  }
                               />
@@ -216,11 +231,16 @@ const Dashboard = () => {
                                  fontSize: "7rem",
                                  lineHeight: "8rem",
                               }}
+                              sx={{ color: "rgb(255, 99, 132)" }}
                               color="text.secondary"
                            >
                               {data.datasets[0].data[0]}
                            </Typography>
-                           <Typography variant="h6" color="text.secondary">
+                           <Typography
+                              variant="h6"
+                              sx={{ color: "rgb(255, 99, 132)" }}
+                              color="text.secondary"
+                           >
                               {data.labels[0]}
                            </Typography>
                         </Paper>
@@ -244,11 +264,20 @@ const Dashboard = () => {
                                  fontSize: "7rem",
                                  lineHeight: "8rem",
                               }}
+                              sx={{
+                                 color: "rgb(54, 162, 235)",
+                              }}
                               color="text.secondary"
                            >
                               {data.datasets[0].data[1]}
                            </Typography>
-                           <Typography variant="h6" color="text.secondary">
+                           <Typography
+                              variant="h6"
+                              color="text.secondary"
+                              sx={{
+                                 color: "rgb(54, 162, 235)",
+                              }}
+                           >
                               {data.labels[1]}
                            </Typography>
                         </Paper>
@@ -273,10 +302,19 @@ const Dashboard = () => {
                                  lineHeight: "8rem",
                               }}
                               color="text.secondary"
+                              sx={{
+                                 color: "rgb(255, 205, 86)",
+                              }}
                            >
                               {data.datasets[0].data[2]}
                            </Typography>
-                           <Typography variant="h6" color="text.secondary">
+                           <Typography
+                              variant="h6"
+                              color="text.secondary"
+                              sx={{
+                                 color: "rgb(255, 205, 86)",
+                              }}
+                           >
                               {data.labels[2]}
                            </Typography>
                         </Paper>
@@ -284,9 +322,6 @@ const Dashboard = () => {
                   </Grid>
                </Slide>
             </Box>
-            how many rooms, rooms Available, Rooms not available, Boarding house
-            stars and name
-            {/* <Map /> */}
          </Container>
       </Container>
       //</Slide>

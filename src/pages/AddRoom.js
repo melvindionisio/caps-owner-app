@@ -45,7 +45,7 @@ const AddRoom = () => {
    const [roomName, setRoomName] = useState("");
    const [roomDescription, setRoomDescription] = useState("");
    const [roomType, setRoomType] = useState("");
-   const [genderCategory, setGenderCategory] = useState("");
+   const [genderAllowed, setGenderAllowed] = useState("All");
    const [totalSlots, setTotalSlots] = useState(0);
    const [occupiedSlots, setOccupiedSlots] = useState(0);
 
@@ -81,7 +81,8 @@ const AddRoom = () => {
                         roomDescription: roomDescription,
                         roomType: roomType,
                         roomPicture: image.imagepath,
-                        genderAllowed: genderCategory,
+                        roomStatus: "Available",
+                        genderAllowed: genderAllowed,
                         totalSlots: totalSlots,
                         occupiedSlots: occupiedSlots,
                      }),
@@ -101,7 +102,7 @@ const AddRoom = () => {
                         setRoomDescription("");
                         setRoomPicture(null);
                         setRoomType("");
-                        setGenderCategory("");
+                        setGenderAllowed("All");
                         setTotalSlots(0);
                         setOccupiedSlots(0);
                         setRoomPicture(null);
@@ -257,10 +258,10 @@ const AddRoom = () => {
                                     <Select
                                        labelId="gender-category"
                                        id="gender-cat"
-                                       value={genderCategory}
+                                       value={genderAllowed}
                                        label="Gender Category"
                                        onChange={(e) =>
-                                          setGenderCategory(e.target.value)
+                                          setGenderAllowed(e.target.value)
                                        }
                                     >
                                        <MenuItem value={"Male"}>

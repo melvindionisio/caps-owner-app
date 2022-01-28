@@ -8,6 +8,12 @@ import {
    Typography,
    TextField,
    Grid,
+   FormControl,
+   InputLabel,
+   Select,
+   CardContent,
+   MenuItem,
+   CardActions,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Navbar from "../components/Navbar";
@@ -22,6 +28,7 @@ import Modal from "@mui/material/Modal";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
+import CustomInputPicture from "../components/CustomInputPicture";
 import { domain } from "../fetch-url/fetchUrl";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -41,9 +48,21 @@ const Room = () => {
    const [deleteIsPending, setDeleteIsPending] = useState(false);
 
    const [isEditable, setIsEditable] = useState(!false);
+   const [isPictureEditable, setIsPictureEditable] = useState(false);
+
+   const [isRoomSavePending, setIsRoomSavePending] = useState(false);
+   const [savePictureIsPending, setSavePictureIsPending] = useState(false);
+
    const [roomDescription, setRoomDescription] = useState("");
    const [totalSlots, setTotalSlots] = useState(0);
    const [occupiedSlots, setOccupiedSlots] = useState(0);
+
+   const [roomName, setRoomName] = useState("");
+   const [roomType, setRoomType] = useState("");
+   const [genderAllowed, setGenderAllowed] = useState("All");
+   const [roomPicture, setRoomPicture] = useState(null);
+   const [imagePreview, setImagePreview] = useState(null);
+   const [imageName, setImageName] = useState();
 
    const {
       data: room,
@@ -51,86 +70,112 @@ const Room = () => {
       error,
    } = useFetch(`${domain}/api/rooms/${roomId}`);
 
-   const handleSaveEdits = async (e) => {
+   const handleSaveEdits = (e) => {
       e.preventDefault();
-      fetch(`${domain}/api/rooms/update/${roomId}`)
+      setIsRoomSavePending(true);
+      fetch(`${domain}/api/rooms/update/${roomId}`, {
+         method: "PUT",
+         body: JSON.stringify({
+            roomName: roomName,
+            roomDescription: roomDescription,
+            roomType: roomType,
+            roomStatus: "Available",
+            genderAllowed: genderAllowed,
+            totalSlots: totalSlots,
+            occupiedSlots: occupiedSlots,
+         }),
+         headers: {
+            "Content-Type": "application/json",
+         },
+      })
          .then((res) => res.json())
          .then((data) => {
             console.log(data.message);
-         });
+            setIsEditable(!isEditable);
+            setIsRoomSavePending(false);
 
-      //setSaveIsPending(true);
-
-      //const formData = new FormData();
-      //formData.append("room-image", roomPicture);
-
-      //fetch(`${domain}/api/rooms/upload`, {
-      //method: "PUT",
-      //body: formData,
-      //})
-      //.then((res) => {
-      //return res.json();
-      //})
-      //.then((image) => {
-      //console.log(image);
-      //setImageName("Select Image");
-      //fetch(`${domain}/api/boarding-houses/by-owner/${currentOwner.id}`)
-      //.then((res) => res.json())
-      //.then((data) => {
-      //fetch(`${domain}/api/rooms/add/${data.id}`, {
-      //method: "POST",
-      //body: JSON.stringify({
-      //roomName: roomName,
-      //roomDescription: roomDescription,
-      //roomType: roomType,
-      //roomPicture: image.imagepath,
-      //genderAllowed: genderCategory,
-      //totalSlots: totalSlots,
-      //occupiedSlots: occupiedSlots,
-      //}),
-      //headers: {
-      //"Content-Type": "application/json",
-      //},
-      //})
-      //.then((res) => {
-      //return res.json();
-      //})
-      //.then((data) => {
-      //setMessage(data.message);
-      //setShowMessage(true);
-      //setMessageSeverity("success");
-
-      //setRoomName("");
-      //setRoomDescription("");
-      //setRoomPicture(null);
-      //setRoomType("");
-      //setGenderCategory("");
-      //setTotalSlots(0);
-      //setOccupiedSlots(0);
-      //setRoomPicture(null);
-
-      //setImageName("");
-      //setImagePreview(null);
-      //setSaveIsPending(false);
-      //})
-      //.catch((err) => {
-      //console.log(err);
-      //setMessage(err);
-      //setShowMessage(true);
-      //setMessageSeverity("error");
-      //});
-      //});
-      //})
-      //.catch((err) => {
-      //console.log(err);
-      //setMessage(err);
-      //setShowMessage(true);
-      //setMessageSeverity("error");
-      //});
+            setMessage(data.message);
+            setMessageSeverity("success");
+            setShowMessage(true);
+            setDeleteIsPending(false);
+            setIsModalOpen(false);
+         })
+         .catch((err) => console.log(err));
    };
 
    const handleCancelEdits = () => {
       setIsEditable(!isEditable);
+      setImagePreview(null);
+      setRoomPicture(null);
+      setImageName("");
+   };
+
+   const handleSavePicture = () => {
+      // WHAT WILL hAPPEN?
+      //upload new picture and get the new link
+      //delete the old picture from file system
+      //update new link in the room picture datbase
+
+      setSavePictureIsPending(true);
+      const formData = new FormData();
+      formData.append("room-image", roomPicture);
+
+      fetch(`${domain}/api/rooms/delete-picture/${roomId}`)
+         .then((res) => res.json())
+         .then((data) => {
+            console.log(data.message);
+
+            fetch(`${domain}/api/rooms/upload`, {
+               method: "POST",
+               body: formData,
+            })
+               .then((res) => {
+                  return res.json();
+               })
+               .then((newImage) => {
+                  console.log(newImage);
+                  //setRoomPicture(newImage.imagepath);
+
+                  fetch(`${domain}/api/rooms/update-room-picture/${roomId}`, {
+                     method: "PUT",
+                     body: JSON.stringify({
+                        newImageLink: newImage.imagepath,
+                     }),
+                     headers: {
+                        "Content-Type": "application/json",
+                     },
+                  })
+                     .then((res) => {
+                        return res.json();
+                     })
+                     .then((data) => {
+                        setIsPictureEditable(false);
+                        setSavePictureIsPending(false);
+                        setImagePreview(null);
+                        setRoomName("");
+
+                        setMessage(data.message);
+                        setMessageSeverity("success");
+                        setShowMessage(true);
+                        setDeleteIsPending(false);
+                        setIsModalOpen(false);
+
+                        setTimeout(() => {
+                           window.location.reload(false);
+                        }, 1000);
+                     })
+                     .catch((err) => console.log(err));
+               })
+               .catch((err) => console.log(err));
+         })
+
+         .catch((err) => console.log(err));
+   };
+   const handleCancelUpdatePicture = () => {
+      setIsPictureEditable(false);
+      setRoomPicture(null);
+      setImagePreview(null);
+      setImageName("");
    };
 
    const handleRoomDelete = (roomId, roomName) => {
@@ -171,9 +216,13 @@ const Room = () => {
 
    useEffect(() => {
       if (room) {
+         setRoomName(room.name);
          setRoomDescription(room.description);
          setTotalSlots(room.totalSlots);
          setOccupiedSlots(room.occupiedSlots);
+         setRoomType(room.type);
+         setGenderAllowed(room.genderAllowed);
+         setRoomPicture(room.picture);
       }
    }, [room]);
 
@@ -268,113 +317,261 @@ const Room = () => {
                      maxWidth="md"
                      sx={{ padding: 2, paddingTop: 3, paddingBottom: 5 }}
                   >
-                     <Box
-                        sx={{
-                           display: "flex",
-                           justifyContent: "flex-end",
-                           marginBottom: 2,
-                           gap: 1,
-                        }}
-                     >
-                        {isEditable ? (
-                           <Button
-                              variant="contained"
-                              size="small"
-                              onClick={() => setIsEditable(!isEditable)}
-                           >
-                              edit
-                           </Button>
-                        ) : (
-                           <>
-                              <Button
-                                 variant="contained"
-                                 size="small"
-                                 color="secondary"
-                                 onClick={handleCancelEdits}
-                              >
-                                 cancel
-                              </Button>
-                              <Button
-                                 variant="contained"
-                                 size="small"
-                                 color="primary"
-                                 onClick={handleSaveEdits}
-                              >
-                                 Save
-                              </Button>
-                           </>
-                        )}
-                     </Box>
-
                      <Grid container spacing={2}>
-                        <Grid item xs={12} md={5}>
-                           <Card>
-                              <CardMedia
-                                 height="250"
-                                 component="img"
-                                 alt="room-image"
-                                 image={room.picture}
-                              />
-                           </Card>
-                        </Grid>
-
-                        <Grid item xs={12} md={7}>
-                           <Box
-                              sx={{
-                                 display: "flex",
-                                 flexDirection: "column",
-                                 gap: 2,
-                              }}
-                           >
-                              <TextField
-                                 variant="outlined"
-                                 size="small"
-                                 fullWidth
-                                 multiline
-                                 rows="5"
-                                 label="Room Description"
-                                 value={roomDescription}
-                                 disabled={isEditable}
-                                 onChange={(e) =>
-                                    setRoomDescription(e.target.value)
-                                 }
-                              />
-                              <Box sx={{ display: "flex", gap: 1 }}>
-                                 <TextField
-                                    variant="outlined"
+                        {isPictureEditable ? (
+                           <Grid item lg={5} sm={6} xs={12}>
+                              <Box
+                                 sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    padding: 0,
+                                    marginBottom: 2,
+                                    gap: 1,
+                                 }}
+                              >
+                                 <Button
+                                    variant="contained"
+                                    onClick={handleCancelUpdatePicture}
                                     size="small"
-                                    fullWidth
-                                    label="Total Slots"
-                                    value={totalSlots}
-                                    disabled={isEditable}
-                                    onChange={(e) =>
-                                       setTotalSlots(e.target.value)
-                                    }
-                                 />
-                                 <TextField
-                                    variant="outlined"
+                                    disableElevation
+                                    color="secondary"
+                                 >
+                                    cancel
+                                 </Button>
+                                 <LoadingButton
+                                    variant="contained"
+                                    onClick={handleSavePicture}
                                     size="small"
-                                    fullWidth
-                                    label="Occupied Slots"
-                                    value={occupiedSlots}
-                                    disabled={isEditable}
-                                    onChange={(e) =>
-                                       setOccupiedSlots(e.target.value)
-                                    }
-                                 />
-                                 <TextField
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    label="Available Slots"
-                                    value={totalSlots - occupiedSlots}
-                                    disabled
-                                    onChange={(e) =>
-                                       setTotalSlots(e.target.value)
-                                    }
-                                 />
+                                    disableElevation
+                                    loading={savePictureIsPending}
+                                 >
+                                    Save
+                                 </LoadingButton>
                               </Box>
-                           </Box>
+                              <CustomInputPicture
+                                 imagePreview={imagePreview}
+                                 setImagePreview={setImagePreview}
+                                 imageName={imageName}
+                                 setImageName={setImageName}
+                                 setRoomPicture={setRoomPicture}
+                              />
+                           </Grid>
+                        ) : (
+                           <Grid item xs={12} md={5}>
+                              <CardActions
+                                 sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    padding: 0,
+                                    marginBottom: 2,
+                                 }}
+                              >
+                                 <Button
+                                    variant="contained"
+                                    onClick={() => setIsPictureEditable(true)}
+                                    size="small"
+                                    disableElevation
+                                 >
+                                    Edit
+                                 </Button>
+                              </CardActions>
+                              <Card>
+                                 <CardMedia
+                                    height="250"
+                                    component="img"
+                                    alt="room-image"
+                                    image={room.picture}
+                                 />
+                              </Card>
+                           </Grid>
+                        )}
+
+                        <Grid item lg={7} sm={6} xs={12}>
+                           <>
+                              <Box
+                                 sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    marginBottom: 2,
+                                    gap: 1,
+                                 }}
+                              >
+                                 {isEditable ? (
+                                    <Button
+                                       variant="contained"
+                                       size="small"
+                                       onClick={() =>
+                                          setIsEditable(!isEditable)
+                                       }
+                                       disableElevation
+                                    >
+                                       edit
+                                    </Button>
+                                 ) : (
+                                    <>
+                                       <Button
+                                          variant="contained"
+                                          size="small"
+                                          color="secondary"
+                                          onClick={handleCancelEdits}
+                                          disableElevation
+                                       >
+                                          cancel
+                                       </Button>
+                                       <LoadingButton
+                                          variant="contained"
+                                          size="small"
+                                          color="primary"
+                                          onClick={handleSaveEdits}
+                                          loading={isRoomSavePending}
+                                       >
+                                          Save
+                                       </LoadingButton>
+                                    </>
+                                 )}
+                              </Box>
+                              <Card>
+                                 <CardContent>
+                                    <TextField
+                                       label="Room Name"
+                                       fullWidth
+                                       size="small"
+                                       variant="outlined"
+                                       color="primary"
+                                       value={roomName}
+                                       autoFocus
+                                       required
+                                       margin="dense"
+                                       sx={{ background: "#fff" }}
+                                       onChange={(e) =>
+                                          setRoomName(e.target.value)
+                                       }
+                                       disabled={isEditable}
+                                    />
+                                    <TextField
+                                       label="Room Description"
+                                       fullWidth
+                                       size="small"
+                                       rows={6}
+                                       multiline
+                                       variant="outlined"
+                                       color="primary"
+                                       value={roomDescription}
+                                       margin="dense"
+                                       sx={{ background: "#fff" }}
+                                       onChange={(e) =>
+                                          setRoomDescription(e.target.value)
+                                       }
+                                       disabled={isEditable}
+                                    />
+                                    <Box
+                                       sx={{
+                                          display: "flex",
+                                          gap: 1,
+                                          my: 2,
+                                       }}
+                                    >
+                                       <TextField
+                                          variant="outlined"
+                                          size="small"
+                                          fullWidth
+                                          label="Total Slots"
+                                          value={totalSlots}
+                                          disabled={isEditable}
+                                          onChange={(e) =>
+                                             setTotalSlots(e.target.value)
+                                          }
+                                       />
+                                       <TextField
+                                          variant="outlined"
+                                          size="small"
+                                          fullWidth
+                                          label="Occupied Slots"
+                                          value={occupiedSlots}
+                                          disabled={isEditable}
+                                          onChange={(e) =>
+                                             setOccupiedSlots(e.target.value)
+                                          }
+                                       />
+                                       <TextField
+                                          variant="outlined"
+                                          size="small"
+                                          fullWidth
+                                          label="Available Slots"
+                                          value={totalSlots - occupiedSlots}
+                                          disabled
+                                          onChange={(e) =>
+                                             setTotalSlots(e.target.value)
+                                          }
+                                       />
+                                    </Box>
+                                    <Box
+                                       sx={{
+                                          display: "flex",
+                                          gap: 1,
+                                          marginTop: 1,
+                                       }}
+                                    >
+                                       <FormControl fullWidth size="small">
+                                          <InputLabel id="room-type-label">
+                                             Room Type
+                                          </InputLabel>
+                                          <Select
+                                             labelId="room-type"
+                                             id="room-type"
+                                             value={roomType}
+                                             label="Room Type"
+                                             onChange={(e) =>
+                                                setRoomType(e.target.value)
+                                             }
+                                             disabled={isEditable}
+                                          >
+                                             <MenuItem value={"Studio"}>
+                                                Studio Type
+                                             </MenuItem>
+                                             <MenuItem value={"6-person-room"}>
+                                                6 Person-room
+                                             </MenuItem>
+                                             <MenuItem value={"4-person-room"}>
+                                                4 Person-room
+                                             </MenuItem>
+                                             <MenuItem value={"2-person-room"}>
+                                                2 Person-room
+                                             </MenuItem>
+                                             <MenuItem value={"single"}>
+                                                Single
+                                             </MenuItem>
+                                          </Select>
+                                       </FormControl>
+                                       <FormControl fullWidth size="small">
+                                          <InputLabel id="gender-cat-label">
+                                             Gender Allowed
+                                          </InputLabel>
+                                          <Select
+                                             labelId="gender-category"
+                                             id="gender-cat"
+                                             value={genderAllowed}
+                                             label="Gender Category"
+                                             onChange={(e) =>
+                                                setGenderAllowed(e.target.value)
+                                             }
+                                             disabled={isEditable}
+                                          >
+                                             <MenuItem value={"Male"}>
+                                                Male Only
+                                             </MenuItem>
+                                             <MenuItem value={"Female"}>
+                                                Female Only
+                                             </MenuItem>
+                                             <MenuItem value={"All"}>
+                                                All
+                                             </MenuItem>
+                                          </Select>
+                                       </FormControl>
+                                    </Box>
+                                 </CardContent>
+                              </Card>
+                           </>
                         </Grid>
                      </Grid>
                   </Container>
