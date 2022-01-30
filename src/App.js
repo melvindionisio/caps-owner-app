@@ -18,6 +18,7 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Map from "./pages/Map";
+import BoardinghouseEdit from "./pages/BoardinghouseEdit";
 
 import LoginContextProvider from "./contexts/LoginContext";
 
@@ -100,6 +101,10 @@ const App = () => {
                         </Route>
                         <Route exact path="/my/boarding-house">
                            <Home />
+                        </Route>
+
+                        <Route exact path="/my/boarding-house/edit">
+                           <BoardinghouseEdit />
                         </Route>
                         <Route path="/my/add-room">
                            <AddRoom />

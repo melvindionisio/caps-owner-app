@@ -1,28 +1,26 @@
 import React from "react";
-import {
-   Container,
-   Card,
-   CardHeader,
-   CardContent,
-   Typography,
-   IconButton,
-   Box,
-   Button,
-   Grid,
-} from "@mui/material";
+import { Container, Typography, Box, Tooltip, Zoom } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import EditIcon from "@mui/icons-material/Edit";
-import { useHistory } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 
-import SubCategory from "../components/SubCategory";
 import NavbarDrawer from "../components/NavbarDrawer";
 import AccountMenu from "../components/AccountMenu";
 import LoadingState from "../components/LoadingState";
 
 import useFetch from "../hooks/useFetch";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { LoginContext } from "../contexts/LoginContext";
+
+import PropTypes from "prop-types";
+import SwipeableViews from "react-swipeable-views";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { useTheme } from "@mui/styles";
+import About from "../components/SwipablePages/About";
+import Reviews from "../components/SwipablePages/Reviews";
+
+import InfoIcon from "@mui/icons-material/Info";
+import ReviewsIcon from "@mui/icons-material/Reviews";
 
 const useStyles = makeStyles({
    scrollContainer: {
@@ -64,9 +62,36 @@ const useStyles = makeStyles({
    },
 });
 
+function TabPanel(props) {
+   const { children, value, index, ...other } = props;
+   return (
+      <div
+         role="tabpanel"
+         hidden={value !== index}
+         id={`full-width-tabpanel-${index}`}
+         aria-labelledby={`full-width-tab-${index}`}
+         {...other}
+      >
+         {value === index && <Box>{children}</Box>}
+      </div>
+   );
+}
+
+TabPanel.propTypes = {
+   children: PropTypes.node,
+   index: PropTypes.any.isRequired,
+   value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+   return {
+      id: `full-width-tab-${index}`,
+      "aria-controls": `full-width-tabpanel-${index}`,
+   };
+}
+
 const Home = () => {
    const classes = useStyles();
-   const history = useHistory();
    const { currentOwner } = useContext(LoginContext);
    const {
       data: myBoardinghouse,
@@ -75,6 +100,51 @@ const Home = () => {
    } = useFetch(
       `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`
    );
+   const theme = useTheme();
+   const [value, setValue] = useState(0);
+
+   const handleChange = (event, newValue) => {
+      setValue(newValue);
+   };
+
+   const handleChangeIndex = (index) => {
+      setValue(index);
+   };
+
+   function NavigationTabs() {
+      return (
+         <Tabs
+            sx={{
+               borderBottom: "1px solid rgba(0,0,0,0.2)",
+               "& .MuiTabs-indicator": {
+                  height: 4,
+                  borderRadius: "1.5rem 1.5rem 0 0 ",
+               },
+            }}
+            value={value}
+            onChange={handleChange}
+            indicatorColor="secondary"
+            textColor="secondary"
+            variant="fullWidth"
+            aria-label="full width tabs"
+         >
+            <Tooltip
+               title="About Boarding House"
+               TransitionComponent={Zoom}
+               enterDelay={1000}
+            >
+               <Tab icon={<InfoIcon />} {...a11yProps(0)} />
+            </Tooltip>
+            <Tooltip
+               title="Reviews"
+               TransitionComponent={Zoom}
+               enterDelay={1000}
+            >
+               <Tab icon={<ReviewsIcon />} {...a11yProps(1)} />
+            </Tooltip>
+         </Tabs>
+      );
+   }
 
    return (
       // <Slide in={true} direction="right">
@@ -83,6 +153,8 @@ const Home = () => {
          <NavbarDrawer title="My Boarding House">
             <AccountMenu />
          </NavbarDrawer>
+
+         <NavigationTabs />
          {error && (
             <Typography variant="body1" textAlign="center" color="initial">
                {error}
@@ -90,79 +162,19 @@ const Home = () => {
          )}
          {isPending && <LoadingState />}
          {myBoardinghouse && (
-            <Container maxWidth="lg" className={classes.scrollContainer}>
-               <Card variant="outlined">
-                  <CardHeader
-                     title={
-                        <Typography variant="h6" component="span">
-                           {myBoardinghouse.bh_name}
-                        </Typography>
-                     }
-                     action={
-                        <IconButton>
-                           <EditIcon fontSize="small" />
-                        </IconButton>
-                     }
-                     subheader={
-                        <Typography variant="body2" component="p">
-                           Boarding house desciption.
-                        </Typography>
-                     }
-                  />
-               </Card>
+            <SwipeableViews
+               axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+               index={value}
+               onChangeIndex={handleChangeIndex}
+            >
+               <TabPanel value={value} index={0} dir={theme.direction}>
+                  <About boardinghouse={myBoardinghouse} />
+               </TabPanel>
 
-               <Grid
-                  container
-                  spacing={1}
-                  className={classes.informationContainer}
-               >
-                  <Grid item xs={12}>
-                     <SubCategory title="Boarding House Information" />
-                  </Grid>
-
-                  <Grid item xs={6}>
-                     <Card variant="outlined">
-                        <CardContent>
-                           <Typography variant="subtitle1">Details</Typography>
-                        </CardContent>
-                     </Card>
-                  </Grid>
-                  <Grid item xs={6}>
-                     <Card variant="outlined">
-                        <CardContent>
-                           <Typography variant="body1">Details</Typography>
-                        </CardContent>
-                     </Card>
-                  </Grid>
-                  <Grid item xs={6}>
-                     <Card variant="outlined">
-                        <CardContent>
-                           <Typography variant="body1">Details</Typography>
-                        </CardContent>
-                     </Card>
-                  </Grid>
-               </Grid>
-               <Box className={classes.roomButtonsContainer}>
-                  <Button
-                     onClick={() => history.push("/my/add-room")}
-                     variant="outlined"
-                     color="primary"
-                     className={classes.roomButtons}
-                     size="small"
-                  >
-                     Add Room
-                  </Button>
-                  <Button
-                     onClick={() => history.push("/my/rooms")}
-                     variant="outlined"
-                     color="primary"
-                     className={classes.roomButtons}
-                     size="small"
-                  >
-                     View All Rooms
-                  </Button>
-               </Box>
-            </Container>
+               <TabPanel value={value} index={1} dir={theme.direction}>
+                  <Reviews />
+               </TabPanel>
+            </SwipeableViews>
          )}
       </Container>
       // </Slide>
