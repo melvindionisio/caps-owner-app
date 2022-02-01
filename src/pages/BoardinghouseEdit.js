@@ -24,6 +24,13 @@ import { LoginContext } from "../contexts/LoginContext";
 import { useHistory } from "react-router-dom";
 import { domain } from "../fetch-url/fetchUrl";
 
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const Home = () => {
    const { currentOwner } = useContext(LoginContext);
    const history = useHistory();
@@ -34,6 +41,18 @@ const Home = () => {
    } = useFetch(
       `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`
    );
+
+   const [message, setMessage] = useState("");
+   const [showMessage, setShowMessage] = useState(false);
+   const [messageSeverity, setMessageSeverity] = useState("warning");
+
+   const handleClose = (event, reason) => {
+      if (reason === "clickaway") {
+         return;
+      }
+      setShowMessage(false);
+   };
+
    const [name, setName] = useState("");
    const [owner, setOwner] = useState("");
    const [completeAddress, setCompleteAddress] = useState("");
@@ -53,7 +72,6 @@ const Home = () => {
 
    useEffect(() => {
       if (myBoardinghouse) {
-         console.log(myBoardinghouse);
          setName(myBoardinghouse.name);
          setOwner(myBoardinghouse.owner);
          setCompleteAddress(myBoardinghouse.completeAddress);
@@ -71,13 +89,17 @@ const Home = () => {
       }
    }, [myBoardinghouse]);
 
+   useEffect(() => {
+      console.log("Address Changed");
+      setCompleteAddress(`${streetAddress} - ${zoneAddress}, UEP`);
+   }, [zoneAddress, streetAddress]);
+
    const handleUpdateBoardinghouse = () => {
       console.log("Boardinghouse updated");
       setIsSavePending(true);
       fetch(`${domain}/api/boarding-houses/by-owner/${currentOwner.id}`)
          .then((res) => res.json())
          .then((boardinghouse) => {
-            console.log(boardinghouse);
             fetch(`${domain}/api/boarding-houses/update/${boardinghouse.id}`, {
                method: "PUT",
                body: JSON.stringify({
@@ -102,8 +124,14 @@ const Home = () => {
             })
                .then((res) => res.json())
                .then((data) => {
-                  console.log(data.message);
                   setIsSavePending(false);
+                  setTimeout(() => {
+                     history.goBack();
+                  }, 1500);
+
+                  setMessage(data.message);
+                  setMessageSeverity("success");
+                  setShowMessage(true);
                })
                .catch((err) => console.log(err));
          })
@@ -115,6 +143,23 @@ const Home = () => {
          <NavbarDrawer title="My Boarding House">
             <AccountMenu />
          </NavbarDrawer>
+         <Snackbar
+            open={showMessage}
+            autoHideDuration={1500}
+            onClose={handleClose}
+            anchorOrigin={{
+               vertical: "bottom",
+               horizontal: "right",
+            }}
+         >
+            <Alert
+               onClose={handleClose}
+               severity={messageSeverity}
+               sx={{ width: "100%" }}
+            >
+               {message}
+            </Alert>
+         </Snackbar>
 
          {error && (
             <Typography variant="body1" textAlign="center" color="initial">
@@ -177,6 +222,7 @@ const Home = () => {
                         size="small"
                         fullWidth
                         value={owner}
+                        disabled
                         onChange={(e) => setOwner(e.target.value)}
                      />
                      <TextField
@@ -262,9 +308,6 @@ const Home = () => {
                            value={streetAddress}
                            onChange={(e) => {
                               setStreetAddress(e.target.value);
-                              setCompleteAddress(
-                                 `${e.target.value} - ${zoneAddress}, UEP`
-                              );
                            }}
                         />
                         <FormControl sx={{ width: 200, mt: ".3rem" }}>
@@ -279,9 +322,6 @@ const Home = () => {
                               label="Zone Address"
                               onChange={(e) => {
                                  setZoneAddress(e.target.value);
-                                 setCompleteAddress(
-                                    `${streetAddress} - ${zoneAddress}, UEP`
-                                 );
                               }}
                            >
                               <MenuItem value={"Zone 1"}>Zone 1, UEP</MenuItem>

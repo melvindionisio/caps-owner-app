@@ -40,7 +40,6 @@ const RoomCard = ({ room }) => {
          })
             .then((res) => res.json())
             .then((data) => {
-               console.log(data.message);
                setIsSwitchPending(false);
             })
             .catch((err) => console.log(err));
@@ -50,7 +49,6 @@ const RoomCard = ({ room }) => {
          })
             .then((res) => res.json())
             .then((data) => {
-               console.log(data.message);
                setIsSwitchPending(false);
             })
             .catch((err) => console.log(err));

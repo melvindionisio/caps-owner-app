@@ -21,8 +21,9 @@ import PersonPinIcon from "@mui/icons-material/PersonPin";
 import EditIcon from "@mui/icons-material/Edit";
 import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
 import { Link as Nlink } from "@mui/material";
-//import { domain } from "../../fetch-url/fetchUrl";
+import { domain } from "../../fetch-url/fetchUrl";
 import { useHistory } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 const useStyles = makeStyles({
    avatar: {
@@ -92,7 +93,9 @@ const InfoItem = ({ icon, primaryText, secondaryText }) => {
 const About = ({ boardinghouse }) => {
    const classes = useStyles();
    const history = useHistory();
-
+   const { data: totalRoom } = useFetch(
+      `${domain}/api/rooms/total/${boardinghouse.id}`
+   );
    return (
       <Box
          sx={{
@@ -221,18 +224,28 @@ const About = ({ boardinghouse }) => {
                   secondaryText={"Coordinates"}
                />
             </DetailsCard>
-
-            <DetailsCard title="House Protocols">Do's and Dont's</DetailsCard>
-            <DetailsCard title="We Offer">Offers</DetailsCard>
             <DetailsCard title="Gender/s Allowed">
                <InfoItem
                   icon={<LocationOnIcon />}
                   primaryText={boardinghouse.genderAllowed}
                />
             </DetailsCard>
-            <DetailsCard title="Water source">Bombahan</DetailsCard>
-            <DetailsCard title="Price Range">Price</DetailsCard>
-            <DetailsCard title="Total Rooms">n Rooms</DetailsCard>
+
+            <DetailsCard title="House Protocols">
+               {boardinghouse.houseProtocols}
+            </DetailsCard>
+            <DetailsCard title="We Offer">{boardinghouse.offers}</DetailsCard>
+            <DetailsCard title="Water source">
+               {boardinghouse.waterSource}
+            </DetailsCard>
+            <DetailsCard title="Price Range">
+               {boardinghouse.priceRange}
+            </DetailsCard>
+            {totalRoom && (
+               <DetailsCard title="Total Rooms">
+                  {totalRoom.total} rooms
+               </DetailsCard>
+            )}
          </Container>
       </Box>
    );
