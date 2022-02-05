@@ -1,3 +1,3 @@
 let l:bm_file_version = 1
-let l:bm_sessions = {'default': {'D:\CAPSTONE\caps-owner-app\src\pages\Dashboard.js': [{'sign_idx': 9502, 'line_nr': 66, 'content': '   //BUG HERE'},],'D:\CAPSTONE\caps-owner-app\src\pages\RoomProfile.js': [{'sign_idx': 9503, 'line_nr': 181, 'content': '   const handleRoomDelete = (roomId, roomName) => {'},],}}
+let l:bm_sessions = {'default': {'D:\CAPSTONE\caps-owner-app\src\pages\Dashboard.js': [{'sign_idx': 9502, 'line_nr': 66, 'content': '   //BUG HERE'},],'D:\CAPSTONE\caps-owner-app\src\pages\RoomProfile.js': [{'sign_idx': 9503, 'line_nr': 182, 'content': '   const handleRoomDelete = (roomId, roomName) => {'},],}}
 let l:bm_current_session = 'default'

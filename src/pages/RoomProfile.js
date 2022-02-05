@@ -30,6 +30,7 @@ import MuiAlert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomInputPicture from "../components/CustomInputPicture";
 import { domain } from "../fetch-url/fetchUrl";
+import RoomToggler from "../components/RoomToggler";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -263,6 +264,7 @@ const Room = () => {
                            onChange={(e) =>
                               setRoomDeleteConfirm(e.target.value)
                            }
+                           autoFocus
                            label="Enter the room name"
                         />
                         <LoadingButton
@@ -357,7 +359,7 @@ const Room = () => {
                               />
                            </Grid>
                         ) : (
-                           <Grid item xs={12} md={5}>
+                           <Grid item lg={5} sm={6} xs={12}>
                               <CardActions
                                  sx={{
                                     display: "flex",
@@ -430,7 +432,22 @@ const Room = () => {
                                     </>
                                  )}
                               </Box>
+
                               <Card>
+                                 <Box
+                                    sx={{
+                                       display: "flex",
+                                       justifyContent: "space-between",
+                                       alignItems: "center",
+                                       borderRadius: 1,
+                                       padding: ".5rem 1rem",
+                                    }}
+                                 >
+                                    <Typography variant="body1">
+                                       STATUS
+                                    </Typography>
+                                    <RoomToggler room={room} />
+                                 </Box>
                                  <CardContent>
                                     <TextField
                                        label="Room Name"
