@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, FormGroup, Switch, FormControlLabel } from "@mui/material";
+import { FormGroup, Switch, FormControlLabel } from "@mui/material";
 import { domain } from "../fetch-url/fetchUrl";
 
 function RoomToggler({ room }) {

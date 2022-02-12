@@ -14,6 +14,8 @@ import {
    CardContent,
    MenuItem,
    CardActions,
+   Fade,
+   Backdrop,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Navbar from "../components/Navbar";
@@ -231,54 +233,92 @@ const Room = () => {
       <Slide in={true} direction="left">
          <Container disableGutters maxWidth="xl">
             {error && (
-               <Typography variant="body1" color="initial">
+               <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ mt: 5, fontFamily: "Quicksand" }}
+               >
                   {error}
                </Typography>
             )}
             {isPending && <LoadingState />}
             {room && (
                <>
-                  <Modal open={isModalOpen} onClose={handleModalClose}>
-                     <Box
-                        sx={{
-                           position: "absolute",
-                           top: "50%",
-                           left: "50%",
-                           transform: "translate(-50%, -50%)",
-                           bgcolor: "background.paper",
-                           width: 300,
-                           boxShadow: 24,
-                           borderRadius: 2,
-                           p: 4,
-                           display: "flex",
-                           flexDirection: "column",
-                           gap: 1,
-                        }}
-                     >
-                        <Typography variant="h6" component="h2">
-                           Confirm
-                        </Typography>
-                        <TextField
-                           size="small"
-                           value={roomDeleteConfirm}
-                           onChange={(e) =>
-                              setRoomDeleteConfirm(e.target.value)
-                           }
-                           autoFocus
-                           label="Enter the room name"
-                        />
-                        <LoadingButton
-                           variant="contained"
-                           disableElevation
-                           size="small"
-                           loading={deleteIsPending}
-                           onClick={() => {
-                              handleRoomDelete(room.id, room.name);
+                  <Modal
+                     closeAfterTransition
+                     BackdropComponent={Backdrop}
+                     BackdropProps={{
+                        timeout: 500,
+                     }}
+                     open={isModalOpen}
+                     onClose={handleModalClose}
+                  >
+                     <Fade in={isModalOpen}>
+                        <Container
+                           maxWidth="xl"
+                           disableGutters
+                           sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              height: "100%",
+                              mt: -7,
+                              px: 2,
                            }}
                         >
-                           Confirm
-                        </LoadingButton>
-                     </Box>
+                           <Box
+                              sx={{
+                                 zIndex: 100,
+                                 width: 400,
+                                 bgcolor: "background.paper",
+                                 borderRadius: ".5rem",
+                                 boxShadow: 10,
+                                 p: 2,
+                                 py: 2,
+                                 height: "max-content",
+                                 flexDirection: "column",
+                              }}
+                           >
+                              <Typography
+                                 variant="h6"
+                                 align="center"
+                                 sx={{
+                                    textTransform: "uppercase",
+                                    fontFamily: "Quicksand",
+                                    mb: 1,
+                                 }}
+                                 component="h2"
+                              >
+                                 Confirm Deletion
+                              </Typography>
+                              <TextField
+                                 size="small"
+                                 color="secondary"
+                                 value={roomDeleteConfirm}
+                                 onChange={(e) =>
+                                    setRoomDeleteConfirm(e.target.value)
+                                 }
+                                 autoFocus
+                                 label="Enter the room name"
+                                 fullWidth
+                                 margin="normal"
+                              />
+                              <LoadingButton
+                                 variant="contained"
+                                 color="secondary"
+                                 disableElevation
+                                 size="small"
+                                 fullWidth
+                                 loading={deleteIsPending}
+                                 onClick={() => {
+                                    handleRoomDelete(room.id, room.name);
+                                 }}
+                              >
+                                 Confirm
+                              </LoadingButton>
+                           </Box>
+                        </Container>
+                     </Fade>
                   </Modal>
                   <Snackbar
                      open={showMessage}
@@ -297,7 +337,8 @@ const Room = () => {
                         {message}
                      </Alert>
                   </Snackbar>
-                  <Navbar title={room.name}>
+
+                  <Navbar title={room.name} subtitle={`Room `}>
                      <Button
                         variant="contained"
                         disableElevation
@@ -444,7 +485,7 @@ const Room = () => {
                                     }}
                                  >
                                     <Typography variant="body1">
-                                       STATUS
+                                       Room Status
                                     </Typography>
                                     <RoomToggler room={room} />
                                  </Box>
