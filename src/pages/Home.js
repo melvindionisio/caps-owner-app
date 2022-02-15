@@ -21,6 +21,7 @@ import Reviews from "../components/SwipablePages/Reviews";
 
 import InfoIcon from "@mui/icons-material/Info";
 import ReviewsIcon from "@mui/icons-material/Reviews";
+import { domain } from "../fetch-url/fetchUrl";
 
 const useStyles = makeStyles({
    scrollContainer: {
@@ -97,9 +98,7 @@ const Home = () => {
       data: myBoardinghouse,
       isPending,
       error,
-   } = useFetch(
-      `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`
-   );
+   } = useFetch(`${domain}/api/boarding-houses/by-owner/${currentOwner.id}`);
    const theme = useTheme();
    const [value, setValue] = useState(0);
 

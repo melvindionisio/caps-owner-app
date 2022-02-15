@@ -363,118 +363,128 @@ const Room = () => {
                      <Grid container spacing={2}>
                         {isPictureEditable ? (
                            <Grid item lg={5} sm={6} xs={12}>
-                              <Box
+                              <Card
                                  sx={{
-                                    display: "flex",
-                                    justifyContent: "flex-end",
-                                    padding: 0,
-                                    marginBottom: 2,
-                                    gap: 1,
+                                    padding: 1,
                                  }}
                               >
-                                 <Button
-                                    variant="contained"
-                                    onClick={handleCancelUpdatePicture}
-                                    size="small"
-                                    disableElevation
-                                    color="secondary"
+                                 <Box
+                                    sx={{
+                                       display: "flex",
+                                       justifyContent: "flex-end",
+                                       padding: 0,
+                                       marginBottom: 2,
+                                       gap: 1,
+                                    }}
                                  >
-                                    cancel
-                                 </Button>
-                                 <LoadingButton
-                                    variant="contained"
-                                    onClick={handleSavePicture}
-                                    size="small"
-                                    disableElevation
-                                    loading={savePictureIsPending}
-                                 >
-                                    Save
-                                 </LoadingButton>
-                              </Box>
-                              <CustomInputPicture
-                                 imagePreview={imagePreview}
-                                 setImagePreview={setImagePreview}
-                                 imageName={imageName}
-                                 setImageName={setImageName}
-                                 setRoomPicture={setRoomPicture}
-                              />
+                                    <Button
+                                       variant="contained"
+                                       onClick={handleCancelUpdatePicture}
+                                       size="small"
+                                       disableElevation
+                                       color="secondary"
+                                    >
+                                       cancel
+                                    </Button>
+                                    <LoadingButton
+                                       variant="contained"
+                                       onClick={handleSavePicture}
+                                       size="small"
+                                       disableElevation
+                                       loading={savePictureIsPending}
+                                    >
+                                       Save
+                                    </LoadingButton>
+                                 </Box>
+                                 <CustomInputPicture
+                                    imagePreview={imagePreview}
+                                    setImagePreview={setImagePreview}
+                                    imageName={imageName}
+                                    setImageName={setImageName}
+                                    setRoomPicture={setRoomPicture}
+                                 />
+                              </Card>
                            </Grid>
                         ) : (
                            <Grid item lg={5} sm={6} xs={12}>
-                              <CardActions
-                                 sx={{
-                                    display: "flex",
-                                    justifyContent: "flex-end",
-                                    padding: 0,
-                                    marginBottom: 2,
-                                 }}
-                              >
-                                 <Button
-                                    variant="contained"
-                                    onClick={() => setIsPictureEditable(true)}
-                                    size="small"
-                                    disableElevation
+                              <Card sx={{ padding: 1 }}>
+                                 <CardActions
+                                    sx={{
+                                       display: "flex",
+                                       justifyContent: "flex-end",
+                                       padding: 0,
+                                       marginBottom: 2,
+                                    }}
                                  >
-                                    Edit
-                                 </Button>
-                              </CardActions>
-                              <Card>
-                                 <CardMedia
-                                    height="250"
-                                    component="img"
-                                    alt="room-image"
-                                    image={room.picture}
-                                 />
+                                    <Button
+                                       variant="contained"
+                                       onClick={() =>
+                                          setIsPictureEditable(true)
+                                       }
+                                       size="small"
+                                       disableElevation
+                                    >
+                                       Edit
+                                    </Button>
+                                 </CardActions>
+                                 <Card>
+                                    <CardMedia
+                                       height="250"
+                                       component="img"
+                                       alt="room-image"
+                                       image={room.picture}
+                                    />
+                                 </Card>
                               </Card>
                            </Grid>
                         )}
 
                         <Grid item lg={7} sm={6} xs={12}>
                            <>
-                              <Box
-                                 sx={{
-                                    display: "flex",
-                                    justifyContent: "flex-end",
-                                    marginBottom: 2,
-                                    gap: 1,
-                                 }}
-                              >
-                                 {isEditable ? (
-                                    <Button
-                                       variant="contained"
-                                       size="small"
-                                       onClick={() =>
-                                          setIsEditable(!isEditable)
-                                       }
-                                       disableElevation
-                                    >
-                                       edit
-                                    </Button>
-                                 ) : (
-                                    <>
+                              <Card>
+                                 <Box
+                                    sx={{
+                                       display: "flex",
+                                       justifyContent: "flex-end",
+                                       gap: 1,
+                                       padding: 1,
+                                    }}
+                                 >
+                                    {isEditable ? (
                                        <Button
                                           variant="contained"
                                           size="small"
-                                          color="secondary"
-                                          onClick={handleCancelEdits}
+                                          onClick={() =>
+                                             setIsEditable(!isEditable)
+                                          }
                                           disableElevation
                                        >
-                                          cancel
+                                          edit
                                        </Button>
-                                       <LoadingButton
-                                          variant="contained"
-                                          size="small"
-                                          color="primary"
-                                          onClick={handleSaveEdits}
-                                          loading={isRoomSavePending}
-                                       >
-                                          Save
-                                       </LoadingButton>
-                                    </>
-                                 )}
-                              </Box>
+                                    ) : (
+                                       <>
+                                          <Button
+                                             variant="contained"
+                                             size="small"
+                                             color="secondary"
+                                             onClick={handleCancelEdits}
+                                             disableElevation
+                                          >
+                                             cancel
+                                          </Button>
+                                          <LoadingButton
+                                             variant="contained"
+                                             size="small"
+                                             color="primary"
+                                             onClick={handleSaveEdits}
+                                             loading={isRoomSavePending}
+                                          >
+                                             Save
+                                          </LoadingButton>
+                                       </>
+                                    )}
+                                 </Box>
 
-                              <Card>
                                  <Box
                                     sx={{
                                        display: "flex",
@@ -534,6 +544,7 @@ const Room = () => {
                                           size="small"
                                           fullWidth
                                           label="Total Slots"
+                                          type="number"
                                           value={totalSlots}
                                           disabled={isEditable}
                                           onChange={(e) =>
@@ -544,6 +555,7 @@ const Room = () => {
                                           variant="outlined"
                                           size="small"
                                           fullWidth
+                                          type="number"
                                           label="Occupied Slots"
                                           value={occupiedSlots}
                                           disabled={isEditable}

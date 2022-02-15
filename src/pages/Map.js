@@ -387,13 +387,12 @@ const Map = () => {
                         variant="text"
                         size="small"
                         fullWidth
-                        color="primary"
-                        disabled
+                        color="secondary"
                         startIcon={<EditIcon />}
                         sx={{ mt: 1 }}
                         onClick={() => setIsEditCoordinates(!isEditCoordinates)}
                      >
-                        edit
+                        cancel
                      </Button>
                      <Button
                         variant="text"

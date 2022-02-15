@@ -38,9 +38,7 @@ const Home = () => {
       data: myBoardinghouse,
       isPending,
       error,
-   } = useFetch(
-      `http://localhost:3500/api/boarding-houses/by-owner/${currentOwner.id}`
-   );
+   } = useFetch(`${domain}/api/boarding-houses/by-owner/${currentOwner.id}`);
 
    const [message, setMessage] = useState("");
    const [showMessage, setShowMessage] = useState(false);
@@ -232,6 +230,7 @@ const Home = () => {
                         color="primary"
                         margin="dense"
                         size="small"
+                        type="number"
                         fullWidth
                         helperText="Ex. 09166809369"
                         value={contact}
@@ -342,6 +341,7 @@ const Home = () => {
                            id="longitude"
                            label="Longitude"
                            value={longitude}
+                           type="number"
                            size="small"
                            onChange={(e) => setLongitude(e.target.value)}
                         />
@@ -349,6 +349,7 @@ const Home = () => {
                            id="latitude"
                            label="Latitude"
                            value={latitude}
+                           type="number"
                            size="small"
                            onChange={(e) => setLatitude(e.target.value)}
                         />
