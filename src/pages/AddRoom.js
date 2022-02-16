@@ -17,10 +17,9 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { LoginContext } from "../contexts/LoginContext";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { domain } from "../fetch-url/fetchUrl";
+import Notification from "../components/Notification";
 
 const useStyles = makeStyles({
    gridContainer: {
@@ -30,9 +29,6 @@ const useStyles = makeStyles({
    scrollContainer: {
       marginBottom: "1rem",
    },
-});
-const Alert = React.forwardRef(function Alert(props, ref) {
-   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const AddRoom = () => {
@@ -127,31 +123,15 @@ const AddRoom = () => {
          });
    };
 
-   const handleClose = (event, reason) => {
-      if (reason === "clickaway") {
-         return;
-      }
-
-      setShowMessage(false);
-   };
-
    return (
       <Slide in={true} direction="left">
          <Container disableGutters maxWidth="xl" sx={{ paddingBottom: 5 }}>
-            <Snackbar
-               open={showMessage}
-               autoHideDuration={1500}
-               onClose={handleClose}
-               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            >
-               <Alert
-                  onClose={handleClose}
-                  severity={messageSeverity}
-                  sx={{ width: "100%" }}
-               >
-                  {message}
-               </Alert>
-            </Snackbar>
+            <Notification
+               message={message}
+               showMessage={showMessage}
+               setShowMessage={setShowMessage}
+               messageSeverity={messageSeverity}
+            />
             <form onSubmit={handleRoomSave}>
                <Navbar title="ADD ROOM">
                   <LoadingButton

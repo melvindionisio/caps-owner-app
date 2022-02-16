@@ -19,6 +19,7 @@ import { useHistory } from "react-router-dom";
 import { LoginContext } from "../contexts/LoginContext";
 import mapmarker from "../map-marker.png";
 import { domain } from "../fetch-url/fetchUrl";
+//import Notification from "../components/Notification";
 
 mapboxgl.accessToken =
    "pk.eyJ1IjoibWVsc2lvIiwiYSI6ImNrdXF1ZnE3ZTFscTIzMXAxMXNrczJrdjAifQ.9nE1j10j1hd4EWXc6kGlRQ";
@@ -223,7 +224,7 @@ const Map = () => {
          .then((data) => {
             setAlertmessage(data.message);
             setShowMessageAlert(true);
-            setSeverity("success");
+            setSeverity("info");
 
             const abortCont = new AbortController();
             fetch(
@@ -273,6 +274,14 @@ const Map = () => {
          maxWidth="xl"
          ref={mapContainer}
       >
+         {/*
+         <Notification
+            message={alertMessage}
+            showMessage={showMessageAlert}
+            setShowMessage={setShowMessageAlert}
+            messageSeverity={severity}
+         />
+               */}
          <AddIcon
             sx={{
                color: blue[700],

@@ -8,7 +8,7 @@ import { LoginContext } from "../../contexts/LoginContext";
 import { domain } from "../../fetch-url/fetchUrl";
 import LoadingState from "../LoadingState";
 
-const Reviews = () => {
+const Reviews = ({ boardinghouse }) => {
    const [reviews, setReviews] = useState([]);
    const [isEmpty, setIsEmpty] = useState(false);
    const [isPending, setIsPending] = useState(true);
@@ -18,7 +18,7 @@ const Reviews = () => {
       const abortCont = new AbortController();
 
       setTimeout(() => {
-         fetch(`${domain}/api/reviews/bh/${currentOwner.id}`, {
+         fetch(`${domain}/api/reviews/bh/${boardinghouse.id}`, {
             signal: abortCont.signal,
          })
             .then((res) => {
@@ -48,7 +48,7 @@ const Reviews = () => {
       return () => {
          abortCont.abort();
       };
-   }, [currentOwner]);
+   }, [currentOwner, boardinghouse]);
    return (
       <Container
          maxWidth="md"

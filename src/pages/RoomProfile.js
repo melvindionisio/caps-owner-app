@@ -27,16 +27,11 @@ import { useHistory } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomInputPicture from "../components/CustomInputPicture";
 import { domain } from "../fetch-url/fetchUrl";
 import RoomToggler from "../components/RoomToggler";
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import Notification from "../components/Notification";
 
 const Room = () => {
    const { roomId } = useParams();
@@ -207,12 +202,6 @@ const Room = () => {
       }
    };
 
-   const handleClose = (event, reason) => {
-      if (reason === "clickaway") {
-         return;
-      }
-      setShowMessage(false);
-   };
    const handleModalClose = () => {
       setIsModalOpen(false);
    };
@@ -320,24 +309,12 @@ const Room = () => {
                         </Container>
                      </Fade>
                   </Modal>
-                  <Snackbar
-                     open={showMessage}
-                     autoHideDuration={1500}
-                     onClose={handleClose}
-                     anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
-                     }}
-                  >
-                     <Alert
-                        onClose={handleClose}
-                        severity={messageSeverity}
-                        sx={{ width: "100%" }}
-                     >
-                        {message}
-                     </Alert>
-                  </Snackbar>
-
+                  <Notification
+                     message={message}
+                     showMessage={showMessage}
+                     messageSeverity={messageSeverity}
+                     setShowMessage={setShowMessage}
+                  />
                   <Navbar title={room.name} subtitle={`Room `}>
                      <Button
                         variant="contained"
@@ -392,6 +369,7 @@ const Room = () => {
                                        size="small"
                                        disableElevation
                                        loading={savePictureIsPending}
+                                       disabled={!imageName}
                                     >
                                        Save
                                     </LoadingButton>

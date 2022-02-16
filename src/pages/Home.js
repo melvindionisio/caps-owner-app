@@ -171,7 +171,7 @@ const Home = () => {
                </TabPanel>
 
                <TabPanel value={value} index={1} dir={theme.direction}>
-                  <Reviews />
+                  <Reviews boardinghouse={myBoardinghouse} />
                </TabPanel>
             </SwipeableViews>
          )}
