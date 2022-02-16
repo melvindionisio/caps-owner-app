@@ -1,5 +1,5 @@
 import { Paper, Avatar, Typography, Box } from "@mui/material";
-import { red, lightBlue, green } from "@mui/material/colors";
+import { red, lightBlue, green, deepPurple } from "@mui/material/colors";
 import React from "react";
 import { Delete } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -48,7 +48,9 @@ const ReviewCard = ({
             }
          >
             <Box sx={{ display: "flex", gap: 1, position: "relative" }}>
-               <Avatar></Avatar>
+               <Avatar sx={{ bgcolor: deepPurple[500] }}>
+                  {review.reviewerName.charAt(0).toUpperCase()}
+               </Avatar>
                <Box
                   sx={{
                      display: "flex",
