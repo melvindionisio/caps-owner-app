@@ -4,7 +4,6 @@ import {
    Box,
    Typography,
    TextField,
-   Button,
    Card,
    CardActions,
    CardHeader,
@@ -18,6 +17,7 @@ import { pink } from "@mui/material/colors";
 import React, { useState, useEffect, useContext } from "react";
 import { LoginContext } from "../contexts/LoginContext";
 import { domain } from "../fetch-url/fetchUrl";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const useStyles = makeStyles({
    sns_logo: {
@@ -55,6 +55,7 @@ const Login = () => {
    const [message, setMessage] = useState("");
    const [showAlert, setShowAlert] = useState(false);
 
+   const [isLoginPending, setIsLoginPending] = useState(false);
    const { setIsOwnerLoggedIn, setCurrentOwner } = useContext(LoginContext);
 
    useEffect(() => {
@@ -67,6 +68,7 @@ const Login = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
+      setIsLoginPending(true);
 
       fetch(`${domain}/api/owners/auth`, {
          method: "POST",
@@ -92,6 +94,7 @@ const Login = () => {
                   token: password,
                });
 
+               setIsLoginPending(true);
                console.log(data.message);
                history.push("/my/dashboard");
             } else if (data.error === "incorrect") {
@@ -191,15 +194,16 @@ const Login = () => {
                         </Alert>
                      </CardContent>
                      <CardActions className={classes.cardActions}>
-                        <Button
+                        <LoadingButton
                            variant="contained"
                            color="primary"
                            type="submit"
                            size="large"
                            fullWidth
+                           loading={isLoginPending}
                         >
                            Login as owner
-                        </Button>
+                        </LoadingButton>
                      </CardActions>
                   </Card>
                </form>

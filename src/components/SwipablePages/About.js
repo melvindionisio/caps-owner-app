@@ -232,18 +232,29 @@ const About = ({ boardinghouse }) => {
             </DetailsCard>
 
             <DetailsCard title="House Protocols">
-               {boardinghouse.houseProtocols}
+               <Typography sx={{ py: 1 }}>
+                  {boardinghouse.houseProtocols}
+               </Typography>
             </DetailsCard>
-            <DetailsCard title="We Offer">{boardinghouse.offers}</DetailsCard>
+            <DetailsCard title="We Offer">
+               <Typography sx={{ py: 1 }}>{boardinghouse.offers} </Typography>
+            </DetailsCard>
+
             <DetailsCard title="Water source">
-               {boardinghouse.waterSource}
+               <Typography sx={{ py: 1 }}>
+                  {boardinghouse.waterSource}
+               </Typography>
             </DetailsCard>
             <DetailsCard title="Price Range">
-               {boardinghouse.priceRange}
+               <Typography sx={{ py: 1 }}>
+                  {boardinghouse.priceRange}
+               </Typography>
             </DetailsCard>
             {totalRoom && (
                <DetailsCard title="Total Rooms">
-                  {totalRoom.total} rooms
+                  <Typography sx={{ py: 1 }}>
+                     {totalRoom.total} rooms
+                  </Typography>
                </DetailsCard>
             )}
          </Container>

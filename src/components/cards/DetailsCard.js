@@ -26,7 +26,6 @@ const DetailsCard = ({ title, children, colors }) => {
          <Typography
             variant="caption"
             color="text.secondary"
-            // align="center"
             sx={{
                textTransform: "uppercase",
                fontFamily: "Quicksand",
