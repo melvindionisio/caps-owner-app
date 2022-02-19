@@ -100,9 +100,12 @@ const Login = () => {
             } else if (data.error === "incorrect") {
                setMessage(data.message);
                setShowAlert(true);
+
+               setIsLoginPending(false);
             } else {
                setShowAlert(true);
                setMessage(data.message);
+               setIsLoginPending(false);
             }
          });
    };

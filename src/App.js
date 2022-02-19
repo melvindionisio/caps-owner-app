@@ -1,26 +1,13 @@
 import React from "react";
 import { Container, Hidden } from "@mui/material";
-import {
-   BrowserRouter as Router,
-   Switch,
-   Route,
-   Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { blue, pink, grey, blueGrey } from "@mui/material/colors";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import AddRoom from "./pages/AddRoom";
-import Rooms from "./pages/Rooms";
-import RoomProfile from "./pages/RoomProfile";
-import Sidebar from "./components/Sidebar";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
-import Map from "./pages/Map";
-import BoardinghouseEdit from "./pages/BoardinghouseEdit";
+import Routes from "./Routes";
 
 import LoginContextProvider from "./contexts/LoginContext";
+import Sidebar from "./components/Sidebar";
 
 const useStyles = makeStyles({
    mainContainer: {
@@ -86,49 +73,7 @@ const App = () => {
                   <Hidden mdDown>
                      <Sidebar />
                   </Hidden>
-
-                  <Container
-                     disableGutters
-                     maxWidth="xl"
-                     sx={{ overflowY: "auto" }}
-                  >
-                     <Switch>
-                        <Route exact path="/">
-                           <Redirect to="/login" />
-                        </Route>
-                        <Route path="/login">
-                           <Login />
-                        </Route>
-                        <Route exact path="/my/boarding-house">
-                           <Home />
-                        </Route>
-
-                        <Route exact path="/my/boarding-house/edit">
-                           <BoardinghouseEdit />
-                        </Route>
-                        <Route path="/my/add-room">
-                           <AddRoom />
-                        </Route>
-                        <Route exact path="/my/rooms">
-                           <Rooms />
-                        </Route>
-                        <Route exact path="/my/rooms/:roomId">
-                           <RoomProfile />
-                        </Route>
-                        <Route path="/my/dashboard">
-                           <Dashboard />
-                        </Route>
-                        <Route path="/my/profile">
-                           <Profile />
-                        </Route>
-                        <Route path="/my/Map">
-                           <Map />
-                        </Route>
-                        <Route path="*">
-                           <h2>not available</h2>
-                        </Route>
-                     </Switch>
-                  </Container>
+                  <Routes />
                </Router>
             </Container>
          </LoginContextProvider>

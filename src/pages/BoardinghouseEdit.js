@@ -75,7 +75,6 @@ const Home = () => {
    }, [myBoardinghouse]);
 
    useEffect(() => {
-      console.log("Address Changed");
       setCompleteAddress(`${streetAddress} - ${zoneAddress}, UEP`);
    }, [zoneAddress, streetAddress]);
 
