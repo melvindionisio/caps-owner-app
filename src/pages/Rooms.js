@@ -1,4 +1,4 @@
-import { Container, Grid, Button, Typography } from "@mui/material";
+import { Container, IconButton, Grid, Button, Typography } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
 import { Box } from "@mui/system";
 import { useHistory } from "react-router";
@@ -16,6 +16,7 @@ const Rooms = () => {
    const [isPending, setIsPending] = useState(true);
    const [error, setError] = useState("");
    const [rooms, setRooms] = useState([]);
+   const [isEmpty, setIsEmpty] = useState(false);
 
    useEffect(() => {
       const abortCont = new AbortController();
@@ -32,6 +33,11 @@ const Rooms = () => {
                })
                .then((data) => {
                   setRooms(data);
+                  if (data) {
+                     if (data.length <= 0) {
+                        setIsEmpty(true);
+                     }
+                  }
                   setIsPending(false);
                   setError(null);
                })
@@ -75,6 +81,31 @@ const Rooms = () => {
          </NavbarDrawer>
 
          <Container disableGutters maxWidth="lg" sx={{ p: 2, pt: 3 }}>
+            {isEmpty && (
+               <Box
+                  sx={{
+                     display: " flex",
+                     flexDirection: "column",
+                     alignItems: "center",
+                  }}
+               >
+                  <Typography
+                     variant="body2"
+                     color="text.secondary"
+                     align="center"
+                     sx={{ mt: 4 }}
+                  >
+                     No available rooms yet.
+                  </Typography>
+                  <IconButton
+                     onClick={() => history.push("/my/add-room")}
+                     size="large"
+                  >
+                     <AddCircle sx={{ height: "2.5rem", width: "2.5rem" }} />
+                  </IconButton>
+               </Box>
+            )}
+
             <Grid container spacing={2}>
                {error && (
                   <Typography
