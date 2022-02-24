@@ -33,25 +33,29 @@ const Routes = () => {
             </Route>
 
             <Route exact path="/my/boarding-house/edit">
-               {!isOwnerLoggedIn ? <Login /> : <BoardinghouseEdit />}
+               {!isOwnerLoggedIn ? (
+                  <Redirect to="/login" />
+               ) : (
+                  <BoardinghouseEdit />
+               )}
             </Route>
             <Route path="/my/add-room">
-               {!isOwnerLoggedIn ? <Login /> : <AddRoom />}
+               {!isOwnerLoggedIn ? <Redirect to="/login" /> : <AddRoom />}
             </Route>
             <Route exact path="/my/rooms">
-               {!isOwnerLoggedIn ? <Login /> : <Rooms />}
+               {!isOwnerLoggedIn ? <Redirect to="/login" /> : <Rooms />}
             </Route>
             <Route exact path="/my/rooms/:roomId">
-               {!isOwnerLoggedIn ? <Login /> : <RoomProfile />}
+               {!isOwnerLoggedIn ? <Redirect to="/login" /> : <RoomProfile />}
             </Route>
             <Route path="/my/dashboard">
-               {!isOwnerLoggedIn ? <Login /> : <Dashboard />}
+               {!isOwnerLoggedIn ? <Redirect to="/login" /> : <Dashboard />}
             </Route>
             <Route path="/my/profile">
-               {!isOwnerLoggedIn ? <Login /> : <Profile />}
+               {!isOwnerLoggedIn ? <Redirect to="/login" /> : <Profile />}
             </Route>
             <Route path="/my/Map">
-               {!isOwnerLoggedIn ? <Login /> : <Map />}
+               {!isOwnerLoggedIn ? <Redirect to="/login" /> : <Map />}
             </Route>
             <Route path="*">
                <Typography
