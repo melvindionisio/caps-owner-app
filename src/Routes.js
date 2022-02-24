@@ -1,6 +1,6 @@
 import React from "react";
-//import { useContext } from "react";
-//import { LoginContext } from "./contexts/LoginContext";
+import { useContext } from "react";
+import { LoginContext } from "./contexts/LoginContext";
 import { Container, Typography } from "@mui/material";
 import { Switch, Route, Redirect } from "react-router-dom";
 
@@ -15,7 +15,7 @@ import Map from "./pages/Map";
 import BoardinghouseEdit from "./pages/BoardinghouseEdit";
 
 const Routes = () => {
-   //const { isOwnerLoggedIn } = useContext(LoginContext);
+   const { isOwnerLoggedIn } = useContext(LoginContext);
    return (
       <Container disableGutters maxWidth="xl" sx={{ overflowY: "auto" }}>
          <Switch>
@@ -29,35 +29,35 @@ const Routes = () => {
                <Login />
             </Route>
             <Route exact path="/my/boarding-house">
-               <Home />
+               {!isOwnerLoggedIn ? <Login /> : <Home />}
             </Route>
 
             <Route exact path="/my/boarding-house/edit">
-               <BoardinghouseEdit />
+               {!isOwnerLoggedIn ? <Login /> : <BoardinghouseEdit />}
             </Route>
             <Route path="/my/add-room">
-               <AddRoom />
+               {!isOwnerLoggedIn ? <Login /> : <AddRoom />}
             </Route>
             <Route exact path="/my/rooms">
-               <Rooms />
+               {!isOwnerLoggedIn ? <Login /> : <Rooms />}
             </Route>
             <Route exact path="/my/rooms/:roomId">
-               <RoomProfile />
+               {!isOwnerLoggedIn ? <Login /> : <RoomProfile />}
             </Route>
             <Route path="/my/dashboard">
-               <Dashboard />
+               {!isOwnerLoggedIn ? <Login /> : <Dashboard />}
             </Route>
             <Route path="/my/profile">
-               <Profile />
+               {!isOwnerLoggedIn ? <Login /> : <Profile />}
             </Route>
             <Route path="/my/Map">
-               <Map />
+               {!isOwnerLoggedIn ? <Login /> : <Map />}
             </Route>
             <Route path="*">
                <Typography
                   variant="h6"
                   sx={{ fontFamily: "Quicksand" }}
-                  align="center "
+                  align="center"
                >
                   404 Not Found
                </Typography>

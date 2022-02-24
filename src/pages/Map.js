@@ -1,17 +1,15 @@
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import {
+   Divider,
    Typography,
    IconButton,
    Slide,
    TextField,
    Button,
-   Alert,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
 import { blue } from "@mui/material/colors";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
@@ -19,7 +17,7 @@ import { useHistory } from "react-router-dom";
 import { LoginContext } from "../contexts/LoginContext";
 import mapmarker from "../map-marker.png";
 import { domain } from "../fetch-url/fetchUrl";
-//import Notification from "../components/Notification";
+import Notification from "../components/Notification";
 
 mapboxgl.accessToken =
    "pk.eyJ1IjoibWVsc2lvIiwiYSI6ImNrdXF1ZnE3ZTFscTIzMXAxMXNrczJrdjAifQ.9nE1j10j1hd4EWXc6kGlRQ";
@@ -37,7 +35,6 @@ const Map = () => {
 
    const [latitude, setLatitude] = useState(0);
    const [longitude, setLongitude] = useState(0);
-   const [isEditCoordinates, setIsEditCoordinates] = useState(false);
 
    const [severity, setSeverity] = useState("warning");
 
@@ -202,7 +199,6 @@ const Map = () => {
    });
 
    const setNewCoordinates = () => {
-      setIsEditCoordinates(!isEditCoordinates);
       document.getElementsByClassName("marker")[0].remove();
 
       fetch(
@@ -210,8 +206,8 @@ const Map = () => {
          {
             method: "PUT",
             body: JSON.stringify({
-               newLongitude: longitude,
-               newLatitude: latitude,
+               newLongitude: lng,
+               newLatitude: lat,
             }),
             headers: {
                "Content-Type": "application/json",
@@ -224,7 +220,7 @@ const Map = () => {
          .then((data) => {
             setAlertmessage(data.message);
             setShowMessageAlert(true);
-            setSeverity("info");
+            setSeverity("success");
 
             const abortCont = new AbortController();
             fetch(
@@ -274,17 +270,15 @@ const Map = () => {
          maxWidth="xl"
          ref={mapContainer}
       >
-         {/*
          <Notification
             message={alertMessage}
             showMessage={showMessageAlert}
             setShowMessage={setShowMessageAlert}
             messageSeverity={severity}
          />
-               */}
          <AddIcon
             sx={{
-               color: blue[700],
+               color: blue[500],
                zIndex: "1",
                position: "absolute",
                top: "50%",
@@ -326,24 +320,119 @@ const Map = () => {
                      style={{ width: "3px", height: "3px", background: "red" }}
                   ></span>
                </Box>
-               <IconButton
-                  size="large"
-                  color="default"
-                  onClick={() => history.goBack()}
-                  style={{
-                     // position: "absolute",
-                     // top: -60,
-                     // left: 2,
-                     background: blue[700],
-                     boxShadow: "0 0 5px 1px rgba(0,0,0,0.2)",
-                     marginRight: 10,
-                  }}
-               >
-                  <ArrowBackIcon sx={{ color: blue[50] }} />
-               </IconButton>
+
+               <Box>
+                  <IconButton
+                     size="large"
+                     color="default"
+                     onClick={() => history.goBack()}
+                     style={{
+                        // position: "absolute",
+                        // top: -60,
+                        // left: 2,
+                        background: blue[700],
+                        boxShadow: "0 0 5px 1px rgba(0,0,0,0.2)",
+                        marginRight: 10,
+                     }}
+                  >
+                     <ArrowBackIcon sx={{ color: blue[50] }} />
+                  </IconButton>
+               </Box>
+               {/*
                <Typography variant="caption" sx={{ userSelect: "text" }}>
                   Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
                </Typography>
+
+
+               */}
+               <Box>
+                  <Typography
+                     variant="caption"
+                     color="initial"
+                     align="center"
+                     sx={{ display: "block", mb: 1 }}
+                  >
+                     My Boarding House Location
+                  </Typography>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                     <TextField
+                        id="longitude"
+                        label="Longitude"
+                        type="number"
+                        value={longitude}
+                        onChange={(e) => setLongitude(e.target.value)}
+                        size="small"
+                        disabled
+                     />
+                     <TextField
+                        id="latitude"
+                        label="Latitude"
+                        type="number"
+                        value={latitude}
+                        onChange={(e) => setLatitude(e.target.value)}
+                        size="small"
+                        disabled
+                     />
+                  </Box>
+                  {/*
+                  {isEditCoordinates ? (
+                     <Box sx={{ display: "flex", gap: 1 }}>
+                        <Button
+                           variant="text"
+                           size="small"
+                           fullWidth
+                           color="secondary"
+                           startIcon={<EditIcon />}
+                           sx={{ mt: 1 }}
+                           onClick={() =>
+                              setIsEditCoordinates(!isEditCoordinates)
+                           }
+                        >
+                           cancel
+                        </Button>
+                        <Button
+                           variant="text"
+                           size="small"
+                           fullWidth
+                           color="primary"
+                           startIcon={<SaveIcon />}
+                           sx={{ mt: 1 }}
+                           onClick={setNewCoordinates}
+                        >
+                           Save
+                        </Button>
+                     </Box>
+                  ) : (
+                     <Box sx={{ display: "flex", gap: 1 }}>
+                        <Button
+                           variant="text"
+                           size="small"
+                           fullWidth
+                           color="secondary"
+                           startIcon={<EditIcon />}
+                           sx={{ mt: 1 }}
+                           onClick={() =>
+                              setIsEditCoordinates(!isEditCoordinates)
+                           }
+                        >
+                           edit
+                        </Button>
+                        <Button
+                           variant="text"
+                           size="small"
+                           fullWidth
+                           color="primary"
+                           disabled
+                           startIcon={<SaveIcon />}
+                           sx={{ mt: 1 }}
+                           onClick={setNewCoordinates}
+                        >
+                           Save
+                        </Button>
+                     </Box>
+                  )}
+                  */}
+               </Box>
             </Box>
          </Slide>
          <Slide in={true} direction="up">
@@ -362,102 +451,34 @@ const Map = () => {
                   boxShadow: "0 0 5px 1px rgba(0,0,0,0.2)",
                }}
             >
-               <Typography
-                  variant="caption"
-                  color="initial"
-                  align="center"
-                  sx={{ display: "block", mb: 1 }}
+               <Box
+                  sx={{
+                     display: "flex",
+                     flexDirection: "column",
+                     gap: 1,
+                     justifyContent: "center",
+                  }}
                >
-                  My Boarding House Location
-               </Typography>
-               <Box sx={{ display: "flex", gap: 1 }}>
-                  <TextField
-                     id="longitude"
-                     label="Longitude"
-                     type="number"
-                     value={longitude}
-                     onChange={(e) => setLongitude(e.target.value)}
+                  <Typography variant="button" align="center">
+                     Current Location
+                  </Typography>
+                  <Divider />
+                  <Typography
+                     variant="body2"
+                     align="center"
+                     sx={{ userSelect: "text" }}
+                  >
+                     Longitude: {lng} | Latitude: {lat}{" "}
+                  </Typography>
+                  <Button
                      size="small"
-                     disabled={!isEditCoordinates}
-                  />
-                  <TextField
-                     id="latitude"
-                     label="Latitude"
-                     type="number"
-                     value={latitude}
-                     onChange={(e) => setLatitude(e.target.value)}
-                     size="small"
-                     disabled={!isEditCoordinates}
-                  />
+                     variant="contained"
+                     color="success"
+                     onClick={setNewCoordinates}
+                  >
+                     set this location
+                  </Button>
                </Box>
-               {isEditCoordinates ? (
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                     <Button
-                        variant="text"
-                        size="small"
-                        fullWidth
-                        color="secondary"
-                        startIcon={<EditIcon />}
-                        sx={{ mt: 1 }}
-                        onClick={() => setIsEditCoordinates(!isEditCoordinates)}
-                     >
-                        cancel
-                     </Button>
-                     <Button
-                        variant="text"
-                        size="small"
-                        fullWidth
-                        color="primary"
-                        startIcon={<SaveIcon />}
-                        sx={{ mt: 1 }}
-                        onClick={setNewCoordinates}
-                     >
-                        Save
-                     </Button>
-                  </Box>
-               ) : (
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                     <Button
-                        variant="text"
-                        size="small"
-                        fullWidth
-                        color="secondary"
-                        startIcon={<EditIcon />}
-                        sx={{ mt: 1 }}
-                        onClick={() => setIsEditCoordinates(!isEditCoordinates)}
-                     >
-                        edit
-                     </Button>
-                     <Button
-                        variant="text"
-                        size="small"
-                        fullWidth
-                        color="primary"
-                        disabled
-                        startIcon={<SaveIcon />}
-                        sx={{ mt: 1 }}
-                        onClick={setNewCoordinates}
-                     >
-                        Save
-                     </Button>
-                  </Box>
-               )}
-               <Alert
-                  severity={severity}
-                  sx={
-                     showMessageAlert
-                        ? {
-                             display: "flex",
-                             mt: 2,
-                          }
-                        : {
-                             display: "none",
-                             mt: 2,
-                          }
-                  }
-               >
-                  {alertMessage}
-               </Alert>
             </Box>
          </Slide>
       </Box>
