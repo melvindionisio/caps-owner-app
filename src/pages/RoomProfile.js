@@ -60,7 +60,7 @@ const Room = () => {
 
    const [roomName, setRoomName] = useState("");
    const [roomType, setRoomType] = useState("");
-   const [genderAllowed, setGenderAllowed] = useState("All");
+   const [genderAllowed, setGenderAllowed] = useState("Male/Female");
    const [roomPicture, setRoomPicture] = useState(null);
    const [imagePreview, setImagePreview] = useState(null);
    const [imageName, setImageName] = useState();
@@ -669,14 +669,14 @@ const Room = () => {
                                              }
                                              disabled={isEditable}
                                           >
+                                             <MenuItem value={"Male/Female"}>
+                                                Male & Female
+                                             </MenuItem>
                                              <MenuItem value={"Male"}>
                                                 Male Only
                                              </MenuItem>
                                              <MenuItem value={"Female"}>
                                                 Female Only
-                                             </MenuItem>
-                                             <MenuItem value={"All"}>
-                                                All
                                              </MenuItem>
                                           </Select>
                                        </FormControl>

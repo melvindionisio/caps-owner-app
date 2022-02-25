@@ -11,6 +11,10 @@ import {
    Box,
    MenuItem,
    Button,
+   Radio,
+   RadioGroup,
+   FormControlLabel,
+   FormLabel,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -50,10 +54,16 @@ const Home = () => {
    const [offers, setOffers] = useState("");
    const [houseProtocols, setHouseProtocols] = useState("");
    const [waterSource, setWaterSource] = useState("");
-   const [gendersAllowed, setGendersAllowed] = useState("All");
+   const [gendersAllowed, setGendersAllowed] = useState("Male/Female");
    const [priceRange, setPriceRange] = useState("P 400-500");
 
+   const [isAcceptingTransient, setIsAcceptingTransient] = useState("no");
+
    const [isSavePending, setIsSavePending] = useState(false);
+
+   const handleTransientChange = (e) => {
+      setIsAcceptingTransient(e.target.value);
+   };
 
    useEffect(() => {
       if (myBoardinghouse) {
@@ -69,7 +79,7 @@ const Home = () => {
          setTagline(myBoardinghouse.tagline ?? "Not Available");
          setHouseProtocols(myBoardinghouse.houseProtocols ?? "Not Available");
          setWaterSource(myBoardinghouse.waterSource ?? "Not Available");
-         setGendersAllowed(myBoardinghouse.genderAllowed ?? "All");
+         setGendersAllowed(myBoardinghouse.genderAllowed ?? "Male/Female");
          setPriceRange(myBoardinghouse.priceRange ?? "P 400-500");
       }
    }, [myBoardinghouse]);
@@ -210,6 +220,31 @@ const Home = () => {
                         value={contact}
                         onChange={(e) => setContact(e.target.value)}
                      />
+
+                     <FormControl>
+                        <FormLabel id="question">
+                           Do you accept momentary boarders? (Staying for days
+                           or weeks only.)
+                        </FormLabel>
+                        <RadioGroup
+                           row
+                           aria-labelledby="question"
+                           name="is-accepting-transient"
+                           value={isAcceptingTransient}
+                           onChange={handleTransientChange}
+                        >
+                           <FormControlLabel
+                              value="yes"
+                              control={<Radio />}
+                              label="Yes"
+                           />
+                           <FormControlLabel
+                              value="no"
+                              control={<Radio />}
+                              label="No"
+                           />
+                        </RadioGroup>
+                     </FormControl>
                      <Box
                         sx={{
                            display: "flex",
@@ -232,7 +267,9 @@ const Home = () => {
                                  setGendersAllowed(e.target.value);
                               }}
                            >
-                              <MenuItem value={"All"}>All</MenuItem>
+                              <MenuItem value={"Male/Female"}>
+                                 Male & Female
+                              </MenuItem>
                               <MenuItem value={"Female"}>Female</MenuItem>
                               <MenuItem value={"Male"}>Male</MenuItem>
                            </Select>
@@ -260,6 +297,7 @@ const Home = () => {
                            </Select>
                         </FormControl>
                      </Box>
+
                      <Typography variant="body1">Location</Typography>
                      <Box
                         sx={{
@@ -367,7 +405,7 @@ const Home = () => {
                      />
                      <TextField
                         id="bh-offers"
-                        label="Offers"
+                        label="Offers (Separate every entry by using / sing)"
                         variant="outlined"
                         color="primary"
                         margin="dense"
@@ -381,7 +419,7 @@ const Home = () => {
                      />
                      <TextField
                         id="bh-protocols"
-                        label="House Protocols"
+                        label="House Protocols (Separate every entry using / sign)"
                         variant="outlined"
                         color="primary"
                         margin="dense"
