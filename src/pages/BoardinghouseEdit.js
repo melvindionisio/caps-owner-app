@@ -379,7 +379,7 @@ const Home = () => {
                      />
 
                      <TextField
-                        label="Water Source"
+                        label="Water Source (Separate every entry by using / sign.)"
                         variant="outlined"
                         color="primary"
                         margin="dense"
@@ -387,6 +387,16 @@ const Home = () => {
                         fullWidth
                         value={waterSource}
                         onChange={(e) => setWaterSource(e.target.value)}
+                        onKeyUp={(e) => {
+                           if (e.key === "Enter") {
+                              if (
+                                 waterSource.charAt(waterSource.length - 2) !==
+                                 "/"
+                              ) {
+                                 setWaterSource(waterSource + "/");
+                              }
+                           }
+                        }}
                      />
 
                      <TextField
@@ -405,7 +415,7 @@ const Home = () => {
                      />
                      <TextField
                         id="bh-offers"
-                        label="Offers (Separate every entry by using / sing)"
+                        label="Offers (Separate every entry by using / sign.)"
                         variant="outlined"
                         color="primary"
                         margin="dense"
@@ -416,10 +426,17 @@ const Home = () => {
                         helperText="What your boarding house offers"
                         value={offers}
                         onChange={(e) => setOffers(e.target.value)}
+                        onKeyUp={(e) => {
+                           if (e.key === "Enter") {
+                              if (offers.charAt(offers.length - 2) !== "/") {
+                                 setOffers(offers + "/");
+                              }
+                           }
+                        }}
                      />
                      <TextField
                         id="bh-protocols"
-                        label="House Protocols (Separate every entry using / sign)"
+                        label="House Protocols (Separate every entry using / sign.)"
                         variant="outlined"
                         color="primary"
                         margin="dense"
@@ -430,6 +447,17 @@ const Home = () => {
                         helperText="Your house rules."
                         value={houseProtocols}
                         onChange={(e) => setHouseProtocols(e.target.value)}
+                        onKeyUp={(e) => {
+                           if (e.key === "Enter") {
+                              if (
+                                 houseProtocols.charAt(
+                                    houseProtocols.length - 2
+                                 ) !== "/"
+                              ) {
+                                 setHouseProtocols(houseProtocols + "/");
+                              }
+                           }
+                        }}
                      />
                   </CardContent>
                </Card>
