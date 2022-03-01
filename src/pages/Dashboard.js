@@ -83,7 +83,7 @@ const Dashboard = () => {
                      "rgb(255, 205, 86)",
                   ],
                   hoverOffset: 4,
-                  radius: 120,
+                  radius: 210,
                   borderColor: "transparent",
                   offset: 5,
                },
@@ -100,7 +100,7 @@ const Dashboard = () => {
          </NavbarDrawer>
          <Container maxWidth="lg" sx={{ p: 2, pt: 5, pb: 5 }} disableGutters>
             <Grid container spacing={2} style={{ alignItems: "center" }}>
-               <Grid item lg={3} md={4} xs={12}>
+               <Grid item md={4} xs={12}>
                   <Box
                      elevation={0}
                      variant="outlined"
@@ -109,6 +109,8 @@ const Dashboard = () => {
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
+                        mb: 1,
+                        gap: 1,
                      }}
                   >
                      <Typography
@@ -121,11 +123,13 @@ const Dashboard = () => {
                      <Box
                         sx={{
                            height: 270,
-                           width: "100%",
+                           width: 270,
                            display: "flex",
                            justifyContent: "center",
                            alignItems: "center",
                            paddingBotton: 2,
+                           overflow: "hidden",
+                           borderRadius: "50%",
                         }}
                      >
                         <Pie data={data} />
@@ -140,7 +144,7 @@ const Dashboard = () => {
                   </Box>
                </Grid>
 
-               <Grid item lg={9} md={8} xs={12}>
+               <Grid item md={8} xs={12}>
                   <Slide in={true} direction="left">
                      <Box>
                         {boardinghouseError && (

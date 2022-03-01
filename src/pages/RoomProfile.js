@@ -17,6 +17,7 @@ import {
    Fade,
    Backdrop,
    IconButton,
+   Divider,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Navbar from "../components/Navbar";
@@ -35,6 +36,7 @@ import CustomInputPicture from "../components/CustomInputPicture";
 import { domain } from "../fetch-url/fetchUrl";
 import RoomToggler from "../components/RoomToggler";
 import Notification from "../components/Notification";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Room = () => {
    const { roomId } = useParams();
@@ -286,18 +288,46 @@ const Room = () => {
                                  flexDirection: "column",
                               }}
                            >
-                              <Typography
-                                 variant="h6"
-                                 align="center"
+                              <Box
                                  sx={{
-                                    textTransform: "uppercase",
-                                    fontFamily: "Quicksand",
-                                    mb: 1,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    gap: 1,
                                  }}
-                                 component="h2"
                               >
-                                 Confirm Deletion
+                                 <DeleteIcon
+                                    sx={{
+                                       height: "3rem",
+                                       width: "3rem",
+                                       color: red[500],
+                                    }}
+                                 />
+                                 <Typography
+                                    variant="body1"
+                                    align="center"
+                                    sx={{
+                                       fontFamily: "Quicksand",
+                                       mb: 1,
+                                    }}
+                                 >
+                                    Delete{" "}
+                                    <Typography
+                                       variant=" caption"
+                                       sx={{
+                                          color: red[500],
+                                       }}
+                                    >
+                                       {room.name}
+                                    </Typography>{" "}
+                                    (room) ?
+                                 </Typography>
+                              </Box>
+                              <Divider sx={{ mb: 1 }} />
+                              <Typography variant="caption ">
+                                 Enter the room name to confirm deletion.{" "}
                               </Typography>
+
                               <TextField
                                  size="small"
                                  color="secondary"
@@ -513,7 +543,7 @@ const Room = () => {
                                        disabled={isEditable}
                                     />
                                     <TextField
-                                       label="Room Description"
+                                       label="Room Description (Separate every entry with / sign.)"
                                        fullWidth
                                        size="small"
                                        rows={6}

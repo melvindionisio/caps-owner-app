@@ -7,6 +7,7 @@ import {
    TextField,
    Card,
    CardContent,
+   IconButton,
 } from "@mui/material";
 import CustomInputPicture from "../components/CustomInputPicture";
 import Navbar from "../components/Navbar";
@@ -20,6 +21,8 @@ import { LoginContext } from "../contexts/LoginContext";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { domain } from "../fetch-url/fetchUrl";
 import Notification from "../components/Notification";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 const useStyles = makeStyles({
    gridContainer: {
@@ -41,7 +44,7 @@ const AddRoom = () => {
    const [roomName, setRoomName] = useState("");
    const [roomDescription, setRoomDescription] = useState("");
    const [roomType, setRoomType] = useState("");
-   const [genderAllowed, setGenderAllowed] = useState("All");
+   const [genderAllowed, setGenderAllowed] = useState("Male/Female");
    const [totalSlots, setTotalSlots] = useState(0);
    const [occupiedSlots, setOccupiedSlots] = useState(0);
 
@@ -98,7 +101,7 @@ const AddRoom = () => {
                         setRoomDescription("");
                         setRoomPicture(null);
                         setRoomType("");
-                        setGenderAllowed("All");
+                        setGenderAllowed("Male/Female");
                         setTotalSlots(0);
                         setOccupiedSlots(0);
                         setRoomPicture(null);
@@ -121,6 +124,20 @@ const AddRoom = () => {
             setShowMessage(true);
             setMessageSeverity("error");
          });
+   };
+   const incrementTotal = () => {
+      setTotalSlots(totalSlots + 1);
+   };
+   const decrementTotal = () => {
+      setTotalSlots(totalSlots - 1);
+   };
+   const incrementOccupied = () => {
+      if (occupiedSlots < totalSlots) {
+         setOccupiedSlots(occupiedSlots + 1);
+      }
+   };
+   const decrementOccupied = () => {
+      setOccupiedSlots(occupiedSlots - 1);
    };
 
    return (
@@ -232,7 +249,7 @@ const AddRoom = () => {
                                     </Select>
                                  </FormControl>
                                  <FormControl fullWidth size="small">
-                                    <InputLabel id="gender-cat-label">
+                                    <InputLabel id="gender-allowed-label">
                                        Gender Allowed
                                     </InputLabel>
                                     <Select
@@ -244,47 +261,90 @@ const AddRoom = () => {
                                           setGenderAllowed(e.target.value)
                                        }
                                     >
+                                       <MenuItem value={"Male/Female"}>
+                                          Male & Female
+                                       </MenuItem>
                                        <MenuItem value={"Male"}>
                                           Male Only
                                        </MenuItem>
                                        <MenuItem value={"Female"}>
                                           Female Only
                                        </MenuItem>
-                                       <MenuItem value={"All"}>All</MenuItem>
                                     </Select>
                                  </FormControl>
                               </Box>
-
                               <Box
                                  sx={{
                                     display: "flex",
                                     gap: 1,
-                                    marginTop: 2,
+                                    my: 2,
                                  }}
                               >
-                                 <TextField
-                                    id="num-slots"
-                                    label="Number of Slots"
-                                    type="number"
-                                    size="small"
-                                    value={totalSlots}
-                                    fullWidth
-                                    onChange={(e) =>
-                                       setTotalSlots(e.target.value)
-                                    }
-                                 />
+                                 <Box
+                                    sx={{
+                                       display: "flex",
+                                       flexGrow: 2,
+                                    }}
+                                 >
+                                    <IconButton
+                                       color="error"
+                                       onClick={decrementTotal}
+                                       disabled={totalSlots === 0}
+                                    >
+                                       <RemoveCircleIcon />
+                                    </IconButton>
+                                    <TextField
+                                       variant="outlined"
+                                       size="small"
+                                       fullWidth
+                                       label="Total Slots"
+                                       type="number"
+                                       value={totalSlots}
+                                       onChange={(e) =>
+                                          setTotalSlots(e.target.value)
+                                       }
+                                    />
+                                    <IconButton
+                                       onClick={incrementTotal}
+                                       color="success"
+                                    >
+                                       <AddCircleIcon />
+                                    </IconButton>
+                                 </Box>
 
-                                 <TextField
-                                    id="occupied-slots"
-                                    label="Occupied Slots"
-                                    type="number"
-                                    size="small"
-                                    value={occupiedSlots}
-                                    fullWidth
-                                    onChange={(e) =>
-                                       setOccupiedSlots(e.target.value)
-                                    }
-                                 />
+                                 <Box
+                                    sx={{
+                                       display: "flex",
+                                       flexGrow: 2,
+                                    }}
+                                 >
+                                    <IconButton
+                                       onClick={decrementOccupied}
+                                       color="error"
+                                       disabled={occupiedSlots === 0}
+                                    >
+                                       <RemoveCircleIcon />
+                                    </IconButton>
+                                    <TextField
+                                       variant="outlined"
+                                       size="small"
+                                       fullWidth
+                                       type="number"
+                                       label="Occupied Slots"
+                                       value={occupiedSlots}
+                                       onChange={(e) =>
+                                          setOccupiedSlots(e.target.value)
+                                       }
+                                    />
+
+                                    <IconButton
+                                       onClick={incrementOccupied}
+                                       color="success"
+                                       disabled={occupiedSlots === totalSlots}
+                                    >
+                                       <AddCircleIcon />
+                                    </IconButton>
+                                 </Box>
                               </Box>
                            </CardContent>
                         </Card>

@@ -88,13 +88,18 @@ const Map = () => {
             setLongitude(data.features[0].geometry.coordinates[0]);
             setLatitude(data.features[0].geometry.coordinates[1]);
 
-            map.current.flyTo({
-               center: [
-                  data.features[0].geometry.coordinates[0],
-                  data.features[0].geometry.coordinates[1],
-               ],
-               zoom: 18,
-            });
+            if (
+               data.features[0].geometry.coordinates[0] &&
+               data.features[0].geometry.coordinates[1]
+            ) {
+               map.current.flyTo({
+                  center: [
+                     data.features[0].geometry.coordinates[0],
+                     data.features[0].geometry.coordinates[1],
+                  ],
+                  zoom: 18,
+               });
+            }
          })
          .catch((err) => {
             if (err.name === "AbortError") {

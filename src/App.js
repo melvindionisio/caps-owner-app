@@ -8,6 +8,7 @@ import Routes from "./Routes";
 
 import LoginContextProvider from "./contexts/LoginContext";
 import Sidebar from "./components/Sidebar";
+//import OwnerBottomNavigation from "./components/BottomNavigation";
 
 const useStyles = makeStyles({
    mainContainer: {
@@ -73,6 +74,9 @@ const App = () => {
                   <Hidden mdDown>
                      <Sidebar />
                   </Hidden>
+                  {/*
+                  <OwnerBottomNavigation />
+                  */}
                   <Routes />
                </Router>
             </Container>

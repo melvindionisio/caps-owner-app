@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
    Container,
    Card,
@@ -10,11 +10,20 @@ import {
    ListItemText,
    ListItemAvatar,
    IconButton,
+   Chip,
 } from "@mui/material";
-import { amber, blue, grey, lightBlue, purple } from "@mui/material/colors";
+import {
+   amber,
+   green,
+   blue,
+   grey,
+   lightBlue,
+   purple,
+} from "@mui/material/colors";
 import { makeStyles } from "@mui/styles";
 import GradeIcon from "@mui/icons-material/Grade";
 import DetailsCard from "../cards/DetailsCard";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
@@ -96,6 +105,33 @@ const About = ({ boardinghouse }) => {
    const { data: totalRoom } = useFetch(
       `${domain}/api/rooms/total/${boardinghouse.id}`
    );
+
+   const [genderAllowed, setGenderAllowed] = useState();
+   const [houseProtocols, setHouseProtocols] = useState();
+   const [waterSource, setWaterSource] = useState();
+   const [offers, setOffers] = useState();
+
+   useEffect(() => {
+      if (boardinghouse) {
+         let offers = boardinghouse.offers;
+         let offersArr = offers?.split("/");
+
+         let waterSource = boardinghouse.waterSource;
+         let waterSourceArr = waterSource?.split("/");
+
+         let houseProtocols = boardinghouse.houseProtocols;
+         let houseProtocolsArr = houseProtocols?.split("/");
+
+         let genderAllowed = boardinghouse.genderAllowed;
+         let genderAllowedArr = genderAllowed?.split("/");
+
+         setGenderAllowed(genderAllowedArr);
+         setHouseProtocols(houseProtocolsArr);
+         setWaterSource(waterSourceArr);
+         setOffers(offersArr);
+      }
+   }, [boardinghouse]);
+
    return (
       <Box
          sx={{
@@ -150,6 +186,47 @@ const About = ({ boardinghouse }) => {
             >
                {boardinghouse.tagline}
             </Typography>
+            <Box
+               sx={{
+                  mt: 2,
+                  display: "flex",
+                  gap: 1,
+               }}
+            >
+               <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{
+                     fontWeight: "bold",
+                     border: `1px solid ${amber[500]}`,
+                     px: 2,
+                     py: 1,
+                     borderRadius: 1,
+                     background: amber[50],
+                  }}
+               >
+                  Price Range:{"  "}
+                  {boardinghouse.priceRange}
+               </Typography>
+               {totalRoom && (
+                  <Typography
+                     variant="caption"
+                     color="text.secondary"
+                     sx={{
+                        fontWeight: "bold",
+                        border: ` 1px solid ${green[500]}`,
+                        background: green[50],
+                        px: 2,
+                        py: 1,
+                        borderRadius: 1,
+                     }}
+                  >
+                     Total rooms: {"  "}
+                     {totalRoom.total}
+                  </Typography>
+               )}
+            </Box>
+
             <IconButton
                size="large"
                onClick={() => history.push("/my/boarding-house/edit")}
@@ -225,38 +302,95 @@ const About = ({ boardinghouse }) => {
                />
             </DetailsCard>
             <DetailsCard title="Gender/s Allowed">
-               <InfoItem
-                  icon={<LocationOnIcon />}
-                  primaryText={boardinghouse.genderAllowed}
-               />
+               <Box
+                  sx={{
+                     py: 1,
+                     fontFamily: "Quicksand",
+                     display: "flex",
+                     flexWrap: "wrap",
+                     gap: 1,
+                  }}
+               >
+                  {genderAllowed &&
+                     genderAllowed.map((gender, index) => (
+                        <Chip
+                           icon={<CheckCircleIcon />}
+                           label={gender}
+                           color="primary"
+                           size="medium"
+                           key={index}
+                        />
+                     ))}
+               </Box>
             </DetailsCard>
 
             <DetailsCard title="House Protocols">
-               <Typography sx={{ py: 1 }}>
-                  {boardinghouse.houseProtocols}
-               </Typography>
+               <Box
+                  sx={{
+                     py: 1,
+                     fontFamily: "Quicksand",
+                     display: "flex",
+                     flexWrap: "wrap",
+                     gap: 1,
+                  }}
+               >
+                  {houseProtocols &&
+                     houseProtocols.map((protocol, index) => (
+                        <Chip
+                           icon={<CheckCircleIcon />}
+                           label={protocol}
+                           color="primary"
+                           size="medium"
+                           key={index}
+                        />
+                     ))}
+               </Box>
             </DetailsCard>
             <DetailsCard title="We Offer">
-               <Typography sx={{ py: 1 }}>{boardinghouse.offers} </Typography>
+               <Box
+                  sx={{
+                     py: 1,
+                     fontFamily: "Quicksand",
+                     display: "flex",
+                     flexWrap: "wrap",
+                     gap: 1,
+                  }}
+               >
+                  {offers &&
+                     offers.map((offer, index) => (
+                        <Chip
+                           icon={<CheckCircleIcon />}
+                           label={offer}
+                           color="primary"
+                           size="medium"
+                           key={index}
+                        />
+                     ))}
+               </Box>
             </DetailsCard>
 
             <DetailsCard title="Water source">
-               <Typography sx={{ py: 1 }}>
-                  {boardinghouse.waterSource}
-               </Typography>
+               <Box
+                  sx={{
+                     py: 1,
+                     fontFamily: "Quicksand",
+                     display: "flex",
+                     flexWrap: "wrap",
+                     gap: 1,
+                  }}
+               >
+                  {waterSource &&
+                     waterSource.map((source, index) => (
+                        <Chip
+                           icon={<CheckCircleIcon />}
+                           label={source}
+                           color="primary"
+                           size="medium"
+                           key={index}
+                        />
+                     ))}
+               </Box>
             </DetailsCard>
-            <DetailsCard title="Price Range">
-               <Typography sx={{ py: 1 }}>
-                  {boardinghouse.priceRange}
-               </Typography>
-            </DetailsCard>
-            {totalRoom && (
-               <DetailsCard title="Total Rooms">
-                  <Typography sx={{ py: 1 }}>
-                     {totalRoom.total} rooms
-                  </Typography>
-               </DetailsCard>
-            )}
          </Container>
       </Box>
    );
