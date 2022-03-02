@@ -47,15 +47,15 @@ const SideDrawer = () => {
       },
       {
          key: 3,
-         text: "My Profile",
-         path: "/my/profile",
-         icon: <ManageAccountsIcon />,
-      },
-      {
-         key: 4,
          text: "My Map",
          path: "/my/map",
          icon: <MyLocationIcon />,
+      },
+      {
+         key: 4,
+         text: "My Profile",
+         path: "/my/profile",
+         icon: <ManageAccountsIcon />,
       },
    ];
 

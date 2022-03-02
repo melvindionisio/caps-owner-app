@@ -68,7 +68,6 @@ const AddRoom = () => {
             return res.json();
          })
          .then((image) => {
-            console.log(image);
             setImageName("Select Image");
             fetch(`${domain}/api/boarding-houses/by-owner/${currentOwner.id}`)
                .then((res) => res.json())

@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import {
    amber,
+   red,
    green,
    blue,
    grey,
@@ -33,6 +34,7 @@ import { Link as Nlink } from "@mui/material";
 import { domain } from "../../fetch-url/fetchUrl";
 import { useHistory } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const useStyles = makeStyles({
    avatar: {
@@ -225,6 +227,50 @@ const About = ({ boardinghouse }) => {
                      {totalRoom.total}
                   </Typography>
                )}
+               <Box
+                  variant="caption"
+                  color="text.secondary"
+                  sx={
+                     boardinghouse.acceptingTransient === "yes"
+                        ? {
+                             border: `1px solid ${blue[500]}`,
+                             background: blue[50],
+                             px: 2,
+                             py: 1,
+                             borderRadius: 1,
+                             display: "flex",
+                             gap: 1,
+                             alignItems: "center",
+                          }
+                        : {
+                             border: `1px solid ${red[500]}`,
+                             background: red[50],
+                             px: 2,
+                             py: 1,
+                             borderRadius: 1,
+                             display: "flex",
+                             gap: 1,
+                             alignItems: "center",
+                          }
+                  }
+               >
+                  {boardinghouse.acceptingTransient === "yes" ? (
+                     <CheckCircleIcon />
+                  ) : (
+                     <CancelIcon />
+                  )}
+                  <Typography
+                     variant="caption"
+                     sx={{
+                        fontWeight: "bold",
+                        fontFamily: "Quicksand",
+                     }}
+                  >
+                     {boardinghouse.acceptingTransient === "yes"
+                        ? "Accepting termporary stay"
+                        : "Not accepting termporary stay"}
+                  </Typography>
+               </Box>
             </Box>
 
             <IconButton

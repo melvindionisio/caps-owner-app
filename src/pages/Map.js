@@ -234,6 +234,8 @@ const Map = () => {
             setAlertmessage(data.message);
             setShowMessageAlert(true);
             setSeverity("success");
+            setLongitude(lng);
+            setLatitude(lat);
 
             const abortCont = new AbortController();
             fetch(

@@ -26,7 +26,7 @@ import LoadingState from "../components/LoadingState";
 import useFetch from "../hooks/useFetch";
 import { useContext, useState, useEffect } from "react";
 import { LoginContext } from "../contexts/LoginContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { domain } from "../fetch-url/fetchUrl";
 import Notification from "../components/Notification";
 
@@ -99,6 +99,7 @@ const Home = () => {
          setWaterSource(myBoardinghouse.waterSource ?? "Not Available");
          setGendersAllowed(myBoardinghouse.genderAllowed ?? "Male/Female");
          setPriceRange(myBoardinghouse.priceRange ?? "P 400-500");
+         setIsAcceptingTransient(myBoardinghouse.acceptingTransient ?? "no");
       }
    }, [myBoardinghouse]);
 
@@ -318,6 +319,21 @@ const Home = () => {
                      </Box>
 
                      <Section title="Location">
+                        <Typography variant="caption">
+                           Your boarding house won't appear to the map if
+                           Longitude and Latitude is not setup properly. Please
+                           make sure to not leave it blank. You can
+                           alternatively set your boarding house coordinates in
+                           the{" "}
+                           <Link to="/my/map">
+                              <Typography
+                                 variant="caption"
+                                 sx={{ color: "primary" }}
+                              >
+                                 My Map section.
+                              </Typography>
+                           </Link>
+                        </Typography>
                         <Box
                            sx={{
                               display: "flex",
