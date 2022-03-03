@@ -109,11 +109,14 @@ export default function Menu({
                            component="span"
                            sx={{
                               position: "absolute",
-                              right: "-3rem",
+                              right: "-3.2rem",
                               top: -1,
                               borderRadius: 1,
                               outline: `1px solid ${amber[500]}`,
                               px: 0.5,
+                              fontWeight: "bold",
+                              fontFamily: "Quicksand",
+                              background: amber[50],
                            }}
                         >
                            owner

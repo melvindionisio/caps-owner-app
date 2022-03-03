@@ -311,9 +311,10 @@ const Home = () => {
                               <MenuItem value="P 400-500">400-500</MenuItem>
                               <MenuItem value="P 500-600">500-600</MenuItem>
                               <MenuItem value="P 600-700">600-700</MenuItem>
-                              <MenuItem value="P 600-700">700-800</MenuItem>
-                              <MenuItem value="P 600-700">900-1000</MenuItem>
-                              <MenuItem value="P 600-700">1000+</MenuItem>
+                              <MenuItem value="P 700-800">700-800</MenuItem>
+                              <MenuItem value="P 800-900">800-900</MenuItem>
+                              <MenuItem value="P 900-1000">900-1000</MenuItem>
+                              <MenuItem value="P 1000+">1000+</MenuItem>
                            </Select>
                         </FormControl>
                      </Box>

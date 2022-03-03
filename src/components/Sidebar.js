@@ -11,7 +11,7 @@ import {
    ListItemButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { grey, amber } from "@mui/material/colors";
+import { grey, green } from "@mui/material/colors";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import OtherHousesIcon from "@mui/icons-material/OtherHouses";
 import KingBedIcon from "@mui/icons-material/KingBed";
@@ -110,11 +110,14 @@ const Sidebar = () => {
                      component="span"
                      sx={{
                         position: "absolute",
-                        right: "-3rem",
+                        right: "-3.2rem",
                         top: -1,
                         borderRadius: 1,
-                        outline: `1px solid ${amber[500]}`,
+                        outline: `1px solid ${green[500]}`,
                         px: 0.5,
+                        background: green[50],
+                        fontWeight: "bold",
+                        fontFamily: "Quicksand",
                      }}
                   >
                      owner
