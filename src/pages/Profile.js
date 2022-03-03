@@ -17,13 +17,17 @@ import NavbarDrawer from "../components/NavbarDrawer";
 import { useState, useEffect, useContext } from "react";
 import { EditOutlined } from "@mui/icons-material";
 // import CancelIcon from "@mui/icons-material/Cancel";
+import Logout from "@mui/icons-material/Logout";
 
 import { LoginContext } from "../contexts/LoginContext";
 import { domain } from "../fetch-url/fetchUrl";
+import { useHistory } from "react-router-dom";
 
 const Profile = () => {
-   const { currentOwner, setCurrentOwner } = useContext(LoginContext);
+   const { currentOwner, setCurrentOwner, handleOwnerLogout } =
+      useContext(LoginContext);
 
+   const history = useHistory();
    const [name, setName] = useState(currentOwner.name);
    const [userName, setUserName] = useState(currentOwner.username);
    const [password, setPassword] = useState(currentOwner.token);
@@ -381,6 +385,20 @@ const Profile = () => {
                         {passwordAlertMessage}
                      </Alert>
                   </CardContent>
+
+                  <Button
+                     variant="contained"
+                     size="small"
+                     fullWidth
+                     color="secondary"
+                     startIcon={<Logout />}
+                     onClick={() => {
+                        handleOwnerLogout();
+                        history.push("/");
+                     }}
+                  >
+                     Logout
+                  </Button>
                </Card>
             </Container>
          </Zoom>

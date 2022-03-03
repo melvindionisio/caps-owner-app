@@ -29,7 +29,7 @@ const Routes = () => {
                <Login />
             </Route>
             <Route exact path="/my/boarding-house">
-               {!isOwnerLoggedIn ? <Login /> : <Home />}
+               {!isOwnerLoggedIn ? <Redirect to="/login" /> : <Home />}
             </Route>
 
             <Route exact path="/my/boarding-house/edit">
