@@ -10,6 +10,7 @@ import {
    CardContent,
    Zoom,
    Alert,
+   IconButton,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import logo from "../sns-logo.png";
@@ -18,6 +19,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { LoginContext } from "../contexts/LoginContext";
 import { domain } from "../fetch-url/fetchUrl";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const useStyles = makeStyles({
    sns_logo: {
@@ -57,6 +60,16 @@ const Login = () => {
 
    const [isLoginPending, setIsLoginPending] = useState(false);
    const { setIsOwnerLoggedIn, setCurrentOwner } = useContext(LoginContext);
+
+   const [showPassword, setIsShowPassword] = useState(false);
+
+   const handleClickShowPassword = () => {
+      setIsShowPassword(!showPassword);
+   };
+
+   const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+   };
 
    useEffect(() => {
       setTimeout(() => {
@@ -173,17 +186,38 @@ const Login = () => {
                            value={userName}
                            onChange={(e) => setUserName(e.target.value)}
                         />
-                        <TextField
-                           name="password "
-                           label="Password"
-                           fullWidth
-                           variant="filled"
-                           color="primary"
-                           required
-                           type="password"
-                           value={password}
-                           onChange={(e) => setPassword(e.target.value)}
-                        />
+                        <Box sx={{ position: "relative" }}>
+                           <TextField
+                              name="password "
+                              label="Password"
+                              fullWidth
+                              variant="filled"
+                              color="primary"
+                              required
+                              type={showPassword ? "text" : "password"}
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                           />
+                           <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                              sx={{
+                                 position: "absolute",
+                                 top: "50%",
+                                 right: 3,
+                                 mr: 0.5,
+                                 transform: "translateY(-50%)",
+                              }}
+                           >
+                              {showPassword ? (
+                                 <VisibilityOff />
+                              ) : (
+                                 <Visibility />
+                              )}
+                           </IconButton>
+                        </Box>
 
                         <Alert
                            severity="warning"
