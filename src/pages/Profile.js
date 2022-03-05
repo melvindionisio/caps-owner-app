@@ -22,6 +22,7 @@ import Logout from "@mui/icons-material/Logout";
 import { LoginContext } from "../contexts/LoginContext";
 import { domain } from "../fetch-url/fetchUrl";
 import { useHistory } from "react-router-dom";
+import PasswordField from "../components/PasswordField";
 
 const Profile = () => {
    const { currentOwner, setCurrentOwner, handleOwnerLogout } =
@@ -230,19 +231,16 @@ const Profile = () => {
                            margin="dense"
                            disabled={!profileEditable}
                         />
-                        <TextField
-                           id="password"
-                           label="Password"
-                           type="password"
-                           value={password}
-                           onChange={(e) => setPassword(e.target.value)}
-                           fullWidth
-                           size="small"
-                           variant="outlined"
-                           margin="dense"
-                           disabled
-                           sx={{ mb: 1 }}
-                        />
+                        <Box sx={{ mb: 1 }}>
+                           <PasswordField
+                              password={password}
+                              setPassword={setPassword}
+                              label="Password"
+                              size="small"
+                              disabled={!profileEditable}
+                           />
+                        </Box>
+
                         <Alert
                            severity={severity}
                            sx={
@@ -303,18 +301,14 @@ const Profile = () => {
                         </IconButton>
                      </Box>
                      <Box>
-                        <TextField
-                           id="cur-password"
+                        <PasswordField
+                           password={curPassword}
+                           setPassword={setCurPassword}
                            label="Current Password"
-                           type="password"
-                           value={curPassword}
-                           onChange={(e) => setCurPassword(e.target.value)}
-                           fullWidth
                            size="small"
-                           variant="outlined"
-                           margin="dense"
                            disabled={!isChangePassword}
                         />
+
                         <TextField
                            id="new-password"
                            label="New Password"
