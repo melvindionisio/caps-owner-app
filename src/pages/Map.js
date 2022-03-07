@@ -10,7 +10,7 @@ import {
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
-import { blue } from "@mui/material/colors";
+import { indigo } from "@mui/material/colors";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -293,7 +293,7 @@ const Map = () => {
          />
          <AddIcon
             sx={{
-               color: blue[500],
+               color: indigo[500],
                zIndex: "1",
                position: "absolute",
                top: "50%",
@@ -345,12 +345,12 @@ const Map = () => {
                         // position: "absolute",
                         // top: -60,
                         // left: 2,
-                        background: blue[700],
+                        background: indigo[700],
                         boxShadow: "0 0 5px 1px rgba(0,0,0,0.2)",
                         marginRight: 10,
                      }}
                   >
-                     <ArrowBackIcon sx={{ color: blue[50] }} />
+                     <ArrowBackIcon sx={{ color: indigo[50] }} />
                   </IconButton>
                </Box>
                {/*
