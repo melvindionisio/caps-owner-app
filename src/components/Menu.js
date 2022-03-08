@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 // import CloseIcon from "@mui/icons-material/Close";
 import CancelIcon from "@mui/icons-material/Cancel";
 import logo from "../sns-logo.png";
-import { amber } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 import { List, ListItem, Typography, Avatar } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
@@ -113,11 +113,11 @@ export default function Menu({
                               right: "-3.2rem",
                               top: -1,
                               borderRadius: 1,
-                              outline: `1px solid ${amber[500]}`,
+                              outline: `1px solid ${green[500]}`,
                               px: 0.5,
                               fontWeight: "bold",
                               fontFamily: "Quicksand",
-                              background: amber[50],
+                              background: green[50],
                            }}
                         >
                            owner
