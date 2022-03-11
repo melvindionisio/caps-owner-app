@@ -185,6 +185,7 @@ const About = ({ boardinghouse }) => {
                variant="body1"
                color="text.secondary"
                sx={{ mt: 2, fontStyle: "italic" }}
+               align="center"
             >
                {boardinghouse.tagline}
             </Typography>
