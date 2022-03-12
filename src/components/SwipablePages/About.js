@@ -194,6 +194,8 @@ const About = ({ boardinghouse }) => {
                   mt: 2,
                   display: "flex",
                   gap: 1,
+                  flexWrap: "wrap",
+                  justifyContent: "center",
                }}
             >
                <Typography

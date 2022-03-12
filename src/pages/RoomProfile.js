@@ -558,6 +558,71 @@ const Room = () => {
                                        }
                                        disabled={isEditable}
                                     />
+
+                                    <Box
+                                       sx={{
+                                          display: "flex",
+                                          gap: 1,
+                                          marginTop: 1,
+                                       }}
+                                    >
+                                       <FormControl fullWidth size="small">
+                                          <InputLabel id="room-type-label">
+                                             Room Type
+                                          </InputLabel>
+                                          <Select
+                                             labelId="room-type"
+                                             id="room-type"
+                                             value={roomType}
+                                             label="Room Type"
+                                             onChange={(e) =>
+                                                setRoomType(e.target.value)
+                                             }
+                                             disabled={isEditable}
+                                          >
+                                             <MenuItem value={"Studio"}>
+                                                Studio Type
+                                             </MenuItem>
+                                             <MenuItem value={"6-person-room"}>
+                                                6 Person-room
+                                             </MenuItem>
+                                             <MenuItem value={"4-person-room"}>
+                                                4 Person-room
+                                             </MenuItem>
+                                             <MenuItem value={"2-person-room"}>
+                                                2 Person-room
+                                             </MenuItem>
+                                             <MenuItem value={"single"}>
+                                                Single
+                                             </MenuItem>
+                                          </Select>
+                                       </FormControl>
+                                       <FormControl fullWidth size="small">
+                                          <InputLabel id="gender-cat-label">
+                                             Gender Allowed
+                                          </InputLabel>
+                                          <Select
+                                             labelId="gender-category"
+                                             id="gender-cat"
+                                             value={genderAllowed}
+                                             label="Gender Category"
+                                             onChange={(e) =>
+                                                setGenderAllowed(e.target.value)
+                                             }
+                                             disabled={isEditable}
+                                          >
+                                             <MenuItem value={"Male/Female"}>
+                                                Male & Female
+                                             </MenuItem>
+                                             <MenuItem value={"Male"}>
+                                                Male Only
+                                             </MenuItem>
+                                             <MenuItem value={"Female"}>
+                                                Female Only
+                                             </MenuItem>
+                                          </Select>
+                                       </FormControl>
+                                    </Box>
                                     <Box
                                        sx={{
                                           display: "flex",
@@ -635,82 +700,20 @@ const Room = () => {
                                              <AddCircleIcon />
                                           </IconButton>
                                        </Box>
-                                       <TextField
-                                          variant="outlined"
-                                          size="small"
-                                          label="Available Slots"
-                                          value={totalSlots - occupiedSlots}
-                                          disabled
-                                          onChange={(e) =>
-                                             setTotalSlots(e.target.value)
-                                          }
-                                       />
                                     </Box>
 
-                                    <Box
-                                       sx={{
-                                          display: "flex",
-                                          gap: 1,
-                                          marginTop: 1,
-                                       }}
-                                    >
-                                       <FormControl fullWidth size="small">
-                                          <InputLabel id="room-type-label">
-                                             Room Type
-                                          </InputLabel>
-                                          <Select
-                                             labelId="room-type"
-                                             id="room-type"
-                                             value={roomType}
-                                             label="Room Type"
-                                             onChange={(e) =>
-                                                setRoomType(e.target.value)
-                                             }
-                                             disabled={isEditable}
-                                          >
-                                             <MenuItem value={"Studio"}>
-                                                Studio Type
-                                             </MenuItem>
-                                             <MenuItem value={"6-person-room"}>
-                                                6 Person-room
-                                             </MenuItem>
-                                             <MenuItem value={"4-person-room"}>
-                                                4 Person-room
-                                             </MenuItem>
-                                             <MenuItem value={"2-person-room"}>
-                                                2 Person-room
-                                             </MenuItem>
-                                             <MenuItem value={"single"}>
-                                                Single
-                                             </MenuItem>
-                                          </Select>
-                                       </FormControl>
-                                       <FormControl fullWidth size="small">
-                                          <InputLabel id="gender-cat-label">
-                                             Gender Allowed
-                                          </InputLabel>
-                                          <Select
-                                             labelId="gender-category"
-                                             id="gender-cat"
-                                             value={genderAllowed}
-                                             label="Gender Category"
-                                             onChange={(e) =>
-                                                setGenderAllowed(e.target.value)
-                                             }
-                                             disabled={isEditable}
-                                          >
-                                             <MenuItem value={"Male/Female"}>
-                                                Male & Female
-                                             </MenuItem>
-                                             <MenuItem value={"Male"}>
-                                                Male Only
-                                             </MenuItem>
-                                             <MenuItem value={"Female"}>
-                                                Female Only
-                                             </MenuItem>
-                                          </Select>
-                                       </FormControl>
-                                    </Box>
+                                    <TextField
+                                       variant="outlined"
+                                       size="small"
+                                       label="Available Slots"
+                                       value={totalSlots - occupiedSlots}
+                                       disabled
+                                       fullWidth
+                                       onChange={(e) =>
+                                          setTotalSlots(e.target.value)
+                                       }
+                                       sx={{ mb: 1 }}
+                                    />
                                  </CardContent>
                               </Card>
                            </>
