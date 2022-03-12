@@ -35,6 +35,8 @@ import { domain } from "../../fetch-url/fetchUrl";
 import { useHistory } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import CancelIcon from "@mui/icons-material/Cancel";
+import Linkify from "react-linkify";
+import { SecureLink } from "react-secure-link";
 
 const useStyles = makeStyles({
    avatar: {
@@ -181,14 +183,24 @@ const About = ({ boardinghouse }) => {
                   {boardinghouse.popularity || 0} stars
                </Typography>
             </Box>
+
             <Typography
                variant="body1"
                color="text.secondary"
                sx={{ mt: 2, fontStyle: "italic" }}
                align="center"
             >
-               {boardinghouse.tagline}
+               <Linkify
+                  componentDecorator={(decoratedHref, decoratedText, key) => (
+                     <SecureLink href={decoratedHref} key={key}>
+                        {decoratedText}
+                     </SecureLink>
+                  )}
+               >
+                  {boardinghouse.tagline}
+               </Linkify>
             </Typography>
+
             <Box
                sx={{
                   mt: 2,

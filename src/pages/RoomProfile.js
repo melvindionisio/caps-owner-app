@@ -646,7 +646,7 @@ const Room = () => {
                                              variant="outlined"
                                              size="small"
                                              fullWidth
-                                             label="Total Slots"
+                                             label="Total Beds"
                                              type="number"
                                              value={totalSlots}
                                              disabled={isEditable}
@@ -681,7 +681,7 @@ const Room = () => {
                                              size="small"
                                              fullWidth
                                              type="number"
-                                             label="Occupied Slots"
+                                             label="Occupied Beds"
                                              value={occupiedSlots}
                                              disabled={isEditable}
                                              onChange={(e) =>
@@ -705,7 +705,7 @@ const Room = () => {
                                     <TextField
                                        variant="outlined"
                                        size="small"
-                                       label="Available Slots"
+                                       label="Available Beds"
                                        value={totalSlots - occupiedSlots}
                                        disabled
                                        fullWidth
