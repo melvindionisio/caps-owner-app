@@ -42,6 +42,7 @@ const AddRoom = () => {
    const [imageName, setImageName] = useState();
 
    const [roomName, setRoomName] = useState("");
+   const [roomPrice, setRoomPrice] = useState(0);
    const [roomDescription, setRoomDescription] = useState("");
    const [roomType, setRoomType] = useState("");
    const [genderAllowed, setGenderAllowed] = useState("Male/Female");
@@ -76,6 +77,7 @@ const AddRoom = () => {
                      method: "POST",
                      body: JSON.stringify({
                         roomName: roomName,
+                        roomPrice: roomPrice,
                         roomDescription: roomDescription,
                         roomType: roomType,
                         roomPicture: image.imagepath,
@@ -97,6 +99,7 @@ const AddRoom = () => {
                         setMessageSeverity("success");
 
                         setRoomName("");
+                        setRoomPrice(0);
                         setRoomDescription("");
                         setRoomPicture(null);
                         setRoomType("");
@@ -195,6 +198,42 @@ const AddRoom = () => {
                                  sx={{ background: "#fff" }}
                                  onChange={(e) => setRoomName(e.target.value)}
                               />
+
+                              <Box
+                                 sx={{
+                                    position: "relative",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                 }}
+                              >
+                                 <span
+                                    style={{
+                                       fontSize: 22,
+                                       fontFamily: "Quicksand",
+                                       fontWeight: "bold",
+                                       paddingLeft: 2,
+                                    }}
+                                 >
+                                    ₱
+                                 </span>
+                                 <TextField
+                                    label="Price"
+                                    fullWidth
+                                    size="small"
+                                    type="number"
+                                    variant="standard"
+                                    color="primary"
+                                    value={roomPrice}
+                                    autoFocus
+                                    required
+                                    margin="dense"
+                                    sx={{ background: "#fff", width: "93%" }}
+                                    onChange={(e) =>
+                                       setRoomPrice(e.target.value)
+                                    }
+                                 />
+                              </Box>
                               <TextField
                                  label="Room Description"
                                  fullWidth

@@ -61,6 +61,7 @@ const Room = () => {
    const [occupiedSlots, setOccupiedSlots] = useState(0);
 
    const [roomName, setRoomName] = useState("");
+   const [roomPrice, setRoomPrice] = useState(0);
    const [roomType, setRoomType] = useState("");
    const [genderAllowed, setGenderAllowed] = useState("Male/Female");
    const [roomPicture, setRoomPicture] = useState(null);
@@ -95,6 +96,7 @@ const Room = () => {
          method: "PUT",
          body: JSON.stringify({
             roomName: roomName,
+            roomPrice: roomPrice,
             roomDescription: roomDescription,
             roomType: roomType,
             roomStatus: "Available",
@@ -171,6 +173,7 @@ const Room = () => {
                         setSavePictureIsPending(false);
                         setImagePreview(null);
                         setRoomName("");
+                        setRoomPrice(0);
 
                         setMessage(data.message);
                         setMessageSeverity("success");
@@ -232,6 +235,7 @@ const Room = () => {
          setRoomDescription(room.description);
          setTotalSlots(room.totalSlots);
          setOccupiedSlots(room.occupiedSlots);
+         setRoomPrice(room.price);
          setRoomType(room.type);
          setGenderAllowed(room.genderAllowed);
          setRoomPicture(room.picture);
@@ -542,6 +546,46 @@ const Room = () => {
                                        }
                                        disabled={isEditable}
                                     />
+                                    <Box
+                                       sx={{
+                                          position: "relative",
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                       }}
+                                    >
+                                       <span
+                                          style={{
+                                             fontSize: 22,
+                                             fontFamily: "Quicksand",
+                                             fontWeight: "bold",
+                                             paddingLeft: 2,
+                                          }}
+                                       >
+                                          ₱
+                                       </span>
+                                       <TextField
+                                          label="Price"
+                                          fullWidth
+                                          size="small"
+                                          type="number"
+                                          disabled={isEditable}
+                                          variant="standard"
+                                          color="primary"
+                                          value={roomPrice}
+                                          autoFocus
+                                          required
+                                          margin="dense"
+                                          sx={{
+                                             background: "#fff",
+                                             width: "93%",
+                                          }}
+                                          onChange={(e) =>
+                                             setRoomPrice(e.target.value)
+                                          }
+                                       />
+                                    </Box>
+
                                     <TextField
                                        label="Room Description (Separate every entry with / sign.)"
                                        fullWidth

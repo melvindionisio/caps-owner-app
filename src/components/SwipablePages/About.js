@@ -311,6 +311,52 @@ const About = ({ boardinghouse }) => {
                paddingBottom: "5rem",
             }}
          >
+            <DetailsCard title="We Offer">
+               <Box
+                  sx={{
+                     py: 1,
+                     fontFamily: "Quicksand",
+                     display: "flex",
+                     flexWrap: "wrap",
+                     gap: 1,
+                  }}
+               >
+                  {offers &&
+                     offers.map((offer, index) => (
+                        <Chip
+                           icon={<CheckCircleIcon />}
+                           label={offer}
+                           color="primary"
+                           size="medium"
+                           key={index}
+                        />
+                     ))}
+               </Box>
+            </DetailsCard>
+
+            <DetailsCard title="Gender/s Allowed">
+               <Box
+                  sx={{
+                     py: 1,
+                     fontFamily: "Quicksand",
+                     display: "flex",
+                     flexWrap: "wrap",
+                     gap: 1,
+                  }}
+               >
+                  {genderAllowed &&
+                     genderAllowed.map((gender, index) => (
+                        <Chip
+                           icon={<CheckCircleIcon />}
+                           label={gender}
+                           color="primary"
+                           size="medium"
+                           key={index}
+                        />
+                     ))}
+               </Box>
+            </DetailsCard>
+
             <DetailsCard title="Owner">
                <InfoItem
                   icon={<PersonPinIcon />}
@@ -332,6 +378,19 @@ const About = ({ boardinghouse }) => {
                      </Nlink>
                   }
                   secondaryText={"Contact Number"}
+               />
+               <InfoItem
+                  icon={<PhoneOutlinedIcon />}
+                  primaryText={
+                     boardinghouse.email ? (
+                        <Nlink underline="hover" color="primary">
+                           {boardinghouse.email}{" "}
+                        </Nlink>
+                     ) : (
+                        <Typography>No email set.</Typography>
+                     )
+                  }
+                  secondaryText={"Email Address"}
                />
             </DetailsCard>
 
@@ -362,28 +421,6 @@ const About = ({ boardinghouse }) => {
                   secondaryText={"Coordinates"}
                />
             </DetailsCard>
-            <DetailsCard title="Gender/s Allowed">
-               <Box
-                  sx={{
-                     py: 1,
-                     fontFamily: "Quicksand",
-                     display: "flex",
-                     flexWrap: "wrap",
-                     gap: 1,
-                  }}
-               >
-                  {genderAllowed &&
-                     genderAllowed.map((gender, index) => (
-                        <Chip
-                           icon={<CheckCircleIcon />}
-                           label={gender}
-                           color="primary"
-                           size="medium"
-                           key={index}
-                        />
-                     ))}
-               </Box>
-            </DetailsCard>
 
             <DetailsCard title="House Protocols">
                <Box
@@ -407,29 +444,6 @@ const About = ({ boardinghouse }) => {
                      ))}
                </Box>
             </DetailsCard>
-            <DetailsCard title="We Offer">
-               <Box
-                  sx={{
-                     py: 1,
-                     fontFamily: "Quicksand",
-                     display: "flex",
-                     flexWrap: "wrap",
-                     gap: 1,
-                  }}
-               >
-                  {offers &&
-                     offers.map((offer, index) => (
-                        <Chip
-                           icon={<CheckCircleIcon />}
-                           label={offer}
-                           color="primary"
-                           size="medium"
-                           key={index}
-                        />
-                     ))}
-               </Box>
-            </DetailsCard>
-
             <DetailsCard title="Water source">
                <Box
                   sx={{

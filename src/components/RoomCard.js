@@ -13,7 +13,7 @@ import {
    Divider,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import { grey, blue } from "@mui/material/colors";
+import { grey, blue, orange } from "@mui/material/colors";
 import { useLocation, Link } from "react-router-dom";
 import { domain } from "../fetch-url/fetchUrl";
 
@@ -110,11 +110,7 @@ const RoomCard = ({ room }) => {
                               {room.occupiedSlots}
                            </span>
                         </Typography>
-                        <Typography
-                           variant="subtitle2"
-                           color="text.secondary"
-                           marginBottom
-                        >
+                        <Typography variant="subtitle2" color="text.secondary">
                            Available Bed:{" "}
                            <span
                               style={{
@@ -124,6 +120,35 @@ const RoomCard = ({ room }) => {
                               }}
                            >
                               {room.totalSlots - room.occupiedSlots}
+                           </span>
+                        </Typography>
+
+                        <Typography
+                           variant="subtitle2"
+                           color="text.secondary"
+                           component="span"
+                           marginBottom
+                        >
+                           Price:{" "}
+                           <span
+                              style={{
+                                 fontSize: 22,
+                                 fontFamily: "Quicksand",
+                                 fontWeight: "bold",
+                                 paddingLeft: 2,
+                                 marginRight: 5,
+                              }}
+                           >
+                              ₱
+                           </span>
+                           <span
+                              style={{
+                                 fontWeight: "bold",
+                                 fontSize: 18,
+                                 color: orange[600],
+                              }}
+                           >
+                              {room.price || 0}
                            </span>
                         </Typography>
                         <Divider />

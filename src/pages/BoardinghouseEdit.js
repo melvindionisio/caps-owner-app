@@ -64,6 +64,7 @@ const Home = () => {
    const [owner, setOwner] = useState("");
    const [completeAddress, setCompleteAddress] = useState("");
    const [contact, setContact] = useState(0);
+   const [email, setEmail] = useState("");
    const [zoneAddress, setZoneAddress] = useState("");
    const [streetAddress, setStreetAddress] = useState("");
    const [tagline, setTagline] = useState("");
@@ -89,6 +90,7 @@ const Home = () => {
          setOwner(myBoardinghouse.owner);
          setCompleteAddress(myBoardinghouse.completeAddress);
          setContact(myBoardinghouse.contacts);
+         setEmail(myBoardinghouse.email);
          setZoneAddress(myBoardinghouse.zoneAddress);
          setStreetAddress(myBoardinghouse.streetAddress);
          setLongitude(myBoardinghouse.longitude);
@@ -120,6 +122,7 @@ const Home = () => {
                   owner: owner,
                   completeAddress: completeAddress,
                   contact: contact,
+                  email: email,
                   zoneAddress: zoneAddress,
                   streetAddress: streetAddress,
                   longitude: longitude,
@@ -239,6 +242,19 @@ const Home = () => {
                         helperText="Ex. 09166809369"
                         value={contact}
                         onChange={(e) => setContact(e.target.value)}
+                     />
+                     <TextField
+                        id="bh-email"
+                        label="Email Address"
+                        variant="outlined"
+                        color="primary"
+                        margin="dense"
+                        size="small"
+                        type="email"
+                        fullWidth
+                        helperText="Ex. totoybibo@gmail.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                      />
 
                      <FormControl sx={{ mt: 1 }}>
