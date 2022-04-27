@@ -24,6 +24,8 @@ import Notification from "../components/Notification";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
+import Axios from "axios";
+
 const useStyles = makeStyles({
    gridContainer: {
       padding: "1rem",
@@ -54,21 +56,20 @@ const AddRoom = () => {
    const [messageSeverity, setMessageSeverity] = useState("warning");
    const [isSavePending, setSaveIsPending] = useState(false);
 
-   const handleRoomSave = async (e) => {
+   const handleRoomSave = (e) => {
       e.preventDefault();
       setSaveIsPending(true);
 
       const formData = new FormData();
-      formData.append("room-image", roomPicture);
+      formData.append("file", roomPicture);
+      formData.append("upload_preset", "bwqfoub6");
 
-      fetch(`${domain}/api/rooms/upload`, {
-         method: "POST",
-         body: formData,
-      })
-         .then((res) => {
-            return res.json();
-         })
+      Axios.post(
+         "https://api.cloudinary.com/v1_1/searchnstay/image/upload",
+         formData
+      )
          .then((image) => {
+            console.log(image.data.secure_url);
             setImageName("Select Image");
             fetch(`${domain}/api/boarding-houses/by-owner/${currentOwner.id}`)
                .then((res) => res.json())
@@ -80,7 +81,7 @@ const AddRoom = () => {
                         roomPrice: roomPrice,
                         roomDescription: roomDescription,
                         roomType: roomType,
-                        roomPicture: image.imagepath,
+                        roomPicture: image.data.secure_url,
                         roomStatus: "Available",
                         genderAllowed: genderAllowed,
                         totalSlots: totalSlots,
@@ -127,6 +128,80 @@ const AddRoom = () => {
             setMessageSeverity("error");
          });
    };
+
+   // const handleRoomSave = async (e) => {
+   //    e.preventDefault();
+   //    setSaveIsPending(true);
+
+   //    const formData = new FormData();
+   //    formData.append("room-image", roomPicture);
+
+   //    fetch(`${domain}/api/rooms/upload`, {
+   //       method: "POST",
+   //       body: formData,
+   //    })
+   //       .then((res) => {
+   //          return res.json();
+   //       })
+   //       .then((image) => {
+   //          setImageName("Select Image");
+   //          fetch(`${domain}/api/boarding-houses/by-owner/${currentOwner.id}`)
+   //             .then((res) => res.json())
+   //             .then((data) => {
+   //                fetch(`${domain}/api/rooms/add/${data.id}`, {
+   //                   method: "POST",
+   //                   body: JSON.stringify({
+   //                      roomName: roomName,
+   //                      roomPrice: roomPrice,
+   //                      roomDescription: roomDescription,
+   //                      roomType: roomType,
+   //                      roomPicture: image.imagepath,
+   //                      roomStatus: "Available",
+   //                      genderAllowed: genderAllowed,
+   //                      totalSlots: totalSlots,
+   //                      occupiedSlots: occupiedSlots,
+   //                   }),
+   //                   headers: {
+   //                      "Content-Type": "application/json",
+   //                   },
+   //                })
+   //                   .then((res) => {
+   //                      return res.json();
+   //                   })
+   //                   .then((data) => {
+   //                      setMessage(data.message);
+   //                      setShowMessage(true);
+   //                      setMessageSeverity("success");
+
+   //                      setRoomName("");
+   //                      setRoomPrice(0);
+   //                      setRoomDescription("");
+   //                      setRoomPicture(null);
+   //                      setRoomType("");
+   //                      setGenderAllowed("Male/Female");
+   //                      setTotalSlots(0);
+   //                      setOccupiedSlots(0);
+   //                      setRoomPicture(null);
+
+   //                      setImageName("");
+   //                      setImagePreview(null);
+   //                      setSaveIsPending(false);
+   //                   })
+   //                   .catch((err) => {
+   //                      console.log(err);
+   //                      setMessage(err);
+   //                      setShowMessage(true);
+   //                      setMessageSeverity("error");
+   //                   });
+   //             });
+   //       })
+   //       .catch((err) => {
+   //          console.log(err);
+   //          setMessage(err);
+   //          setShowMessage(true);
+   //          setMessageSeverity("error");
+   //       });
+   // };
    const incrementTotal = () => {
       setTotalSlots(totalSlots + 1);
    };
