@@ -37,6 +37,7 @@ import { domain } from "../fetch-url/fetchUrl";
 import RoomToggler from "../components/RoomToggler";
 import Notification from "../components/Notification";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Axios from "axios";
 
 const Room = () => {
    const { roomId } = useParams();
@@ -136,62 +137,79 @@ const Room = () => {
       //delete the old picture from file system
       //update new link in the room picture datbase
 
-      setSavePictureIsPending(true);
-      const formData = new FormData();
-      formData.append("room-image", roomPicture);
+      if (roomPicture) {
+         setSavePictureIsPending(true);
+         // const formData = new FormData();
+         // formData.append("room-image", roomPicture);
 
-      fetch(`${domain}/api/rooms/delete-picture/${roomId}`)
-         .then((res) => res.json())
-         .then((data) => {
-            console.log(data.message);
+         const formData = new FormData();
+         formData.append("file", roomPicture);
+         formData.append("upload_preset", "bwqfoub6");
 
-            fetch(`${domain}/api/rooms/upload`, {
-               method: "POST",
-               body: formData,
-            })
-               .then((res) => {
-                  return res.json();
-               })
-               .then((newImage) => {
-                  console.log(newImage);
-                  //setRoomPicture(newImage.imagepath);
+         fetch(`${domain}/api/rooms/delete-picture/${roomId}`)
+            .then((res) => res.json())
+            .then((data) => {
+               console.log(data.message);
 
-                  fetch(`${domain}/api/rooms/update-room-picture/${roomId}`, {
-                     method: "PUT",
-                     body: JSON.stringify({
-                        newImageLink: newImage.imagepath,
-                     }),
-                     headers: {
-                        "Content-Type": "application/json",
-                     },
+               // fetch(`${domain}/api/rooms/upload`, {
+               //    method: "POST",
+               //    body: formData,
+               // })
+               //    .then((res) => {
+               //       return res.json();
+               //    })
+               //    .then((newImage) => {
+
+               Axios.post(
+                  "https://api.cloudinary.com/v1_1/searchnstay/image/upload",
+                  formData
+               )
+                  .then((image) => {
+                     console.log(image.data.secure_url);
+                     setRoomPicture(image.data.secure_url);
+
+                     fetch(
+                        `${domain}/api/rooms/update-room-picture/${roomId}`,
+                        {
+                           method: "PUT",
+                           body: JSON.stringify({
+                              newImageLink: image.data.secure_url,
+                           }),
+                           headers: {
+                              "Content-Type": "application/json",
+                           },
+                        }
+                     )
+                        .then((res) => {
+                           return res.json();
+                        })
+                        .then((data) => {
+                           setIsPictureEditable(false);
+                           setSavePictureIsPending(false);
+                           setImagePreview(null);
+                           setRoomName("");
+
+                           setMessage(data.message);
+                           setMessageSeverity("success");
+                           setShowMessage(true);
+                           setDeleteIsPending(false);
+                           setIsModalOpen(false);
+
+                           setTimeout(() => {
+                              window.location.reload(false);
+                           }, 500);
+                        })
+                        .catch((err) => console.log(err));
                   })
-                     .then((res) => {
-                        return res.json();
-                     })
-                     .then((data) => {
-                        setIsPictureEditable(false);
-                        setSavePictureIsPending(false);
-                        setImagePreview(null);
-                        setRoomName("");
-                        setRoomPrice(0);
+                  .catch((err) => console.log(err));
+            })
 
-                        setMessage(data.message);
-                        setMessageSeverity("success");
-                        setShowMessage(true);
-                        setDeleteIsPending(false);
-                        setIsModalOpen(false);
-
-                        setTimeout(() => {
-                           window.location.reload(false);
-                        }, 1000);
-                     })
-                     .catch((err) => console.log(err));
-               })
-               .catch((err) => console.log(err));
-         })
-
-         .catch((err) => console.log(err));
+            .catch((err) => console.log(err));
+      } else {
+         console.log("Cannot be null");
+      }
    };
+
    const handleCancelUpdatePicture = () => {
       setIsPictureEditable(false);
       setRoomPicture(null);
