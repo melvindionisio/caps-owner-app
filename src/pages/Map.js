@@ -5,7 +5,6 @@ import {
    IconButton,
    Slide,
    TextField,
-   Button,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -18,6 +17,8 @@ import { LoginContext } from "../contexts/LoginContext";
 import mapmarker from "../map-marker.png";
 import { domain } from "../fetch-url/fetchUrl";
 import Notification from "../components/Notification";
+
+import LoadingButton from "@mui/lab/LoadingButton";
 
 mapboxgl.accessToken =
    "pk.eyJ1IjoibWVsc2lvIiwiYSI6ImNrdXF1ZnE3ZTFscTIzMXAxMXNrczJrdjAifQ.9nE1j10j1hd4EWXc6kGlRQ";
@@ -210,8 +211,11 @@ const Map = () => {
          setZoom(map.current.getZoom().toFixed(2));
       });
    });
+   const [isSetNewCoordinatePending, setIsNewCoordinatesIsPending] =
+      useState(false);
 
-   const setNewCoordinates = () => {
+   const handleSetNewCoordinates = () => {
+      setIsNewCoordinatesIsPending(true);
       document.getElementsByClassName("marker")[0].remove();
 
       fetch(
@@ -236,6 +240,7 @@ const Map = () => {
             setSeverity("success");
             setLongitude(lng);
             setLatitude(lat);
+            setIsNewCoordinatesIsPending(false);
 
             const abortCont = new AbortController();
             fetch(
@@ -485,14 +490,15 @@ const Map = () => {
                   >
                      Longitude: {lng} | Latitude: {lat}{" "}
                   </Typography>
-                  <Button
+                  <LoadingButton
                      size="small"
                      variant="contained"
                      color="success"
-                     onClick={setNewCoordinates}
+                     onClick={handleSetNewCoordinates}
+                     loading={isSetNewCoordinatePending}
                   >
                      set this location
-                  </Button>
+                  </LoadingButton>
                </Box>
             </Box>
          </Slide>
