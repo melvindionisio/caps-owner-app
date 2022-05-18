@@ -23,10 +23,7 @@ const Routes = () => {
                <Redirect to="/login" />
             </Route>
             <Route path="/login">
-               {/*
                {isOwnerLoggedIn ? <Redirect to="/my/dashboard" /> : <Login />}
-                */}
-               <Login />
             </Route>
             <Route exact path="/my/boarding-house">
                {!isOwnerLoggedIn ? <Redirect to="/login" /> : <Home />}
