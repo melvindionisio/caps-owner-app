@@ -8,6 +8,7 @@ import {
    Card,
    CardContent,
    IconButton,
+   LinearProgress,
 } from "@mui/material";
 import CustomInputPicture from "../components/CustomInputPicture";
 import Navbar from "../components/Navbar";
@@ -234,7 +235,7 @@ const AddRoom = () => {
                   <LoadingButton
                      variant="contained"
                      disableElevation
-                     color="primary"
+                     color="success"
                      type="submit"
                      loading={isSavePending}
                      disabled={roomName ? false : true}
@@ -243,6 +244,8 @@ const AddRoom = () => {
                      Save
                   </LoadingButton>
                </Navbar>
+
+               {isSavePending && <LinearProgress />}
 
                <Container
                   disableGutters

@@ -18,6 +18,7 @@ import {
    Backdrop,
    IconButton,
    Divider,
+   LinearProgress,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import Navbar from "../components/Navbar";
@@ -401,6 +402,8 @@ const Room = () => {
                         Delete
                      </Button>
                   </Navbar>
+                  {isRoomSavePending ||
+                     (savePictureIsPending && <LinearProgress />)}
 
                   <Container
                      disableGutters
